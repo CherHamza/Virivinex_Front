@@ -6,38 +6,64 @@
     margin: 0 auto;
     text-align: center;
   }
+  /* Header style */
+  .header {
+    text-align: center;
+    padding: 2rem; 
+    background-color: #fafafa; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+    margin-bottom: 2rem; 
+  }
   
   .header h1 {
-    color: #4a4a4a;
+    color: #353535;
+    font-size: 2.5rem; 
+    margin-bottom: 0.5rem; 
+    font-weight: 300; 
+    letter-spacing: 1px; 
   }
   
   .header p {
-    color: #7a7a7a;
+    color: #555555; 
+    font-size: 1rem; 
+    margin-top: 0; 
   }
+  
   
   .user-types {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap; 
     margin: 20px 0;
+    gap: 10px; 
   }
   
   .user-type {
-    margin: 0 10px;
-    padding: 10px;
+    flex-basis: calc(25% - 20px); 
+    margin: 10px;
+    padding: 20px;
     text-align: center;
+    background-color: #fff; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px; 
   }
   
   .user-type h2 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+    font-size: 1.4em; 
+    color: #333; 
+    margin-bottom: 15px; 
   }
   
   .user-type-actions button {
     margin: 5px;
-    padding: 10px 15px;
+    padding: 12px 20px; 
     border: none;
     color: white;
+    font-weight: bold; 
     cursor: pointer;
+    border-radius: 5px; 
+    transition: background-color 0.3s ease; 
   }
   
   .user-type-actions .login {
@@ -47,6 +73,17 @@
   .user-type-actions .create-account {
     background-color: #6c3a6c;
   }
+  
+  .user-type-actions button:hover {
+    filter: brightness(1.1); 
+  }
+  
+  @media (max-width: 768px) {
+    .user-type {
+      flex-basis: 100%; 
+    }
+  }
+  
   
   /* Carousel style... */
   
@@ -63,12 +100,12 @@
   }
   
   .carousel-slide img {
-    width: 50%; /* ou toute autre taille en fonction de votre mise en page */
+    width: 50%; 
   }
   
   .carousel-slide p {
     width: 50%;
-    /* Ajoutez le style de texte souhaité ici */
+    
   }
   
   /* Style pour les boutons */
@@ -76,10 +113,10 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-    /* Ajoutez un style supplémentaire si nécessaire */
+    
   }
   
-  /* Ajoutez un style responsive si nécessaire */
+  /* Ajout un style responsive  */
   @media (max-width: 768px) {
     .carousel-slide {
       flex-direction: column;
