@@ -1,0 +1,92 @@
+
+/* Home.css */
+
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .header h1 {
+    color: #4a4a4a;
+  }
+  
+  .header p {
+    color: #7a7a7a;
+  }
+  
+  .user-types {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+  
+  .user-type {
+    margin: 0 10px;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .user-type h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .user-type-actions button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .user-type-actions .login {
+    background-color: #f14e6b;
+  }
+  
+  .user-type-actions .create-account {
+    background-color: #6c3a6c;
+  }
+  
+  /* Carousel style... */
+  
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .carousel-slide {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .carousel-slide img {
+    width: 50%; /* ou toute autre taille en fonction de votre mise en page */
+  }
+  
+  .carousel-slide p {
+    width: 50%;
+    /* Ajoutez le style de texte souhaité ici */
+  }
+  
+  /* Style pour les boutons */
+  .carousel-container > button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    /* Ajoutez un style supplémentaire si nécessaire */
+  }
+  
+  /* Ajoutez un style responsive si nécessaire */
+  @media (max-width: 768px) {
+    .carousel-slide {
+      flex-direction: column;
+    }
+  
+    .carousel-slide img, .carousel-slide p {
+      width: 100%;
+    }
+  }
+  
