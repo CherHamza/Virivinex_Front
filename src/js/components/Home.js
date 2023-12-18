@@ -3,6 +3,7 @@ import { Header } from './Header';
 import { UserTypeButton } from './UserType';
 import Carousel from './Caroussel';
 import "../../css/home.css";
+import ModalCreateUser from './ModalCreateUser';
 
 const Home = () => {
 
@@ -12,6 +13,8 @@ const Home = () => {
 
 
   return (
+
+  <>
     <div className="app">
       <Header />
       <div className="user-types">
@@ -23,7 +26,15 @@ const Home = () => {
       </div>
       <Carousel />
     </div>
+
+
+
+
+  </>
+
   );
+
+
 };
 
 export default Home;
