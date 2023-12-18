@@ -12,7 +12,7 @@ const slidesData = [
     imageSrc: Image2,
     text: "Notre deuxième édition limitée",
   },
-  // Ajoutez d'autres diapositives si nécessaire
+  // Ajouts d'autres diapositives..
 ];
 
 const Caroussel = () => {
