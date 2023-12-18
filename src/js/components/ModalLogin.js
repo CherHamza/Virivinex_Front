@@ -1,0 +1,62 @@
+const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+  
+    const handleLogin = () => {
+        fetch('http://localhost:5000/users')
+        .then(response => response.json())
+        .then(users => {
+            const user = users.find(user => user.email === email && user.password === password);
+            if (user) {
+                toast.success("Connexion réussie !");
+                handleCloseLoginModal();
+            } else {
+                toast.error("Identifiants incorrects.");
+            }
+        })
+        .catch(error => {
+            console.error("Erreur lors de la connexion :", error);
+            toast.error("Erreur lors de la connexion.");
+        });
+
+  
+      setEmail("");
+      setPassword("");
+    };
+  
+    return (
+      <div className={`modal ${handleShowLoginModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowLoginModal ? "block" : "none" }}>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Login</h5>
+              <button type="button" className="close" onClick={handleCloseLoginModal}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="emailLogin">Email</label>
+                <input type="email" className="form-control" id="emailLogin" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="passwordLogin">Password</label>
+                <input type="password" className="form-control" id="passwordLogin" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" onClick={handleCloseLoginModal}>
+                Annuler
+              </button>
+              <button type="button" className="btn btn-primary" onClick={handleLogin}>
+                Se connecter
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  export default ModalLogin;
+  

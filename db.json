@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "firstName": "hamza",
+      "lastName": "cheracher",
+      "email": "hamza@test.fr",
+      "pseudo": "hamza23",
+      "password": "hamza",
+      "userType": "Individual",
+      "id": 1
+    },
+    {
+      "firstName": "lana",
+      "lastName": "hello",
+      "email": "lana12@exemple.fr",
+      "pseudo": "lanaaa",
+      "password": "1234lana",
+      "userType": "Wine Producer",
+      "id": 2
+    },
+    {
+      "firstName": "hamza",
+      "lastName": "lana",
+      "email": "hamza",
+      "pseudo": "hzjzjzj",
+      "password": "jzjzjjz",
+      "userType": "Wine Expert",
+      "id": 3
+    }
+  ]
+}

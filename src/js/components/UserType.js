@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWineBottle, faGlasses, faUser, faStore } from '@fortawesome/free-solid-svg-icons';
 import ModalCreateUser from './ModalCreateUser';
+import ModalLogin from './ModalLogin';
+
 
 const icons = {
   "Wine Producer": faWineBottle,
@@ -11,6 +13,7 @@ const icons = {
 };
 
 export const UserTypeButton = ({ userType, handleToCreate }) => {
+  
   const [selectedUserType, setSelectedUserType] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);

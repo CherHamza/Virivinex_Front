@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
+import { toast } from 'react-toastify';
 
 
 
@@ -7,29 +8,44 @@ const ModalCreateUser = ({ handleShowModal, handleCloseModal, userType }) => {
     const [email, setEmail] = useState("");
     const [pseudo, setPseudo] = useState("");
     const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
 
     const handleCreateUser = () => {
         const newUser = {
-            email: email,
-            pseudo: pseudo,
-            password: password,
-            userType: userType
-          };
-        
-          console.log("Création de l'utilisateur :", newUser);
-        
-        // Ajoutez ici la logique pour créer un utilisateur
-        // Utilisez les valeurs de email, pseudo, password
-        console.log("Création de l'utilisateur :", { email, pseudo, password });
-
-        // Réinitialisez les champs après la création
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          pseudo: pseudo,
+          password: password,
+          userType: userType
+        };
+      
+        fetch('http://localhost:5000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newUser)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Nouvel utilisateur créé:', data);
+          toast.success("Compte créé avec succès !");
+        })
+        .catch(error => {
+          console.error("Erreur lors de la création de l'utilisateur:", error);
+        });
+      
+        // Réinitialiser les champs et fermer la modale
+        setFirstName("");
+        setLastName("");
         setEmail("");
         setPseudo("");
         setPassword("");
-
-        // Fermez la modal après la création
         handleCloseModal();
-    };
+      };
+      
 
     return (
         <div className={`modal ${handleShowModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModal ? "block" : "none" }}>
@@ -43,6 +59,14 @@ const ModalCreateUser = ({ handleShowModal, handleCloseModal, userType }) => {
                     </div>
                     <div className="modal-body">
                         <div className="form-group">
+                            <label htmlFor="firstName">Firstname</label>
+                            <input type="firstName" className="form-control" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="lastName">Lastname</label>
+                            <input type="lastName" className="form-control" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
@@ -54,17 +78,7 @@ const ModalCreateUser = ({ handleShowModal, handleCloseModal, userType }) => {
                             <label htmlFor="password">Password</label>
                             <input type="password" className="form-control" id="password"  value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
-                        {/* <div className="form-group">
-                            <label htmlFor="term">Terme :</label>
-                            <select className="form-control" id="term" value={selectedTerm} onChange={handleTermChange}>
-                                <option value="">Sélectionnez un terme</option>
-                                {terms.map((term) => (
-                                    <option key={term.id} value={term.id}>
-                                        {term.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div> */}
+                    
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
