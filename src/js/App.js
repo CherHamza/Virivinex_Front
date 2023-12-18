@@ -11,7 +11,7 @@ function App() {
             <Link to="/app/index.html">Accueil</Link>
           </li>
           <li>
-            <Link to="/home">Page d'accueil</Link>
+            <Link to="/Home">Page d'accueil</Link>
           </li>
         </ul>
       </nav>
