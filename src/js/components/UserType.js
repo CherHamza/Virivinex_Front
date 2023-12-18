@@ -9,13 +9,23 @@ const icons = {
   "Wine Retailer": faStore,
 };
 
-export const UserTypeButton = ({ userType }) => (
+export const UserTypeButton = ({ userType, handleToCreate }) => {
+
+
+
+  const handleClickCreate = () => {
+    handleToCreate(userType);
+  };
+  return (
+
+  
   <div className="user-type">
     <FontAwesomeIcon icon={icons[userType]} size="2x" /> 
     <h2>as a {userType}</h2>
     <div className="user-type-actions">
       <button className="login">Login</button>
-      <button className="create-account">Create account</button>
+      <button className="create-account" onClick={handleClickCreate}>Create account</button>
     </div>
   </div>
 );
+  }

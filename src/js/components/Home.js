@@ -5,14 +5,21 @@ import Carousel from './Caroussel';
 import "../../css/home.css";
 
 const Home = () => {
+
+  const handleCreateUser = (userType) => {
+    console.log(`Hello, as a ${userType}!`);
+  };
+
+
   return (
     <div className="app">
       <Header />
       <div className="user-types">
-        <UserTypeButton userType="Wine Producer" />
-        <UserTypeButton userType="Wine Expert" />
-        <UserTypeButton userType="Individual" />
-        <UserTypeButton userType="Wine Retailer" />
+        <UserTypeButton userType="Wine Producer"
+          handleToCreate={handleCreateUser} />
+        <UserTypeButton userType="Wine Expert"  handleToCreate={handleCreateUser} />
+        <UserTypeButton userType="Individual"  handleToCreate={handleCreateUser} />
+        <UserTypeButton userType="Wine Retailer"  handleToCreate={handleCreateUser} />
       </div>
       <Carousel />
     </div>
