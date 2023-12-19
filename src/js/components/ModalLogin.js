@@ -1,3 +1,7 @@
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+
+
 const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -9,6 +13,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
             const user = users.find(user => user.email === email && user.password === password);
             if (user) {
                 toast.success("Connexion réussie !");
+                console.log('user ' + user.email);
                 handleCloseLoginModal();
             } else {
                 toast.error("Identifiants incorrects.");
