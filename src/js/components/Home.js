@@ -3,8 +3,6 @@ import { Header } from './Header';
 import { UserTypeButton } from './UserType';
 import Carousel from './Caroussel';
 import "../../css/home.css";
-import ModalLogin from './ModalLogin';
-import ModalCreateUser from './ModalCreateUser';
 
 const Home = () => {
 

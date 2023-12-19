@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
+import { UserTypeButton } from './UserType';
 
 
-const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
+
+const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) => {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isAuthenticated, setAuthenticated] = useState(false);
   
     const handleLogin = () => {
         fetch('http://localhost:5000/users')
         .then(response => response.json())
         .then(users => {
-            const user = users.find(user => user.email === email && user.password === password);
-            if (user) {
+             const userData = users.find(user => user.email === email && user.password === password);
+            if (userData) {
                 toast.success("Connexion réussie !");
-                console.log('user ' + user.email);
+                console.log('user ' + userData.email);
+
                 handleCloseLoginModal();
+                setAuthenticated(true);
+
             } else {
                 toast.error("Identifiants incorrects.");
             }
@@ -28,6 +36,18 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
       setEmail("");
       setPassword("");
     };
+    
+    // Authenticated ok
+  if (isAuthenticated) {
+    console.log("userType", userType);
+    // TODO:
+      //Setting up a swtich
+    if(userType === "Wine Expert"){
+      return <Navigate to = "/Expert"/>;
+    }
+    return <Navigate to="/Individual" />;
+  }
+  
   
     return (
       <div className={`modal ${handleShowLoginModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowLoginModal ? "block" : "none" }}>

@@ -35,6 +35,25 @@
       "password": "mael",
       "userType": "Wine Producer",
       "id": 4
+    },
+    {
+      "firstName": "demo",
+      "lastName": "lastnamedemo",
+      "email": "demo@exemple.fr",
+      "pseudo": "Demo",
+      "password": "demo",
+      "userType": "Individual",
+      "id": 5
+    },
+    {
+      "firstName": "demoExpert",
+      "lastName": "demo",
+      "email": "demoexpert@demo.fr",
+      "qualification": "Conaisseur",
+      "pseudo": "Expert",
+      "password": "demo",
+      "userType": "Wine Expert",
+      "id": 6
     }
   ]
 }

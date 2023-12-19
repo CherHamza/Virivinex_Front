@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWineBottle, faGlasses, faUser, faStore } from '@fortawesome/free-solid-svg-icons';
-import ModalCreateUser from './ModalCreateUser';
+import IndividualModalCreate from './Individual/IndividualModalCreate';
+import ExpertModalCreate from './Expert/ExpertModalCreate';
 import ModalLogin from './ModalLogin';
 
 
@@ -14,7 +15,7 @@ const icons = {
 
 export const UserTypeButton = ({ userType, handleToCreate }) => {
   
-  const [selectedUserType, setSelectedUserType] = useState(null);
+  const [selectedUserType, setSelectedUserType] = useState(userType);
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -26,10 +27,24 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
   const handleCloseLoginModal = () => setShowModalLogin(false);
 
 
+  const[showModalExpert, setShowModalExpert] = useState(false);
+  const handleShowModalExpert = () => setShowModalExpert(true);
+  const handleCloseExpertModal = () => setShowModalExpert(false);
+
+
 
   const handleClickCreate = (userType) => {
-    setSelectedUserType(userType);
-    handleShowModal();
+    
+    console.log('userType ' + selectedUserType);
+    if(selectedUserType === "Individual"){
+
+      handleShowModal();
+
+    }
+    if(selectedUserType === "Wine Expert"){
+
+      handleShowModalExpert();
+    }
   };
 
   const handleLogin = () => {
@@ -50,16 +65,23 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
           </div>
         </div>
 
-  <ModalCreateUser
+  <IndividualModalCreate
       handleShowModal={showModal}
       handleCloseModal={handleCloseModal}
       userType={userType}
       />
 
 
-      <ModalLogin
+    <ModalLogin
         handleShowLoginModal={showModalLogin}
         handleCloseLoginModal={handleCloseLoginModal}
+        userType={userType}
+      />
+
+<ExpertModalCreate
+        handleShowModalExpert={showModalExpert}
+        handleCloseModalExpert={handleCloseExpertModal}
+        userType={userType}
       />
 
       </>

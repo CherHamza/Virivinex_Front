@@ -1,0 +1,71 @@
+/* UserProfile.css */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .collection-section, .search-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .balance-info, .wine-collection-info {
+    margin-bottom: 15px;
+  }
+  
+  .balance-info p, .wine-collection-info p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .balance-info span, .wine-collection-info span {
+    font-weight: bold;
+  }
+  
+  .search-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .search-by-criteria input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+  }
+  
+  .search-by-criteria button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #f14e6b;
+    color: white;
+    border: none;
+  }
+  
+  .browse-section button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #6c3a6c;
+    color: white;
+    border: none;
+  }
+  
+  .featured-wines-section {
+    /* Add styles for your carousel component */
+  }
+  
+  @media (max-width: 768px) {
+    .search-section {
+      flex-direction: column;
+    }
+    .search-by-criteria button, .browse-section button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+  

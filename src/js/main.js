@@ -5,6 +5,8 @@ import Home from "./components/Home.js";
 import App from "./App.js"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import IndiviudalProfil from "./components/Individual/IndividualProfil.js";
+import ExpertProfil from "./components/Expert/ExpertProfil.js";
 
 
 
@@ -17,6 +19,8 @@ root.render(
       <Routes>
         <Route path="/app/index.html" element={<App />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/Individual" element={<IndiviudalProfil/>}/>
+        <Route path="/Expert" element={<ExpertProfil/>}/>
       </Routes>
     </Router>
     <ToastContainer />
