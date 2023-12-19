@@ -21,14 +21,22 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
 
 
 
+  const [showModalLogin, setShowModalLogin] = useState(false);
+  const handleShowLoginModal = () => setShowModalLogin(true);
+  const handleCloseLoginModal = () => setShowModalLogin(false);
+
+
 
   const handleClickCreate = (userType) => {
     setSelectedUserType(userType);
     handleShowModal();
   };
 
-  const handleClickLogin = () => {
+  const handleLogin = () => {
     console.log('Here handleClickLogin');
+    setSelectedUserType(userType);
+    handleShowLoginModal();
+
   };
 
   return (
@@ -37,14 +45,21 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
           <FontAwesomeIcon icon={icons[userType]} size="2x" /> 
           <h2>as a {userType}</h2>
           <div className="user-type-actions">
-            <button className="login">Login</button>
+            <button className="login" onClick={handleLogin}>Login</button>
             <button className="create-account" onClick={handleClickCreate}>Create account</button>
           </div>
         </div>
+
   <ModalCreateUser
       handleShowModal={showModal}
       handleCloseModal={handleCloseModal}
       userType={userType}
+      />
+
+
+      <ModalLogin
+        handleShowLoginModal={showModalLogin}
+        handleCloseLoginModal={handleCloseLoginModal}
       />
 
       </>

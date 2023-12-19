@@ -34,6 +34,7 @@ const ModalCreateUser = ({ handleShowModal, handleCloseModal, userType }) => {
           toast.success("Compte créé avec succès !");
         })
         .catch(error => {
+          toast.error("Identifiants incorrects.");
           console.error("Erreur lors de la création de l'utilisateur:", error);
         });
       

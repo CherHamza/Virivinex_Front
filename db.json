@@ -26,6 +26,15 @@
       "password": "jzjzjjz",
       "userType": "Wine Expert",
       "id": 3
+    },
+    {
+      "firstName": "Mael",
+      "lastName": "Mael",
+      "email": "mael@mael.fr",
+      "pseudo": "Mael",
+      "password": "mael",
+      "userType": "Wine Producer",
+      "id": 4
     }
   ]
 }
