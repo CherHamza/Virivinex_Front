@@ -2,7 +2,7 @@
 /* Home.css */
 
 .app {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     text-align: center;
   }
@@ -36,7 +36,7 @@
     justify-content: space-around;
     flex-wrap: wrap; 
     margin: 20px 0;
-    gap: 10px; 
+    /* gap: 10px; */
   }
   
   .user-type {
@@ -100,7 +100,9 @@
   }
   
   .carousel-slide img {
-    width: 50%; 
+    width: 100%;
+    max-width: 300px;
+    object-fit: cover; 
   }
   
   .carousel-slide p {
@@ -111,9 +113,25 @@
   /* Style pour les boutons */
   .carousel-container > button {
     border: none;
-    background-color: transparent;
+    background-color: #f14e6b; 
+    margin: 20px;
+    color: white; 
     cursor: pointer;
-    
+    padding: 10px 15px; 
+    border-radius: 50%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    opacity: 0.8; 
+    transition: opacity 0.3s, transform 0.3s; 
+  }
+  
+  .carousel-container > button:hover, 
+  .carousel-container > button:focus { 
+    opacity: 1; 
+    transform: scale(1.1); 
+  }
+  
+  .carousel-container > button:active { 
+    transform: scale(0.9); 
   }
   
   /* Ajout un style responsive  */

@@ -54,7 +54,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
       case "Individual":
         return <Navigate to="/Individual" />;
       default:
-        return <Navigate to="/Default" />;
+        return <Navigate to="/home" />;
     }
   }
   

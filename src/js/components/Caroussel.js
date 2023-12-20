@@ -30,7 +30,7 @@ const Caroussel = () => {
         <img src={imageSrc} alt="Featured Wine" />
         <p>{text}</p>
       </div>
-      <button onClick={nextSlide}>&gt;</button>
+      <button className="carousel-button-next" onClick={nextSlide}>&gt;</button>
     </div>
   );
 };
