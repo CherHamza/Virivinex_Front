@@ -10,6 +10,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isAuthenticated, setAuthenticated] = useState(false);
+    const [userTypeD, setUserType] = useState("");
   
     const handleLogin = () => {
         fetch('http://localhost:5000/users')
@@ -19,9 +20,12 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
             if (userData) {
                 toast.success("Connexion réussie !");
                 console.log('user ' + userData.email);
-
+                
                 handleCloseLoginModal();
                 setAuthenticated(true);
+                
+                setUserType(userData.userType)
+              console.log('user ' + userData.userType);
 
             } else {
                 toast.error("Identifiants incorrects.");
@@ -37,15 +41,21 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
       setPassword("");
     };
     
-    // Authenticated ok
+  // Authenticated ok
   if (isAuthenticated) {
-    console.log("userType", userType);
+    console.log("userType", userTypeD);
     // TODO:
-      //Setting up a swtich
-    if(userType === "Wine Expert"){
-      return <Navigate to = "/Expert"/>;
+    // Setting up a switch
+    switch (userTypeD) {
+      case "Wine Expert":
+        return <Navigate to="/Expert" />;
+      case "Wine Producer":
+        return <Navigate to="/Producer" />;
+      case "Individual":
+        return <Navigate to="/Individual" />;
+      default:
+        return <Navigate to="/Default" />;
     }
-    return <Navigate to="/Individual" />;
   }
   
   
