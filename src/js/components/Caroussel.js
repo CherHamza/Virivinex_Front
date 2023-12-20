@@ -6,11 +6,11 @@ import Image2 from "../../../assets/images/bottle2.jpg";
 const slidesData = [
   {
     imageSrc: Image1,
-    text: "Notre première édition limitée",
+    text: "Our first limited edition",
   },
   {
     imageSrc: Image2,
-    text: "Notre deuxième édition limitée",
+    text: "Our second limited edition",
   },
   // Ajouts d'autres diapositives..
 ];

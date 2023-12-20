@@ -49,11 +49,30 @@
       "firstName": "demoExpert",
       "lastName": "demo",
       "email": "demoexpert@demo.fr",
-      "qualification": "Conaisseur",
+      "qualification": "Connaisseur",
       "pseudo": "Expert",
       "password": "demo",
       "userType": "Wine Expert",
       "id": 6
+    },
+    {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john@doe.fr",
+      "pseudo": "John",
+      "password": "john",
+      "userType": "Individual",
+      "id": 7
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "smith",
+      "email": "peter@smith.fr",
+      "qualification": "British wine institute ",
+      "pseudo": "Peter",
+      "password": "peter",
+      "userType": "Wine Expert",
+      "id": 8
     }
   ]
 }
