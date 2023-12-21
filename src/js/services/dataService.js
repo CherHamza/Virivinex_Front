@@ -54,9 +54,13 @@ class DataService {
      * @returns {Promise} A Promise that resolves after the user is created.
      */
     async createUser(user,eventType,endpoint){
-        await this.fetchMSM("sellerRegistrationServiceImpl", "PROTOTYPE", "registerSeller", [
-            user
-        ], eventType, endpoint).then(res => res.result);
+        await this.fetchMSM(
+            "sellerRegistrationServiceImpl",
+            "PROTOTYPE",
+            "registerSeller",
+            [user],
+            eventType,
+            endpoint).then( res => res.result );
     }
 
     /**
