@@ -15,39 +15,38 @@ class DataService {
     /**
      * Creates a user with the specified seller, eventType, and endpoint.
      *
+     * @example
      * Seller object example:
-     *
-     *      {
-     *             address: {
-     *                 houseNumber: "12",
-     *                 city: "Paris",
-     *                 street: "Champs-Élysées",
-     *                 postalCode: "75008",
-     *                 country: {
-     *                     code: "FR",
-     *                     name: "France",
-     *                     language: "Français"
-     *                 }
-     *             },
-     *             companyName: "John Snow",
-     *             profiles: [
-     *                 {
-     *                     firstName: "John",
-     *                     lastName: "Snow",
-     *                     phone: "+3312345678",
-     *                     mobilePhone: "",
-     *                     emailAddress: "email@email.com",
-     *                     emailNotifications: false,
-     *                     salutation: "Mr",
-     *                     user: {
-     *                         username: "email@email.com",
-     *                         password: "12345"
-     *                     },
-     *                     metaInfo: {}
-     *                 }
-     *             ]
-     *         }
-     *
+     *{
+     *     address: {
+     *          houseNumber: "12",
+     *          city: "Paris",
+     *          street: "Champs-Élysées",
+     *          postalCode: "75008",
+     *          country: {
+     *               code: "FR",
+     *               name: "France",
+     *               language: "Français"
+     *          }
+     *     },
+     *     companyName: "John Snow",
+     *     profiles: [
+     *          {
+     *                firstName: "John",
+     *                lastName: "Snow",
+     *                phone: "+3312345678",
+     *                mobilePhone: "",
+     *                emailAddress: "email@email.com",
+     *                emailNotifications: false,
+     *                salutation: "Mr",
+     *                user: {
+     *                     username: "email@email.com",
+     *                     password: "12345"
+     *                },
+     *                metaInfo: {}
+     *          }
+     *     ]
+     *}
      * @param {object} user - The user object
      * @param eventType "Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED"
      * @param endpoint "Optional parameter, it works if eventType is equals to SHARED"
