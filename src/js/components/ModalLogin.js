@@ -17,6 +17,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
         .then(response => response.json())
         .then(users => {
              const userData = users.find(user => user.email === email && user.password === password);
+             console.log('user ' + userData)
             if (userData) {
                 toast.success("Connexion réussie !");
                 console.log('user ' + userData.email);
@@ -48,13 +49,13 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
     // Setting up a switch
     switch (userTypeD) {
       case "Wine Expert":
-        return <Navigate to="/Expert" />;
+        return <Navigate to="/app/expert.html" />;
       case "Wine Producer":
-        return <Navigate to="/Producer" />;
+        return <Navigate to="/app/producer.html" />;
       case "Individual":
-        return <Navigate to="/Individual" />;
+        return <Navigate to="/app/individual.html" />;
       default:
-        return <Navigate to="/home" />;
+        return <Navigate to="/app/home.html" />;
     }
   }
   
