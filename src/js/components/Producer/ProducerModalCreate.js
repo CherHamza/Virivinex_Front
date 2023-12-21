@@ -13,30 +13,30 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
 
     const handleCreateUser = () => {
         const newUser = {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          pseudo: pseudo,
-          password: password,
-          userType: userType
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            pseudo: pseudo,
+            password: password,
+            userType: userType
         };
         fetch('http://localhost:5000/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newUser)
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
         })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Nouvel utilisateur créé:', data);
-          toast.success("Compte créé avec succès !");
-        })
-        .catch(error => {
-          toast.error("Identifiants incorrects.");
-          console.error("Erreur lors de la création de l'utilisateur:", error);
-        });
-      
+            .then(response => response.json())
+            .then(data => {
+                console.log('Nouvel utilisateur créé:', data);
+                toast.success("Compte créé avec succès !");
+            })
+            .catch(error => {
+                toast.error("Identifiants incorrects.");
+                console.error("Erreur lors de la création de l'utilisateur:", error);
+            });
+
         // Réinitialiser les champs et fermer la modale
         setFirstName("");
         setLastName("");
@@ -44,8 +44,8 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
         setPseudo("");
         setPassword("");
         handleCloseModal();
-      };
-      
+    };
+
 
     return (
         <div className={`modal ${handleShowModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModal ? "block" : "none" }}>
@@ -76,9 +76,9 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input type="password" className="form-control" id="password"  value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
-                    
+
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
