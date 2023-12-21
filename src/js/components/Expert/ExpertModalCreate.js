@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
-
+import { dataService } from "../../services/dataService";
 
 
 const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, userType }) => {
@@ -13,7 +13,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
     const [lastName, setLastName] = useState("");
 
     const handleCreateUser = () => {
-        const newUser = {
+        /*const newUser = {
           firstName: firstName,
           lastName: lastName,
           email: email,
@@ -21,9 +21,48 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
           pseudo: pseudo,
           password: password,
           userType: userType
+        };*/
+
+
+        const newUser = {
+            address: {
+                houseNumber: "12",
+                city: "Paris",
+                street: "Champs-Élysées",
+                postalCode: "75008",
+                country: {
+                    code: "FR",
+                    name: "France",
+                    language: "Français"
+                }
+            },
+            companyName: firstName + " " + lastName,
+            profiles: [
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    phone: "+3312345678",
+                    mobilePhone: "",
+                    emailAddress: email,
+                    emailNotifications: false,
+                    salutation: "Mr",
+                    user: {
+                        username: email,
+                        password: password
+                    },
+                    metaInfo: {
+                        "qualification" : qualification,
+                        "pseudo": pseudo,
+                        "userType": userType
+                    }
+                }
+            ],
         };
+
+
+        dataService.createUser(newUser).then(res => console.log(res));
       
-        fetch('http://localhost:5000/users', {
+        /*fetch('http://localhost:5000/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -38,7 +77,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
         .catch(error => {
           toast.error("Identifiants incorrects.");
           console.error("Erreur lors de la création de l'utilisateur:", error);
-        });
+        });*/
       
         // Réinitialiser les champs et fermer la modale
         setFirstName("");
