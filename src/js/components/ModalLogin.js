@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Navigate } from 'react-router-dom';
 import { UserTypeButton } from './UserType';
+import { dataService } from "../services/dataService";
+
 
 
 
@@ -13,6 +15,20 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
     const [userTypeD, setUserType] = useState("");
   
     const handleLogin = () => {
+
+      try {
+        let sr = {
+          query: {},
+          visiblePages: 10,
+          page: 1,
+          limit: 10
+        }
+
+        dataService.getUsers(sr).then(res => console.log(res));
+
+      } catch (error) {
+        console.log('error :' + error);
+      }
         fetch('http://localhost:5000/users')
         .then(response => response.json())
         .then(users => {

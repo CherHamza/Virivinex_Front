@@ -73,6 +73,22 @@
       "password": "peter",
       "userType": "Wine Expert",
       "id": 8
-    }
+    },
+      {
+        "id": 100,
+        "companyName": "Les Moulines",
+        "vat": 362521879,
+        "userType": "Producer",
+        "numberEmployees": 50,
+        "postalcode": "34130",
+        "street": "rue de la vigne",
+        "houseNbr": 10,
+        "city": "Mudaison",
+        "country": "France",
+        "emailCompany": "moulines@exemple.fr",
+        "websiteCompany": "lesmoulines.fr",
+        "pseudo": "Les Moulines",
+        "password": "moulines"
+      }
   ]
 }

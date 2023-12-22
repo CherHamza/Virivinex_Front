@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
+import { dataService } from "../../services/dataService";
 
 
 
@@ -13,34 +14,71 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
     const [lastName, setLastName] = useState("");
 
     const handleCreateUser = () => {
+    //     const newUser = {
+    //       firstName: firstName,
+    //       lastName: lastName,
+    //       email: email,
+    //       qualification: qualification,
+    //       pseudo: pseudo,
+    //       password: password,
+    //       userType: userType
+    //     };
+      
+    //     fetch('http://localhost:5000/users', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify(newUser)
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       console.log('Nouvel utilisateur créé:', data);
+    //       toast.success("Compte créé avec succès !");
+    //     })
+    //     .catch(error => {
+    //       toast.error("Identifiants incorrects.");
+    //       console.error("Erreur lors de la création de l'utilisateur:", error);
+    //     });
+      
         const newUser = {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          qualification: qualification,
-          pseudo: pseudo,
-          password: password,
-          userType: userType
+            address: {
+                houseNumber: "12",
+                city: "Paris",
+                street: "Champs-Élysées",
+                postalCode: "75008",
+                country: {
+                    code: "FR",
+                    name: "France",
+                    language: "Français"
+                }
+            },
+            companyName: firstName + " " + lastName,
+            profiles: [
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    phone: "+3312345678",
+                    mobilePhone: "",
+                    emailAddress: email,
+                    emailNotifications: false,
+                    salutation: "Mr",
+                    user: {
+                        username: email,
+                        password: password
+                    },
+                    metaInfo: {
+                        "qualification": qualification,
+                        "pseudo": pseudo,
+                        "userType": userType
+                    }
+                }
+            ],
         };
-      
-        fetch('http://localhost:5000/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newUser)
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Nouvel utilisateur créé:', data);
-          toast.success("Compte créé avec succès !");
-        })
-        .catch(error => {
-          toast.error("Identifiants incorrects.");
-          console.error("Erreur lors de la création de l'utilisateur:", error);
-        });
-      
-        // Réinitialiser les champs et fermer la modale
+
+
+        dataService.createUser(newUser).then(res => console.log(res));
+    //     // Réinitialiser les champs et fermer la modale
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -48,8 +86,12 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
         setQualification("");
         setPassword("");
         handleCloseModalExpert();
+   
       };
       
+
+
+
 
     return (
         <div className={`modal ${handleShowModalExpert ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalExpert ? "block" : "none" }}>
