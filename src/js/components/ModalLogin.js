@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Navigate } from 'react-router-dom';
-import { dataService } from "../services/dataService";
+import { UserTypeButton } from './UserType';
+import {userService} from "../services/userService";
+import {dataService} from "../services/dataService";
 
 
 const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
@@ -34,32 +36,33 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
     //   toast.error("Erreur lors de la connexion.");
     // }
 
-    fetch('http://localhost:5000/users')
-      .then(response => response.json())
-      .then(users => {
-        const userData = users.find(user => user.email === email && user.password === password);
-        console.log('user ' + userData)
-        if (userData) {
-          toast.success("Connexion réussie !");
-          console.log('user ' + userData.email);
 
-          handleCloseLoginModal();
-          setAuthenticated(true);
-
-          setUserType(userData.userType)
-          console.log('user ' + userData.userType);
-
-        } else {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isAuthenticated, setAuthenticated] = useState(false);
+    const [userTypeD, setUserType] = useState("");
+  
+    const handleLogin = () => {
+      userService.login(email,password,false).then(async (res) => {
+        if (!res.ok) {
+          let response = res.status !== 401 ? await res.json() : "Identifiants incorrects.";
+          console.error("Failure:", response);
           toast.error("Identifiants incorrects.");
+        } else {
+          toast.success("Connexion réussie !");
+          handleCloseLoginModal();
+          dataService.isAuthenticated().then(res => setAuthenticated(res));
+          dataService.getAuthenticatedProfile().then(user => setUserType(user.metaInfo?.userType));
+          setEmail("");
+          setPassword("");
+          //window.location.href = userService.userAccountPage;
         }
-      })
-      .catch(error => {
-        console.error("Erreur lors de la connexion :", error);
-        toast.error("Erreur lors de la connexion.");
       });
-    setEmail("");
-    setPassword("");
-  };
+
+
+    };
+    
+  // Authenticated ok
 
   if (isAuthenticated) {
     switch (userType) {
