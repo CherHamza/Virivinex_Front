@@ -1,33 +1,36 @@
 class DataService {
-    static _instance = null;
 
-     
     MSM2App = new MSM2.App();
 
-    fetchMSM(beanId, scope, functionName, args, eventType, endpoint) {
+    fetchMSM(beanId,scope,functionName,args,eventType,endpoint) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                this.MSM2App.invokeAndGetJson$(beanId, scope, functionName, args, null, eventType, endpoint).subscribe(function (e) {
+                this.MSM2App.invokeAndGetJson$(beanId,scope,functionName,args,null,eventType,endpoint).subscribe(function(e) {
+
                     resolve(e);
                 });
             }, 0);
         });
     }
 
-    /*
+
      * @param {object} user - The user object
      * @param eventType "Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED"
      * @param endpoint "Optional parameter, it works if eventType is equals to SHARED"
      * @returns {Promise} A Promise that resolves after the user is created.
      */
-    async createUser(user, eventType, endpoint) {
+
+    async createUser(user,eventType,endpoint){
+
         await this.fetchMSM(
             "sellerRegistrationServiceImpl",
             "PROTOTYPE",
             "registerSeller",
             [user],
             eventType,
-            endpoint).then(res => res.result);
+
+            endpoint).then( res => res.result );
+
     }
 
     /**
@@ -38,8 +41,10 @@ class DataService {
      * @param endpoint "Optional parameter, it works if eventType is equals to SHARED"
      * @returns {Promise<unknown>} all registered accounts
      */
-    async getUsers(request, eventType, endpoint) {
-        let queryRequest = request ? request : { query: {} };
+
+    async getUsers(request,eventType,endpoint) {
+        let queryRequest = request ? request : { query : {} };
+
         return await this.fetchMSM(
             "customerServiceImpl",
             "PROTOTYPE",
@@ -59,6 +64,8 @@ class DataService {
             [user],
             eventType,
             endpoint).then(res => res.result);
+
+           
     }
 
 }

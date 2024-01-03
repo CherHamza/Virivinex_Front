@@ -14,32 +14,18 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
     const [lastName, setLastName] = useState("");
 
     const handleCreateUser = () => {
-    //     const newUser = {
-    //       firstName: firstName,
-    //       lastName: lastName,
-    //       email: email,
-    //       qualification: qualification,
-    //       pseudo: pseudo,
-    //       password: password,
-    //       userType: userType
-    //     };
-      
-    //     fetch('http://localhost:5000/users', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(newUser)
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       console.log('Nouvel utilisateur créé:', data);
-    //       toast.success("Compte créé avec succès !");
-    //     })
-    //     .catch(error => {
-    //       toast.error("Identifiants incorrects.");
-    //       console.error("Erreur lors de la création de l'utilisateur:", error);
-    //     });
+
+        /*const newUser = {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          qualification: qualification,
+          pseudo: pseudo,
+          password: password,
+          userType: userType
+        };*/
+
+
       
         const newUser = {
             address: {
