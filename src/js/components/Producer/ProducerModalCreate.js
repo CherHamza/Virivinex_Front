@@ -9,54 +9,94 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
     const [pseudo, setPseudo] = useState("");
     const [password, setPassword] = useState("");
     const [vat, setVat] = useState("");
-    const [numberEmployees, setNumberEmployees] = useState("");
+    const [numberEmployes, setNumberEmployes] = useState("");
     const [postalcode, setPostalcode] = useState("");
     const [street, setStreet] = useState("");
     const [houseNbr, setHouseNbr] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
-    const [emailCompany, setEmailCompany] = useState("");
+    const [companyName, setCompanyName] = useState("");
     const [websiteCompany, setWebsiteCompany] = useState("");
 
     const handleCreateProducer = () => {
+        // const newProducer = {
+        //     companyName: companyName,
+        //     vat: vat,
+        //     userType: userType,
+        //     numberEmployees: numberEmployes,
+        //     postalcode: postalcode,
+        //     street: street,
+        //     houseNbr: houseNbr,
+        //     city: city,
+        //     country: country,
+        //     emailCompany: email,
+        //     websiteCompany: websiteCompany,
+        //     pseudo: pseudo,
+        //     password: password,
+        // };
+
+        console.log('producer : ' + newProducer.country
+        )
+
         const newProducer = {
-            companyName: companyName,
-            vat: vat,
-            userType: userType,
-            numberEmployees: nbrEmployees,
-            postalcode: postalCode,
-            street: street,
-            houseNbr: houseNbr,
-            city: city,
-            country: country,
-            emailCompany: emailCompany,
-            websiteCompany: websiteCompany,
-            pseudo: pseudo,
-            password: password,
-        };
-        fetch('http://localhost:5000/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+            address: {
+                houseNumber: houseNbr,
+                city: city,
+                street: street,
+                postalCode: postalcode,
+                country: {
+                    code: "FR",
+                    name: country,
+                    language: "Français"
+                }
             },
-            body: JSON.stringify(newUser)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Nouvel utilisateur créé:', data);
-                toast.success("Compte créé avec succès !");
-            })
-            .catch(error => {
-                toast.error("Identifiants incorrects.");
-                console.error("Erreur lors de la création de l'utilisateur:", error);
-            });
+            companyName: firstName + " " + lastName,
+            profiles: [
+                {
+                    firstName: pseudo,
+                    emailAddress: email,
+                    emailNotifications: false,
+                    salutation: "Mr",
+                    user: {
+                        username: email,
+                        password: password
+                    },
+                    metaInfo: {
+                        
+                        "userType": userType
+                    }
+                }
+            ],
+        };
+
+
+        dataService.createUser(newUser).then(res => console.log(res));
+
+
+
+        // fetch('http://localhost:5000/users', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(newProducer)
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log('Nouvel utilisateur créé:', data);
+        //         toast.success("Compte créé avec succès !");
+        //     })
+        //     .catch(error => {
+        //         toast.error("Identifiants incorrects.");
+        //         console.error("Erreur lors de la création de l'utilisateur:", error);
+        //     });
 
         // Réinitialiser les champs et fermer la modale
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPseudo("");
-        setPassword("");
+        // setFirstName("");
+        // setLastName("");
+        // setEmail("");
+        // setPseudo("");
+        // setPassword("");
         handleCloseModalProducer();
     };
 
@@ -108,7 +148,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                         </div>
                         <div className="form-group">
                             <label htmlFor="emailCompany">Email</label>
-                            <input type="email" className="form-control" id="emailCompany" value={email} onChange={(e) => setEmailCompany(e.target.value)} />
+                            <input type="email" className="form-control" id="emailCompany" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
                         <div className="form-group">
                             <label htmlFor="websiteCompany">Website Company</label>

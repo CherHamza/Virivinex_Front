@@ -20,22 +20,22 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
           password: password,
           userType: userType
         };
-        fetch('http://localhost:5000/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newUser)
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Nouvel utilisateur créé:', data);
-          toast.success("Compte créé avec succès !");
-        })
-        .catch(error => {
-          toast.error("Identifiants incorrects.");
-          console.error("Erreur lors de la création de l'utilisateur:", error);
-        });
+        // fetch('http://localhost:5000/users', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(newUser)
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //   console.log('Nouvel utilisateur créé:', data);
+        //   toast.success("Compte créé avec succès !");
+        // })
+        // .catch(error => {
+        //   toast.error("Identifiants incorrects.");
+        //   console.error("Erreur lors de la création de l'utilisateur:", error);
+        // });
       
         // Réinitialiser les champs et fermer la modale
         setFirstName("");
