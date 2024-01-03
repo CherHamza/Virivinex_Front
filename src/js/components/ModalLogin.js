@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Navigate } from 'react-router-dom';
 import { UserTypeButton } from './UserType';
-
+import {userService} from "../services/userService";
+import {dataService} from "../services/dataService";
 
 
 const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) => {
@@ -13,7 +14,24 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
     const [userTypeD, setUserType] = useState("");
   
     const handleLogin = () => {
-        fetch('http://localhost:5000/users')
+      userService.login(email,password,false).then(async (res) => {
+        if (!res.ok) {
+          let response = res.status !== 401 ? await res.json() : "Identifiants incorrects.";
+          console.error("Failure:", response);
+          toast.error("Identifiants incorrects.");
+        } else {
+          toast.success("Connexion réussie !");
+          handleCloseLoginModal();
+          dataService.isAuthenticated().then(res => setAuthenticated(res));
+          dataService.getAuthenticatedProfile().then(user => setUserType(user.metaInfo?.userType));
+          setEmail("");
+          setPassword("");
+          //window.location.href = userService.userAccountPage;
+        }
+      });
+
+
+        /*fetch('http://localhost:5000/users')
         .then(response => response.json())
         .then(users => {
              const userData = users.find(user => user.email === email && user.password === password);
@@ -39,7 +57,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
 
   
       setEmail("");
-      setPassword("");
+      setPassword("");*/
     };
     
   // Authenticated ok
