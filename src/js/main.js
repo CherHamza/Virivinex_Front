@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import IndiviudalProfil from "./components/Individual/IndividualProfil.js";
 import ExpertProfil from "./components/Expert/ExpertProfil.js";
+import ProducerProfil from "./components/Producer/ProducerProfil.js";
 
 
 
@@ -21,6 +22,7 @@ root.render(
         <Route path="/app/home.html" element={<Home />} />
         <Route path="/app/account/individual.html" element={<IndiviudalProfil/>}/>
         <Route path="/app/account/expert.html" element={<ExpertProfil/>}/>
+        <Route path="/app/account/producer.html" element={<ProducerProfil />}/>
       </Routes>
     </Router>
     <ToastContainer />

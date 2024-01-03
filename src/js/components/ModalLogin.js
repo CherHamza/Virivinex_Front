@@ -64,11 +64,11 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
   if (isAuthenticated) {
     switch (userType) {
       case "Wine Expert":
-        return <Navigate to="/app/expert" />;
+        return <Navigate to="/app/account/expert.html" />;
       case "Wine Producer":
-        return <Navigate to="/app/producer" />;
+        return <Navigate to="/app/account/producer.html" />;
       case "Individual":
-        return <Navigate to="/app/individual" />;
+        return <Navigate to="/app/account/individual.html" />;
       default:
         toast.error("Type d'utilisateur non reconnu.");
         return <Navigate to="/app/home" />;

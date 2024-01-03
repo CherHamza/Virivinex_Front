@@ -13,7 +13,7 @@ class DataService {
         });
     }
 
-
+/*
      * @param {object} user - The user object
      * @param eventType "Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED"
      * @param endpoint "Optional parameter, it works if eventType is equals to SHARED"
