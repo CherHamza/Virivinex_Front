@@ -19,8 +19,8 @@ root.render(
       <Routes>
         <Route path="/app/index.html" element={<App />} />
         <Route path="/app/home.html" element={<Home />} />
-        <Route path="/app/individual.html" element={<IndiviudalProfil/>}/>
-        <Route path="/app/expert.html" element={<ExpertProfil/>}/>
+        <Route path="/app/account/individual.html" element={<IndiviudalProfil/>}/>
+        <Route path="/app/account/expert.html" element={<ExpertProfil/>}/>
       </Routes>
     </Router>
     <ToastContainer />

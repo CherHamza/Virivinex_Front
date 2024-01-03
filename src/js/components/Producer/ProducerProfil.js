@@ -1,3 +1,4 @@
+
 import React from 'react';
 import '../../../css/Users/ProducerProfil.css'; 
 
@@ -7,6 +8,15 @@ const ProducerProfil = () => {
     { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
 
   ];
+   // fetch('http://localhost:5000/users')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log('Data Producer ' + data);
+    //     })
+    //     .catch(error => {
+    //         console.error("Erreur lors de la connexion :", error);
+    //         toast.error("Erreur lors de la connexion.");
+    //     });
 
   return (
     <div className="producer-dashboard">
@@ -41,3 +51,4 @@ const ProducerProfil = () => {
 };
 
 export default ProducerProfil;
+

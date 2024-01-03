@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
 
 
+
 const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, userType }) => {
     const [email, setEmail] = useState("");
     const [pseudo, setPseudo] = useState("");
@@ -13,6 +14,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
     const [lastName, setLastName] = useState("");
 
     const handleCreateUser = () => {
+
         /*const newUser = {
           firstName: firstName,
           lastName: lastName,
@@ -24,6 +26,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
         };*/
 
 
+      
         const newUser = {
             address: {
                 houseNumber: "12",
@@ -51,7 +54,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
                         password: password
                     },
                     metaInfo: {
-                        "qualification" : qualification,
+                        "qualification": qualification,
                         "pseudo": pseudo,
                         "userType": userType
                     }
@@ -61,25 +64,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
 
 
         dataService.createUser(newUser).then(res => console.log(res));
-      
-        /*fetch('http://localhost:5000/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newUser)
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Nouvel utilisateur créé:', data);
-          toast.success("Compte créé avec succès !");
-        })
-        .catch(error => {
-          toast.error("Identifiants incorrects.");
-          console.error("Erreur lors de la création de l'utilisateur:", error);
-        });*/
-      
-        // Réinitialiser les champs et fermer la modale
+    //     // Réinitialiser les champs et fermer la modale
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -87,8 +72,12 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
         setQualification("");
         setPassword("");
         handleCloseModalExpert();
+   
       };
       
+
+
+
 
     return (
         <div className={`modal ${handleShowModalExpert ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalExpert ? "block" : "none" }}>

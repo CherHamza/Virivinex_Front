@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWineBottle, faGlasses, faUser, faStore } from '@fortawesome/free-solid-svg-icons';
 import IndividualModalCreate from './Individual/IndividualModalCreate';
 import ExpertModalCreate from './Expert/ExpertModalCreate';
+import ProducerModalCreate from './Producer/ProducerModalCreate';
 import ModalLogin from './ModalLogin';
 
 
@@ -32,6 +33,11 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
   const handleCloseExpertModal = () => setShowModalExpert(false);
 
 
+  const[showModalProducer, setShowModalProducer] = useState(false);
+  const handleShowModalProducer = () => setShowModalProducer(true);
+  const handleCloseProducerModal = () => setShowModalProducer(false);
+
+
 
   const handleClickCreate = (userType) => {
     
@@ -44,6 +50,11 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
     if(selectedUserType === "Wine Expert"){
 
       handleShowModalExpert();
+    }
+
+    if (selectedUserType === "Wine Producer"){
+
+      handleShowModalProducer();
     }
   };
 
@@ -65,25 +76,32 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
           </div>
         </div>
 
-  <IndividualModalCreate
+    <IndividualModalCreate
       handleShowModal={showModal}
       handleCloseModal={handleCloseModal}
       userType={userType}
-      />
+    />
 
 
-    <ModalLogin
-        handleShowLoginModal={showModalLogin}
-        handleCloseLoginModal={handleCloseLoginModal}
-        userType={userType}
-      />
+    
 
-<ExpertModalCreate
+    <ExpertModalCreate
         handleShowModalExpert={showModalExpert}
         handleCloseModalExpert={handleCloseExpertModal}
         userType={userType}
       />
 
+    <ProducerModalCreate
+        handleShowModalProducer={showModalProducer}
+        handleCloseModalProducer={handleCloseProducerModal}
+        userType={userType}
+      />
+
+    <ModalLogin
+      handleShowLoginModal={showModalLogin}
+      handleCloseLoginModal={handleCloseLoginModal}
+      userType={userType}
+    />
       </>
 
 );
