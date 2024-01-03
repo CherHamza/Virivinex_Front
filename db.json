@@ -73,6 +73,38 @@
       "password": "peter",
       "userType": "Wine Expert",
       "id": 8
+    },
+    {
+      "id": 100,
+      "companyName": "Les Moulines",
+      "vat": 362521879,
+      "userType": "Producer",
+      "numberEmployees": 50,
+      "postalcode": "34130",
+      "street": "rue de la vigne",
+      "houseNbr": 10,
+      "city": "Mudaison",
+      "country": "France",
+      "email": "moulines@exemple.fr",
+      "websiteCompany": "lesmoulines.fr",
+      "pseudo": "Les Moulines",
+      "password": "moulines"
+    },
+    {
+      "companyName": "Les vigneron de L'Hérault",
+      "vat": "123456789",
+      "userType": "Wine Producer",
+      "numberEmployees": "20",
+      "postalcode": "34000",
+      "street": "rue de la paix",
+      "houseNbr": "1",
+      "city": "Montpellier",
+      "country": "France",
+      "email": "vigneronHerault@test.com",
+      "websiteCompany": "vigneronherault.fr",
+      "pseudo": "Lana",
+      "password": "lana",
+      "id": 101
     }
   ]
 }
