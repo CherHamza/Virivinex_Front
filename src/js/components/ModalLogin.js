@@ -44,7 +44,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
 
     };
   // Authenticated ok
-
+//TO DO : try isAuthenticated 
   if (userTypeD) {
     switch (userTypeD) {
       case "Wine Producer":
