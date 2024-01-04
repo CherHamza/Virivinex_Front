@@ -82,9 +82,6 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
       userType={userType}
     />
 
-
-    
-
     <ExpertModalCreate
         handleShowModalExpert={showModalExpert}
         handleCloseModalExpert={handleCloseExpertModal}
@@ -97,11 +94,11 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
         userType={userType}
       />
 
-    <ModalLogin
+    {/* <ModalLogin
       handleShowLoginModal={showModalLogin}
       handleCloseLoginModal={handleCloseLoginModal}
       userType={userType}
-    />
+    /> */}
       </>
 
 );

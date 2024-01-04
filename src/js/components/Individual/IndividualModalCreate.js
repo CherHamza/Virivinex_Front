@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
+import { dataService } from "../../services/dataService";
 
 
 
@@ -10,16 +11,45 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    // const [userType, setUserType] = useState(userType);
 
     const handleCreateUser = () => {
+       
         const newUser = {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          pseudo: pseudo,
-          password: password,
-          userType: userType
+            address: {
+                houseNumber: "12",
+                city: "Paris",
+                street: "Champs-Élysées",
+                postalCode: "75008",
+                country: {
+                    code: "FR",
+                    name: "France",
+                    language: "Français"
+                }
+            },
+            companyName: firstName + " " + lastName,
+            profiles: [
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    phone: "+3312345678",
+                    mobilePhone: "",
+                    emailAddress: email,
+                    emailNotifications: false,
+                    salutation: "Mr",
+                    user: {
+                        username: email,
+                        password: password
+                    },
+                    metaInfo: {
+                        "pseudo": pseudo,
+                        "userType": "Individual"
+                    }
+                }
+            ],
         };
+        dataService.createUser(newUser).then(res => console.log(res));
+
         // fetch('http://localhost:5000/users', {
         //   method: 'POST',
         //   headers: {
@@ -36,7 +66,9 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
         //   toast.error("Identifiants incorrects.");
         //   console.error("Erreur lors de la création de l'utilisateur:", error);
         // });
-      
+
+        // Réinitialiser les champs et fermer la modale
+
         // Réinitialiser les champs et fermer la modale
         setFirstName("");
         setLastName("");

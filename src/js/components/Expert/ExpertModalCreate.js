@@ -15,18 +15,6 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
 
     const handleCreateUser = () => {
 
-        /*const newUser = {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          qualification: qualification,
-          pseudo: pseudo,
-          password: password,
-          userType: userType
-        };*/
-
-
-      
         const newUser = {
             address: {
                 houseNumber: "12",
@@ -56,7 +44,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
                     metaInfo: {
                         "qualification": qualification,
                         "pseudo": pseudo,
-                        "userType": userType
+                        "userType": "Wine Expert"
                     }
                 }
             ],
@@ -64,7 +52,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
 
 
         dataService.createUser(newUser).then(res => console.log(res));
-    //     // Réinitialiser les champs et fermer la modale
+    // Réinitialiser les champs et fermer la modale
         setFirstName("");
         setLastName("");
         setEmail("");

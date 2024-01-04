@@ -6,44 +6,16 @@ import {userService} from "../services/userService";
 import {dataService} from "../services/dataService";
 
 
-const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isAuthenticated, setAuthenticated] = useState(false);
-  const [userType, setUserType] = useState("");
-
-  const handleLogin = async () => {
-    // let searchRequest = {
-    //   query: { email: email, password: password }
-    // };
-    // try {
-    //   let response = await dataService.getOneUser(searchRequest);
-    //   if (response && response.data && response.data.length > 0) {
-    //     const userData = response.data.find(user => user.email === email && user.password === password);
-    //     if (userData) {
-    //       setAuthenticated(true);
-    //       setUserType(userData.userType);
-    //       toast.success("Connexion réussie !");
-    //       handleCloseLoginModal();
-    //     } else {
-    //       toast.error("Identifiants incorrects.");
-    //     }
-    //   } else {
-    //     toast.error("Aucun utilisateur trouvé.");
-    //   }
-    // } catch (error) {
-    //   console.error("Erreur lors de la connexion :", error);
-    //   toast.error("Erreur lors de la connexion.");
-    // }
-
-
+const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isAuthenticated, setAuthenticated] = useState(false);
     const [userTypeD, setUserType] = useState("");
-  
+
+
     const handleLogin = () => {
       userService.login(email,password,false).then(async (res) => {
+        console.log(res);
         if (!res.ok) {
           let response = res.status !== 401 ? await res.json() : "Identifiants incorrects.";
           console.error("Failure:", response);
@@ -51,8 +23,18 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
         } else {
           toast.success("Connexion réussie !");
           handleCloseLoginModal();
-          dataService.isAuthenticated().then(res => setAuthenticated(res));
-          dataService.getAuthenticatedProfile().then(user => setUserType(user.metaInfo?.userType));
+          dataService.isAuthenticated().then(res =>{
+            // setAuthenticated(res),
+            console.log(res)
+          } );
+          dataService.getAuthenticatedProfile().then(user => {
+            // Get user
+            console.log(user)
+            console.log(user.metaInfo.userType)
+            setUserType(user.metaInfo.userType)
+            
+          }
+            );
           setEmail("");
           setPassword("");
           //window.location.href = userService.userAccountPage;
@@ -61,20 +43,19 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal }) => {
 
 
     };
-    
   // Authenticated ok
 
-  if (isAuthenticated) {
-    switch (userType) {
-      case "Wine Expert":
-        return <Navigate to="/app/account/expert.html" />;
+  if (userTypeD) {
+    switch (userTypeD) {
       case "Wine Producer":
         return <Navigate to="/app/account/producer.html" />;
+      case "Wine Expert":
+        return <Navigate to="/app/account/expert.html" />;
       case "Individual":
         return <Navigate to="/app/account/individual.html" />;
       default:
         toast.error("Type d'utilisateur non reconnu.");
-        return <Navigate to="/app/home" />;
+        return <Navigate to="/app/home.html" />;
     }
   }
 
