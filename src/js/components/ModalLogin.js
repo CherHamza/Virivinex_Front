@@ -15,6 +15,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
 
     const handleLogin = () => {
       userService.login(email,password,false).then(async (res) => {
+        console.log(res);
         if (!res.ok) {
           let response = res.status !== 401 ? await res.json() : "Identifiants incorrects.";
           console.error("Failure:", response);
@@ -22,8 +23,18 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
         } else {
           toast.success("Connexion réussie !");
           handleCloseLoginModal();
-          dataService.isAuthenticated().then(res => setAuthenticated(res));
-          dataService.getAuthenticatedProfile().then(user => setUserType(user.metaInfo?.userType));
+          dataService.isAuthenticated().then(res =>{
+            // setAuthenticated(res),
+            console.log(res)
+          } );
+          dataService.getAuthenticatedProfile().then(user => {
+            // Get user
+            console.log(user)
+            console.log(user.metaInfo.userType)
+            setUserType(user.metaInfo.userType)
+            
+          }
+            );
           setEmail("");
           setPassword("");
           //window.location.href = userService.userAccountPage;
@@ -34,17 +45,17 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
     };
   // Authenticated ok
 
-  if (isAuthenticated) {
-    switch (userType) {
-      case "Wine Expert":
-        return <Navigate to="/app/account/expert.html" />;
+  if (userTypeD) {
+    switch (userTypeD) {
       case "Wine Producer":
         return <Navigate to="/app/account/producer.html" />;
+      case "Wine Expert":
+        return <Navigate to="/app/account/expert.html" />;
       case "Individual":
         return <Navigate to="/app/account/individual.html" />;
       default:
         toast.error("Type d'utilisateur non reconnu.");
-        return <Navigate to="/app/home" />;
+        return <Navigate to="/app/home.html" />;
     }
   }
 

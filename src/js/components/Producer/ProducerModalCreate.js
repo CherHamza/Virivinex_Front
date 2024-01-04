@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
+import { dataService } from "../../services/dataService";
 
 
 
@@ -19,25 +20,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
     const [websiteCompany, setWebsiteCompany] = useState("");
 
     const handleCreateProducer = () => {
-        // const newProducer = {
-        //     companyName: companyName,
-        //     vat: vat,
-        //     userType: userType,
-        //     numberEmployees: numberEmployes,
-        //     postalcode: postalcode,
-        //     street: street,
-        //     houseNbr: houseNbr,
-        //     city: city,
-        //     country: country,
-        //     emailCompany: email,
-        //     websiteCompany: websiteCompany,
-        //     pseudo: pseudo,
-        //     password: password,
-        // };
-
-        console.log('producer : ' + newProducer.country
-        )
-
+     
         const newProducer = {
             address: {
                 houseNumber: houseNbr,
@@ -50,10 +33,13 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                     language: "Français"
                 }
             },
-            companyName: firstName + " " + lastName,
+            companyName: companyName,
             profiles: [
                 {
-                    firstName: pseudo,
+                    firstName: companyName,
+                    lastName: companyName,
+                    phone: "+33000000",
+                    mobilePhone: "",
                     emailAddress: email,
                     emailNotifications: false,
                     salutation: "Mr",
@@ -62,15 +48,29 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                         password: password
                     },
                     metaInfo: {
-                        
-                        "userType": userType
+                        "pseudo": companyName,
+                        "userType": "Wine Producer"
                     }
                 }
             ],
         };
 
 
-        dataService.createUser(newUser).then(res => console.log(res));
+        dataService.createUser(newProducer).then(res => console.log(res));
+        // Réinitialiser les champs et fermer la modale
+        setVat("");
+        setNumberEmployes("");
+        setEmail("");
+        setPseudo("");
+        setPassword("");
+        setPostalcode("");
+        setStreet("");
+        setHouseNbr("");
+        setCity("");
+        setCountry("");
+        setCompanyName("");
+        setWebsiteCompany("");
+        handleCloseModalProducer();
 
 
 
@@ -91,13 +91,6 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
         //         console.error("Erreur lors de la création de l'utilisateur:", error);
         //     });
 
-        // Réinitialiser les champs et fermer la modale
-        // setFirstName("");
-        // setLastName("");
-        // setEmail("");
-        // setPseudo("");
-        // setPassword("");
-        handleCloseModalProducer();
     };
 
 
@@ -106,7 +99,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Create User</h5>
+                        <h5 className="modal-title">Create Producer</h5>
                         <button type="button" className="close" onClick={handleCloseModalProducer}>
                             <span aria-hidden="true">&times;</span>
                         </button>
