@@ -1,44 +1,46 @@
-// Header.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalLogin from './ModalLogin';
 import { userService } from '../services/userService';
 import { dataService } from '../services/dataService';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import "../../css/home.css";
 
-
-
 export const Header = () => {
-
-
-  const navigate = useNavigate(); // Initialisation de useNavigate
-
-
+  
+  const navigate = useNavigate();
   const [showModalLogin, setShowModalLogin] = useState(false);
+  const [isAuthenticated, setAuthenticated] = useState(false);
   const handleShowLoginModal = () => setShowModalLogin(true);
   const handleCloseLoginModal = () => setShowModalLogin(false);
-  const [isAuthenticated, setAuthenticated] = useState(false);
 
+
+
+  useEffect(() => {
+    // Vérifier si l'utilisateur est connecté au chargement du composant
+    const checkAuthStatus = async () => {
+      try {
+        const isAuthenticatedResponse = await dataService.isAuthenticated();
+        setAuthenticated(isAuthenticatedResponse);
+      } catch (error) {
+        console.error("Erreur lors de la vérification de l'authentification", error);
+      }
+    };
+    checkAuthStatus();
+  }, []);
 
   const handleLogin = () => {
-    console.log('Here handleClickLogin!!');
-    // setSelectedUserType(userType);
     handleShowLoginModal();
-
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      if(dataService.isAuthenticated()){
+      const logoutResponse = await userService.logout();
+      if (logoutResponse.ok) {
         setAuthenticated(false);
-       
-        userService.logout();
         navigate("/app/home.html");
         toast.success("Déconnexion réussie !");
         window.location.reload();
-       
-
       } else {
         toast.error("Erreur lors de la déconnexion.");
       }
@@ -47,7 +49,6 @@ export const Header = () => {
       toast.error("Erreur système lors de la déconnexion.");
     }
   };
-
   return (
     <>
       <nav className="navbar navbar-expand-md navbar-light bg-light mb-3 mx-3">
@@ -65,26 +66,31 @@ export const Header = () => {
               <a className="nav-link" href="#">Pricing</a>
             </li>
 
-            
+
           </ul>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li className="nav-auth">
-              <button className="nav-login btn"  onClick={handleLogin}>Login 
-              </button>
-            </li>
-            <li className="nav-auth ">
-              <a className="nav-logout btn" onClick={handleLogout}>Logout </a>
-            </li>
-    </ul>
+
+            {!isAuthenticated && (
+              <li className="nav-auth">
+                <button className="nav-login btn" onClick={handleLogin}>Login</button>
+              </li>
+            )}
+            {isAuthenticated && (
+              <li className="nav-auth">
+                <a className="nav-logout btn" onClick={handleLogout}>Logout</a>
+              </li>
+            )}
+
+          </ul>
         </div>
       </nav>
 
-     
+
 
       <ModalLogin
         handleShowLoginModal={showModalLogin}
         handleCloseLoginModal={handleCloseLoginModal}
-        // userType={userType}
+      // userType={userType}
       />
 
     </>
