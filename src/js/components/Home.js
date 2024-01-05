@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from './Header';
 import { UserTypeButton } from './UserType';
 import Carousel from './Caroussel';
@@ -6,10 +6,13 @@ import { dataService } from "../services/dataService";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast } from 'react-toastify';
 import '../../css/home.css'
+import ProducerProfil from './Producer/ProducerProfil';
 
 
 const Home = () => {
   const navigate = useNavigate();
+
+  const [profile, setProfile] = useState([]);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -17,17 +20,19 @@ const Home = () => {
 
       if (isAuthenticated) {
         const userProfile = await dataService.getAuthenticatedProfile();
+        setProfile(userProfile)
+        console.log(userProfile)
 
         if (userProfile && userProfile.metaInfo && userProfile.metaInfo.userType) {
           switch (userProfile.metaInfo.userType) {
             case "Wine Producer":
-              navigate("/app/account/producer.html");
+              navigate("/app/account/producer.html", { state: { userProfile } });
               break;
             case "Wine Expert":
-              navigate("/app/account/expert.html");
+              navigate("/app/account/expert.html", { state: { userProfile } });
               break;
             case "Individual":
-              navigate("/app/account/individual.html");
+              navigate("/app/account/individual.html", { state: { userProfile } });
               break;
             default:
               toast.error("Type d'utilisateur non reconnu.");

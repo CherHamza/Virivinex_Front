@@ -1,31 +1,34 @@
-
-import React from 'react';
-import '../../../css/Users/ProducerProfil.css'; 
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import '../../../css/Users/ProducerProfil.css';
 
 const ProducerProfil = () => {
-  // a remplacer par des props ou un appel API.
+
+  const location = useLocation();
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    // Mettez à jour le profil avec les données transmises
+    if (location.state && location.state.userProfile) {
+      setProfile(location.state.userProfile);
+      console.log('user', location.state.userProfile); 
+    }
+  }, [location.state]);
+
+
+
   const editions = [
     { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
 
   ];
-  
-   // fetch('http://localhost:5000/users')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log('Data Producer ' + data);
-    //     })
-    //     .catch(error => {
-    //         console.error("Erreur lors de la connexion :", error);
-    //         toast.error("Erreur lors de la connexion.");
-    //     });
 
   return (
-    <div className="producer-dashboard">
+    <div className="producer-dashboard"> 
       <div className="profil-view">
         <header>
        
           <h1>Winery: Chateau Laurent</h1>
-          <span>Admin: @Marc_Delacroix</span>
+          <span>Admin:  {profile.firstName}</span>
         </header>
         <div className="editions-list">
           {editions.map(edition => (
