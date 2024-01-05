@@ -3,12 +3,22 @@ import '../../../css/Users/ExpertProfil.css'
 
 
 const ExpertProfil = () => {
+  const handleLogout = () => {
+    if (dataService.isAuthenticated()) {
+      // setIsAuthenticated(false);
+      // console.log(isAuthenticated)
+      userService.logout()
+      navigate("/app/home.html");
+
+    }
+  }
     return (
         <>
 
     <div className="expert-profile">
       <header className="expert-header">
         <div className="expert-info">
+              <a className="nav-link" onClick={handleLogout}>Logout </a>
           <span className="expert-username">@Laura_Jones</span>
           <span>Representing: -</span>
         </div>

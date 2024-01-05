@@ -17,15 +17,16 @@ const icons = {
 export const UserTypeButton = ({ userType, handleToCreate }) => {
   
   const [selectedUserType, setSelectedUserType] = useState(userType);
+
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
 
-
-  const [showModalLogin, setShowModalLogin] = useState(false);
-  const handleShowLoginModal = () => setShowModalLogin(true);
-  const handleCloseLoginModal = () => setShowModalLogin(false);
+  
+  // const [showModalLogin, setShowModalLogin] = useState(false);
+  // const handleShowLoginModal = () => setShowModalLogin(true);
+  // const handleCloseLoginModal = () => setShowModalLogin(false);
 
 
   const[showModalExpert, setShowModalExpert] = useState(false);
@@ -43,27 +44,22 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
     
     console.log('userType ' + selectedUserType);
     if(selectedUserType === "Individual"){
-
       handleShowModal();
-
     }
     if(selectedUserType === "Wine Expert"){
-
       handleShowModalExpert();
     }
-
     if (selectedUserType === "Wine Producer"){
-
       handleShowModalProducer();
     }
   };
 
-  const handleLogin = () => {
-    console.log('Here handleClickLogin');
-    setSelectedUserType(userType);
-    handleShowLoginModal();
+  // const handleLogin = () => {
+  //   console.log('Here handleClickLogin');
+  //   setSelectedUserType(userType);
+  //   handleShowLoginModal();
 
-  };
+  // };
 
   return (
       <>
@@ -71,7 +67,7 @@ export const UserTypeButton = ({ userType, handleToCreate }) => {
           <FontAwesomeIcon icon={icons[userType]} size="2x" /> 
           <h2>as a {userType}</h2>
           <div className="user-type-actions">
-            <button className="login" onClick={handleLogin}>Login</button>
+            {/* <button className="login" onClick={handleLogin}>Login</button> */}
             <button className="create-account" onClick={handleClickCreate}>Create account</button>
           </div>
         </div>

@@ -8,6 +8,15 @@ const ProducerProfil = () => {
     { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
 
   ];
+  const handleLogout = () => {
+    if (dataService.isAuthenticated()) {
+      // setIsAuthenticated(false);
+      // console.log(isAuthenticated)
+      userService.logout()
+      navigate("/app/home.html");
+
+    }
+  }
    // fetch('http://localhost:5000/users')
     //     .then(response => response.json())
     //     .then(data => {
@@ -22,6 +31,7 @@ const ProducerProfil = () => {
     <div className="producer-dashboard">
       <div className="profil-view">
         <header>
+          <a className="nav-link" onClick={handleLogout}>Logout </a>
           <h1>Winery: Chateau Laurent</h1>
           <span>Admin: @Marc_Delacroix</span>
         </header>
