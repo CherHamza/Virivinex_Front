@@ -7,12 +7,30 @@ import { toast } from 'react-toastify';
 import "../../css/home.css";
 
 export const Header = () => {
+
   
   const navigate = useNavigate();
   const [showModalLogin, setShowModalLogin] = useState(false);
   const [isAuthenticated, setAuthenticated] = useState(false);
   const handleShowLoginModal = () => setShowModalLogin(true);
   const handleCloseLoginModal = () => setShowModalLogin(false);
+
+
+
+  useEffect(() => {
+    // Vérifier si l'utilisateur est connecté au chargement du composant
+    const checkAuthStatus = async () => {
+      try {
+        const isAuthenticatedResponse = await dataService.isAuthenticated();
+        setAuthenticated(isAuthenticatedResponse);
+      } catch (error) {
+        console.error("Erreur lors de la vérification de l'authentification", error);
+      }
+    };
+    checkAuthStatus();
+  }, []);
+
+ 
 
 
 
@@ -70,16 +88,18 @@ export const Header = () => {
           </ul>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
 
-            {!isAuthenticated && (
-              <li className="nav-auth">
-                <button className="nav-login btn" onClick={handleLogin}>Login</button>
-              </li>
-            )}
-            {isAuthenticated && (
-              <li className="nav-auth">
-                <a className="nav-logout btn" onClick={handleLogout}>Logout</a>
-              </li>
-            )}
+
+          {!isAuthenticated && (
+            <li className="nav-auth">
+              <button className="nav-login btn" onClick={handleLogin}>Login</button>
+            </li>
+          )}
+          {isAuthenticated && (
+            <li className="nav-auth">
+              <a className="nav-logout btn" onClick={handleLogout}>Logout</a>
+            </li>
+          )}
+
 
           </ul>
         </div>

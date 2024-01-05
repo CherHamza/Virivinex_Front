@@ -26,7 +26,6 @@ const Home = () => {
         if (userProfile && userProfile.metaInfo && userProfile.metaInfo.userType) {
           switch (userProfile.metaInfo.userType) {
             case "Wine Producer":
-              
               navigate("/app/account/producer.html", { state: { userProfile } });
               break;
             case "Wine Expert":

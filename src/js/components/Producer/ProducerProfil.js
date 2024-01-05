@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import '../../../css/Users/ProducerProfil.css';
 
 const ProducerProfil = () => {
+
   const location = useLocation();
   const [profile, setProfile] = useState({});
 
@@ -15,13 +16,14 @@ const ProducerProfil = () => {
   }, [location.state]);
 
 
+
   const editions = [
     { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
 
   ];
 
   return (
-    <div className="producer-dashboard">
+    <div className="producer-dashboard"> 
       <div className="profil-view">
         <header>
        
