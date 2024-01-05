@@ -21,7 +21,7 @@ export const Header = () => {
 
 
   const handleLogin = () => {
-    console.log('Here handleClickLogin');
+    console.log('Here handleClickLogin!!');
     // setSelectedUserType(userType);
     handleShowLoginModal();
 
