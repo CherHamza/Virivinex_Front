@@ -12,6 +12,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
   const navigate = useNavigate(); // Initialisation de useNavigate
 
 
+
   const handleLogin = () => {
     userService.login(email, password, false).then(async (res) => {
       console.log(res);
