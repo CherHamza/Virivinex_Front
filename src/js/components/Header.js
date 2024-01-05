@@ -4,12 +4,12 @@ import ModalLogin from './ModalLogin';
 import { userService } from '../services/userService';
 import { dataService } from '../services/dataService';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { toast } from 'react-toastify';
 
 
 
 export const Header = () => {
 
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate(); // Initialisation de useNavigate
 
@@ -17,6 +17,8 @@ export const Header = () => {
   const [showModalLogin, setShowModalLogin] = useState(false);
   const handleShowLoginModal = () => setShowModalLogin(true);
   const handleCloseLoginModal = () => setShowModalLogin(false);
+  const [isAuthenticated, setAuthenticated] = useState(false);
+
 
   const handleLogin = () => {
     console.log('Here handleClickLogin');
@@ -26,14 +28,22 @@ export const Header = () => {
   };
 
   const handleLogout = () => {
-    if (dataService.isAuthenticated()) {
-      // setIsAuthenticated(false);
-      // console.log(isAuthenticated)
-      userService.logout()
-      navigate("/app/home.html");
+    try {
+      if(dataService.isAuthenticated()){
+        setAuthenticated(false);
+        toast.success("Déconnexion réussie !");
+        userService.logout();
+        navigate("/app/home.html");
+        window.location.reload();
 
+      } else {
+        toast.error("Erreur lors de la déconnexion.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion :", error);
+      toast.error("Erreur système lors de la déconnexion.");
     }
-  }
+  };
 
   return (
     <>
@@ -64,10 +74,7 @@ export const Header = () => {
         </div>
       </nav>
 
-      <div className="header">
-        <h1>Welcome to VERIVINEX!</h1>
-        <p>Here you can find, buy and sell premium quality wines produced in limited edition series.</p>
-      </div>
+     
 
       <ModalLogin
         handleShowLoginModal={showModalLogin}

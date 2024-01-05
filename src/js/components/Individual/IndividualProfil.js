@@ -2,21 +2,14 @@
 import React from 'react';
 import '../../../css/Users/IndividualProfil.css'
 
-const IndiviudalProfil = () => {
-  const handleLogout = () => {
-    if (dataService.isAuthenticated()) {
-      // setIsAuthenticated(false);
-      // console.log(isAuthenticated)
-      userService.logout()
-      navigate("/app/home.html");
 
-    }
-  }
+const IndiviudalProfil = () => {
+  
   return (
     <div className="profile-container">
       <div className="collection-section">
         <div className="balance-info">
-        <a className="btn btn-primary" onClick={handleLogout}>Logout </a>
+       
           <p>Cash balance: <span>100,00 EUR</span></p>
         </div>
         <div className="wine-collection-info">

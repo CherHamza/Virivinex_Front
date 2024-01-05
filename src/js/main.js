@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import IndiviudalProfil from "./components/Individual/IndividualProfil.js";
 import ExpertProfil from "./components/Expert/ExpertProfil.js";
 import ProducerProfil from "./components/Producer/ProducerProfil.js";
+import { Header } from './components/Header.js';
+
 
 
 
@@ -17,6 +19,7 @@ const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <Router>
+    <Header />
       <Routes>
         <Route path="/app/index.html" element={<App />} />
         <Route path="/app/home.html" element={<Home />} />

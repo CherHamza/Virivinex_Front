@@ -23,7 +23,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
       } else {
         toast.success("Connexion réussie !");
         handleCloseLoginModal();
-        // window.location.reload();
+        window.location.reload();
         
         setEmail("");
         setPassword("");

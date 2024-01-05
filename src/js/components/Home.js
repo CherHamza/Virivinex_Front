@@ -5,6 +5,8 @@ import Carousel from './Caroussel';
 import { dataService } from "../services/dataService";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast } from 'react-toastify';
+import '../../css/home.css'
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -47,7 +49,11 @@ const Home = () => {
 
   <>
     <div className="app">
-      <Header />
+
+      <div className="header">
+        <h1>Welcome to VERIVINEX!</h1>
+        <p>Here you can find, buy and sell premium quality wines produced in limited edition series.</p>
+      </div>
       <div className="user-types">
         <UserTypeButton userType="Wine Producer"
           handleToCreate={handleCreateUser} />
