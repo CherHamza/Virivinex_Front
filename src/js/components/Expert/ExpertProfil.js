@@ -1,17 +1,26 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import '../../../css/Users/ExpertProfil.css'
 
 
 const ExpertProfil = () => {
-  
+  const location = useLocation();
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    // Mettez à jour le profil avec les données transmises
+    if (location.state && location.state.userProfile) {
+      setProfile(location.state.userProfile);
+      console.log('user', location.state.userProfile);
+    }
+  }, [location.state]);
     return (
         <>
 
     <div className="expert-profile">
       <header className="expert-header">
         <div className="expert-info">
-              
-          <span className="expert-username">@Laura_Jones</span>
+            <span className="expert-username">{profile.firstName}</span>
           <span>Representing: -</span>
         </div>
         <div className="expert-settings">
