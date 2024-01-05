@@ -188,7 +188,7 @@ class DataService {
             "sellerRegistrationServiceImpl",
             "PROTOTYPE",
             "isLogged",
-            []).then( res => res.result );
+            []).then( res => res.result);
     }
 
     /**
@@ -203,6 +203,16 @@ class DataService {
             "sellerRegistrationServiceImpl",
             "PROTOTYPE",
             "getLoggedProfile",
+            []).then( res => res.result );
+    }
+
+
+
+    async getSeller() {
+        return await this.fetchMSM(
+            "sellerRegistrationServiceImpl",
+            "PROTOTYPE",
+            "getSeller",
             []).then( res => res.result );
     }
 

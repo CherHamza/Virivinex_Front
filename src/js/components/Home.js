@@ -1,38 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Header } from './Header';
 import { UserTypeButton } from './UserType';
 import Carousel from './Caroussel';
-import "../../css/home.css";
 import { dataService } from "../services/dataService";
-
+import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { toast } from 'react-toastify';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const isAuthenticated = await dataService.isAuthenticated();
+
+      if (isAuthenticated) {
+        const userProfile = await dataService.getAuthenticatedProfile();
+
+        if (userProfile && userProfile.metaInfo && userProfile.metaInfo.userType) {
+          switch (userProfile.metaInfo.userType) {
+            case "Wine Producer":
+              navigate("/app/account/producer.html");
+              break;
+            case "Wine Expert":
+              navigate("/app/account/expert.html");
+              break;
+            case "Individual":
+              navigate("/app/account/individual.html");
+              break;
+            default:
+              toast.error("Type d'utilisateur non reconnu.");
+              navigate("/app/home.html");
+          }
+        } else {
+          toast.error("Impossible de récupérer les informations de l'utilisateur.");
+        }
+      }
+    };
+
+    checkAuthentication();
+  }, [navigate]);
 
   const handleCreateUser = (userType) => {
     console.log(`Hello, as a ${userType}!`);
   };
-
-  // const app = new MSM2.App();
-
-  // let sr = {
-  //   query: {},
-  //   visiblePages: 10,
-  //   page: 1,
-  //   limit: 10
-  // }
-
-
-  // app.invokeAndGetJson$("ecomSearchEngineServiceImpl ", "PROTOTYPE", "searchSellersResults", [sr]).subscribe(res => console.log(res));
-
-  // let sr = {
-  //   query: {},
-  //   visiblePages: 10,
-  //   page: 1,
-  //   limit: 10
-  // }
-
-  // let data =  dataService.getUsers(sr).then(res => console.log(res));
-
   return (
 
   <>
