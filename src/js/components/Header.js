@@ -5,6 +5,7 @@ import { userService } from '../services/userService';
 import { dataService } from '../services/dataService';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast } from 'react-toastify';
+import "../../css/home.css";
 
 
 
@@ -31,10 +32,12 @@ export const Header = () => {
     try {
       if(dataService.isAuthenticated()){
         setAuthenticated(false);
-        toast.success("Déconnexion réussie !");
+       
         userService.logout();
         navigate("/app/home.html");
+        toast.success("Déconnexion réussie !");
         window.location.reload();
+       
 
       } else {
         toast.error("Erreur lors de la déconnexion.");
@@ -47,7 +50,7 @@ export const Header = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-md navbar-light bg-light">
+      <nav className="navbar navbar-expand-md navbar-light bg-light mb-3 mx-3">
         <a className="navbar-brand" href="#">Verivinex</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -62,15 +65,17 @@ export const Header = () => {
               <a className="nav-link" href="#">Pricing</a>
             </li>
 
-            <li className="nav-item active">
-              <a className="nav-link" onClick={handleLogin}>Login <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            <li className="nav-item active">
-              <a className="nav-link" onClick={handleLogout}>Logout <span className="sr-only">(current)</span></a>
-            </li>
+            
           </ul>
-
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li className="nav-auth">
+              <button className="nav-login btn"  onClick={handleLogin}>Login 
+              </button>
+            </li>
+            <li className="nav-auth ">
+              <a className="nav-logout btn" onClick={handleLogout}>Logout </a>
+            </li>
+    </ul>
         </div>
       </nav>
 

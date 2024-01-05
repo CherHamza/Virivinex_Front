@@ -15,6 +15,26 @@
     border-radius: 8px;
     margin-bottom: 2rem; 
   }
+  .nav-login {
+    border : 2px solid #007bff;
+    background-color: #007bff;
+    margin-right: 5px;
+  }
+  .nav-login:hover{
+    border : 2px solid #007bff;
+    background-color: #007bff;
+    filter: brightness(1.1); 
+  }
+  .nav-logout{
+    border : 2px solid #a200ff;
+    background-color: #a200ff;
+  }
+  .nav-logout:hover{
+    border : 2px solid #a200ff;
+    background-color: #a200ff;
+    filter: brightness(1.1); 
+  }
+  
   
   .header h1 {
     color: #353535;
