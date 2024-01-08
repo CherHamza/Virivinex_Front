@@ -1,0 +1,25 @@
+name: Verivinex Production
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+
+    runs-on: mastermindcms/build
+
+    steps:
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Production Build
+        run: npm run build
+      - name: Copy to Production
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: "build/*"
+          target: "/var/cloud/verivinex.com/www/app"
