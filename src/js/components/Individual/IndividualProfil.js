@@ -20,7 +20,7 @@ const IndiviudalProfil = () => {
     <div className="profile-container">
       <div className="collection-section">
         <div className="balance-info">
-          <p>{profile.firstName}</p>
+          <p>{profile.firstName} - {profile.lastName}</p>
           <p>Cash balance: <span>100,00 EUR</span></p>
         </div>
         <div className="wine-collection-info">

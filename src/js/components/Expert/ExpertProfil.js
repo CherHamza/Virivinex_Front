@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../../../css/Users/ExpertProfil.css'
 
 
 const ExpertProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
+  const navigate = useNavigate();
+
+  
 
   useEffect(() => {
     // Mettez à jour le profil avec les données transmises
@@ -13,15 +16,28 @@ const ExpertProfil = () => {
       setProfile(location.state.userProfile);
       console.log('user', location.state.userProfile);
     }
+    
+    
+    
   }, [location.state]);
+  
+  
+  const { metaInfo = {} } = location.state.userProfile;
+
+  console.log('meta ', metaInfo.userType);
+
+
+
     return (
         <>
 
     <div className="expert-profile">
       <header className="expert-header">
         <div className="expert-info">
-            <span className="expert-username">{profile.firstName}</span>
-          <span>Representing: -</span>
+              <span className="expert-username">{profile.firstName} - {profile.lastName}</span>
+              <span> Representing: - { metaInfo.userType } </span>
+              
+              <p>User Type: {metaInfo.userType}</p>           
         </div>
         <div className="expert-settings">
           <button>My evaluations</button>
