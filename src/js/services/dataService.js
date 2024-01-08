@@ -6,14 +6,18 @@ class DataService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 this.MSM2App.invokeAndGetJson$(beanId,scope,functionName,args,null,eventType,endpoint).subscribe(function(e) {
-
                     resolve(e);
                 });
             }, 0);
         });
     }
 
-
+    /**
+     * Retrieves the value of a cookie based on its name.
+     *
+     * @param {string} cname - The name of the cookie.
+     * @returns {string|null} The value of the cookie. Returns null if the cookie does not exist.
+     */
     getCookie(cname) {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
@@ -30,6 +34,16 @@ class DataService {
         return "";
     }
 
+    /**
+     * Sets a cookie with the specified name and value.
+     *
+     * @param {string} name - The name of the cookie to set.
+     * @param {string} value - The value to set for the cookie.
+     * @param {Date|null} [expires=null] - The expiration date of the cookie (optional).
+     * @param {string|null} [domain=null] - The domain for the cookie (optional).
+     * @param {string|null} [path=null] - The path for the cookie (optional).
+     * @returns {void}
+     */
     setCookie(name, value, expires = null, domain = null, path = null) {
         const cookie = [
             `${name}=${value}`,
@@ -40,6 +54,13 @@ class DataService {
         document.cookie = cookie;
     }
 
+    /**
+     * Retrieves a language-aware URL based on the provided URL.
+     *
+     * @param {string} url - The URL to retrieve the language-aware URL from.
+     *
+     * @returns {Promise<string>} The language-aware URL.
+     */
     async languageAwareUrl(url) {
         let detect = await this.getLanguageDetection();
         if(!detect && this.isNotSPA(url)){
@@ -51,6 +72,12 @@ class DataService {
         }
     }
 
+    /**
+     * Checks if the given URL is not a Single Page Application (SPA).
+     *
+     * @param {string} url - The URL to be checked.
+     * @returns {boolean} - True if the URL is not a SPA, false otherwise.
+     */
     isNotSPA(url){
         return !url.match(/^(\/app\/.*|\/user\/.*|\/admin\/.*)/);
     }
@@ -90,15 +117,11 @@ class DataService {
      *          }
      *     ]
      *}
-
-/*
-
      * @param {object} user - The user object
      * @param eventType - Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED
      * @param endpoint - Optional parameter, it works if eventType is equals to SHARED
      * @returns {Promise} A Promise that resolves after the user is created.
      */
-
     async createUser(user,eventType,endpoint){
 
         await this.fetchMSM(
@@ -120,7 +143,6 @@ class DataService {
      * @param endpoint - Optional parameter, it works if eventType is equals to SHARED.
      * @returns {Promise<unknown>} all registered accounts
      */
-
     async getUsers(request,eventType,endpoint) {
         let queryRequest = request ? request : { query : {} };
 
@@ -131,20 +153,6 @@ class DataService {
             [queryRequest],
             eventType,
             endpoint).then(res => res.result);
-    }
-
-
-    async getOneUser(user, eventType, endpoint) {
-        let queryRequest = request ? request : { query: {} };
-        return await this.fetchMSM(
-            "customerServiceImpl",
-            "PROTOTYPE",
-            "searchCustomers",
-            [user],
-            eventType,
-            endpoint).then(res => res.result);
-
-           
     }
 
     /**
@@ -203,16 +211,6 @@ class DataService {
             "sellerRegistrationServiceImpl",
             "PROTOTYPE",
             "getLoggedProfile",
-            []).then( res => res.result );
-    }
-
-
-
-    async getSeller() {
-        return await this.fetchMSM(
-            "sellerRegistrationServiceImpl",
-            "PROTOTYPE",
-            "getSeller",
             []).then( res => res.result );
     }
 
