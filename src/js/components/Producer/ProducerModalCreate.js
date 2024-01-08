@@ -20,7 +20,33 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
     const [websiteCompany, setWebsiteCompany] = useState("");
 
     const handleCreateProducer = () => {
-     
+       
+            if (!firstName.trim()) {
+                toast.error("Firstname is required.");
+                return;
+            }
+            if (!lastName.trim()) {
+                toast.error("Lastname is required.");
+                return;
+            }
+            if (!email.trim()) {
+                toast.error("Email is required.");
+                return;
+            }
+            if (!pseudo.trim()) {
+                toast.error("Pseudo is required.");
+                return;
+            }
+            if (!companyName.trim()) {
+
+                toast.error("Company Name is required.");
+                return;
+
+            }
+            if (!password || password.length < 8) {
+                toast.error("Le mot de passe doit contenir au moins 8 caractères.");
+                return;
+            }
         const newProducer = {
             address: {
                 houseNumber: houseNbr,
@@ -36,8 +62,8 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             companyName: companyName,
             profiles: [
                 {
-                    firstName: companyName,
-                    lastName: companyName,
+                    firstName: firstName,
+                    lastName: lastName,
                     phone: "+33000000",
                     mobilePhone: "",
                     emailAddress: email,
