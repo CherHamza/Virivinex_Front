@@ -1,4 +1,4 @@
-name: Verivinex Production
+name: Verivinex Production Build
 
 on:
   push:
