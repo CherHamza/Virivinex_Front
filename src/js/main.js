@@ -21,6 +21,7 @@ root.render(
     <Router>
     <Header />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/app/index.html" element={<App />} />
         <Route path="/app/home.html" element={<Home />} />
         <Route path="/app/account/individual.html" element={<IndiviudalProfil/>}/>
