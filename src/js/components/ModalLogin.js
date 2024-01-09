@@ -61,8 +61,8 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
             <button type="button" className="btn btn-secondary" onClick={handleCloseLoginModal}>
               Cancel
             </button>
-      </div>
-         
+        
+        </div> 
       </div>
     </div>
   </div>
