@@ -21,15 +21,6 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
 
     const handleCreateProducer = () => {
        
-        
-            if (!firstName.trim()) {
-                toast.error("Firstname is required.");
-                return;
-            }
-            if (!lastName.trim()) {
-                toast.error("Lastname is required.");
-                return;
-            }
             if (!email.trim()) {
                 toast.error("Email is required.");
                 return;
@@ -63,8 +54,8 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             companyName: companyName,
             profiles: [
                 {
-                    firstName: firstName,
-                    lastName: lastName,
+                    firstName: companyName,
+                    lastName: "",
                     phone: "+33000000",
                     mobilePhone: "",
                     emailAddress: email,
@@ -75,7 +66,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                         password: password
                     },
                     metaInfo: {
-                        "pseudo": companyName,
+                        "pseudo": pseudo,
                         "userType": "Wine Producer"
                     }
                 }
