@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import '../../css/home.css'
 import ProducerProfil from './Producer/ProducerProfil';
 
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -47,9 +46,9 @@ const Home = () => {
     checkAuthentication();
   }, [navigate]);
 
-  const handleCreateUser = (userType) => {
-    console.log(`Hello, as a ${userType}!`);
-  };
+  
+
+
   return (
 
   <>
@@ -60,12 +59,10 @@ const Home = () => {
         <p>Here you can find, buy and sell premium quality wines produced in limited edition series.</p>
       </div>
       <div className="user-types">
-        <UserTypeButton userType="Wine Producer"
-          handleToCreate={handleCreateUser} />
-        <UserTypeButton userType="Wine Expert"  handleToCreate={handleCreateUser} />
-        <UserTypeButton userType="Individual"  handleToCreate={handleCreateUser} />
-        <UserTypeButton userType="Wine Retailer"  handleToCreate={handleCreateUser} />
-        
+        <UserTypeButton userType="Wine Producer" />
+        <UserTypeButton userType="Wine Expert" />
+        <UserTypeButton userType="Individual" />
+        <UserTypeButton userType="Wine Retailer" />
       </div>
       <Carousel />
     </div>

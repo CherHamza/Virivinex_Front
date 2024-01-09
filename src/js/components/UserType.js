@@ -4,7 +4,7 @@ import { faWineBottle, faGlasses, faUser, faStore } from '@fortawesome/free-soli
 import IndividualModalCreate from './Individual/IndividualModalCreate';
 import ExpertModalCreate from './Expert/ExpertModalCreate';
 import ProducerModalCreate from './Producer/ProducerModalCreate';
-import ModalLogin from './ModalLogin';
+
 
 
 const icons = {
@@ -14,7 +14,7 @@ const icons = {
   "Wine Retailer": faStore,
 };
 
-export const UserTypeButton = ({ userType, handleToCreate }) => {
+export const UserTypeButton = ({ userType }) => {
   
   const [selectedUserType, setSelectedUserType] = useState(userType);
 
