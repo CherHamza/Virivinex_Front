@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import '../../css/home.css'
 import ProducerProfil from './Producer/ProducerProfil';
 
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -60,12 +59,10 @@ const Home = () => {
         <p>Here you can find, buy and sell premium quality wines produced in limited edition series.</p>
       </div>
       <div className="user-types">
-        <UserTypeButton userType="Wine Producer"
-          />
-        <UserTypeButton userType="Wine Expert"  />
-        <UserTypeButton userType="Individual"  />
-        <UserTypeButton userType="Wine Retailer"  />
-        
+        <UserTypeButton userType="Wine Producer" />
+        <UserTypeButton userType="Wine Expert" />
+        <UserTypeButton userType="Individual" />
+        <UserTypeButton userType="Wine Retailer" />
       </div>
       <Carousel />
     </div>

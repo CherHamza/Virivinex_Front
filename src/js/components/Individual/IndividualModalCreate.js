@@ -23,25 +23,26 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
 
     const handleCreateUser = () => {
         if (!firstName.trim()) {
-            toast.error("Le prénom est requis.");
+            toast.error("Firstname required.");
             return;
         }
         if (!lastName.trim()) {
-            toast.error("Le nom de famille est requis.");
+            toast.error("Lastname required.");
             return;
         }
         if (!email.trim()) {
-            toast.error("L'email est requis.");
+            toast.error("Email required.");
             return;
         }
         if (!pseudo.trim()) {
-            toast.error("Le pseudo est requis.");
+            toast.error("Pseudo required.");
             return;
         }
         if (!password || password.length < 8) {
-            toast.error("Le mot de passe doit contenir au moins 8 caractères.");
+            toast.error("The password must contain at least 8 characters.");
             return;
         }
+        
        
         const newUser = {
             address: {

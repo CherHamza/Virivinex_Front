@@ -13,6 +13,23 @@ class UserService {
             dataService.languageAwareUrl(res.userAccountPage) : "/");
     }
 
+    /**
+     * Logs in a user with the provided username and password.
+     *
+     * @param {string} username - The username of the user.
+     * @param {string} password - The password of the user.
+     * @param {boolean} rememberMe - A flag indicating whether to remember the user's login or not.
+     * @returns {Promise} - A promise that resolves to the logged in user's information.
+     *
+     * @example
+     * login('user123', 'password123', true)
+     *   .then(userInfo => {
+     *     console.log(userInfo); // { id: '123', username: 'user123' }
+     *   })
+     *   .catch(error => {
+     *     console.error(error);
+     *   });
+     */
     async login(username, password, rememberMe) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -26,6 +43,12 @@ class UserService {
         });
     }
 
+    /**
+     * @function logout
+     * @async
+     * @description Logs the user out from the system.
+     * @returns {Promise} A promise that resolves when the user is successfully logged out.
+     */
     async logout() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {

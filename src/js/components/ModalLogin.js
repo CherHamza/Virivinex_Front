@@ -35,6 +35,7 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
  
   return (
     <div className={`modal fade ${handleShowLoginModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowLoginModal ? "block" : "none", backgroundColor: "rgba(0,0,0,0.5)" }}>
+
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content border-0 shadow">
           <div className="modal-header" style={{ backgroundColor: "#4B2E83", color: "#FFF" }}>
@@ -60,10 +61,12 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
             <button type="button" className="btn btn-secondary" onClick={handleCloseLoginModal}>
               Cancel
             </button>
-          </div>
-        </div>
+
+         
       </div>
     </div>
+  </div>
+  
   );
 };
 

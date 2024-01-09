@@ -21,6 +21,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
 
     const handleCreateProducer = () => {
        
+        
             if (!firstName.trim()) {
                 toast.error("Firstname is required.");
                 return;
@@ -44,7 +45,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
 
             }
             if (!password || password.length < 8) {
-                toast.error("Le mot de passe doit contenir au moins 8 caractères.");
+                toast.error("The password must contain at least 8 characters.");
                 return;
             }
         const newProducer = {
@@ -68,7 +69,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                     mobilePhone: "",
                     emailAddress: email,
                     emailNotifications: false,
-                    salutation: "Mr",
+                    salutation: salutation,
                     user: {
                         username: email,
                         password: password
