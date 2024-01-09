@@ -7,7 +7,8 @@ on:
 jobs:
   build:
 
-    runs-on: mastermindcms/build
+    runs-on: ubuntu-latest
+    container: mastermindcms/build:latest
 
     steps:
       - name: Install Dependencies
