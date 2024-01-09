@@ -8,9 +8,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    container: mastermindcms/build:latest
-
+    container: 
+      image: mastermindcms/build:latest
+      volumes:
+        - ${{ github.WORKSPACE }}:/app
     steps:
+      - name: Check out a repository
+        uses: actions/checkout@v2
       - name: Install Dependencies
         run: npm install
       - name: Run Production Build
