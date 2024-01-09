@@ -58,7 +58,6 @@ const ProducerProfil = () => {
         <div className="total-value">
           <span>TOTAL VALUE (EUR): 141,984.00</span>
         </div>
-        <button className="configure-button ">Configure a NEW Limited Edition Emission !</button>
         <button className="configure-button" onClick={handleCreateEmission} >Configure a NEW Emission !</button>
       </div>
 

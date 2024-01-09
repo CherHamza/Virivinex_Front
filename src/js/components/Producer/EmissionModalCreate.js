@@ -8,8 +8,6 @@ import { dataService } from "../../services/dataService";
 const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModalProducerEmission,}) => {
 
 
-
-
     const [nameBottle, setNameBottle] = useState("");
     const [category, setCategory] = useState("");
     const [quantity, setQuantity] = useState("");
@@ -27,16 +25,13 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             if (isAuthenticated) {
                 const userProfile = await dataService.getAuthenticatedProfile();
                 setProfile(userProfile)
-                console.log(userProfile)
-
-
+                // console.log(userProfile)
             }
         };
-
         checkAuthentication();
     }, []);
 
-    console.log(profile)
+    // console.log(profile)
 
     const handleCreateEmission = () => {
 
@@ -50,12 +45,13 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             producer: profile.id
         };
 
+       
         console.log('emission ' , newEmission);
 
         // dataService.createUser(newProducer).then(res => console.log(res));
 
 
-        // Réinitialiser les champs et fermer la modale
+        // Reset fields and close modal
         setNameBottle("");
         setCategory("");
         setQuantity("");
@@ -68,16 +64,16 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
 
 
     return (
-        <div className={`modal ${handleShowModalProducerEmission ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalProducerEmission ? "block" : "none" }}>
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Create Emission</h5>
-                        <button type="button" className="close" onClick={handleCloseModalProducerEmission}>
-                            <span aria-hidden="true">&times;</span>
+        <div className={`modal fade ${handleShowModalProducerEmission ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalProducerEmission ? "block" : "none", backgroundColor: "rgba(0,0,0,0.5)" }}>
+            <div className="modal-dialog modal-dialog-centered" role="document">
+                <div className="modal-content border-0 shadow">
+                    <div className="modal-header" style={{ backgroundColor: "#4B2E83", color: "#FFF" }}>
+                        <h5 className="modal-title mx-auto">Create Emission</h5>
+                        <button type="button" className="close btn btn-danger" onClick={handleCloseModalProducerEmission}>
+                            <span aria-hidden="true" style={{ color: "#FFF" }}>&times;</span>
                         </button>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body" style={{ backgroundColor: "#F2F2F2" }}>
                         
                         <div className="form-group">
                             <label htmlFor="nameBottle">Name Bottle</label>
@@ -127,12 +123,15 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                         
 
                     </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={handleCloseModalProducerEmission}>
-                            Annuler
+                    <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
+
+                        
+                        <button type="button" className="btn" style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleCreateEmission}>
+                            Create
                         </button>
-                        <button type="button" className="btn btn-primary" onClick={handleCreateEmission}>
-                            Créer
+
+                        <button type="button" className="btn btn-secondary" onClick={handleCloseModalProducerEmission}>
+                            Cancel
                         </button>
                     </div>
                 </div>

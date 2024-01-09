@@ -7,7 +7,7 @@ const ExpertProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
   const navigate = useNavigate();
-
+  
   
 
   useEffect(() => {
@@ -18,14 +18,16 @@ const ExpertProfil = () => {
     }
     
     
-    
   }, [location.state]);
   
   
   const { metaInfo = {} } = location.state.userProfile;
 
-  console.log('meta ', metaInfo.userType);
+  console.log('meta ', metaInfo);
 
+  // if (metaInfo.userType !== "Wine Expert"){
+  //   alert('nononono');
+  // }
 
 
     return (

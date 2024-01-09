@@ -208,13 +208,13 @@ class DataService {
 
 
 
-    async getSeller() {
-        return await this.fetchMSM(
-            "sellerRegistrationServiceImpl",
-            "PROTOTYPE",
-            "getSeller",
-            []).then( res => res.result );
-    }
+    // async getSeller() {
+    //     return await this.fetchMSM(
+    //         "sellerRegistrationServiceImpl",
+    //         "PROTOTYPE",
+    //         "getSeller",
+    //         []).then( res => res.result );
+    // }
 
 }
 export const dataService = new DataService();

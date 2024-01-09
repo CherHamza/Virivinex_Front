@@ -102,21 +102,21 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
 
 
     return (
-        <div className={`modal ${handleShowModalProducer ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalProducer ? "block" : "none" }}>
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Create Producer</h5>
-                        <button type="button" className="close" onClick={handleCloseModalProducer}>
-                            <span aria-hidden="true">&times;</span>
+        <div className={`modal fade ${handleShowModalProducer ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalProducer ? "block" : "none", backgroundColor: "rgba(0,0,0,0.5)" }}>
+            <div className="modal-dialog modal-dialog-centered" role="document">
+                <div className="modal-content border-0 shadow">
+                    <div className="modal-header" style={{ backgroundColor: "#4B2E83", color: "#FFF" }}>
+                        <h5 className="modal-title mx-auto">Create Producer</h5>
+                        <button type="button" className="close btn btn-danger" onClick={handleCloseModalProducer}>
+                            <span aria-hidden="true" style={{ color: "#FFF" }}>&times;</span>
                         </button>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body" style={{ backgroundColor: "#F2F2F2" }}>
                         <div className="form-group">
                             <label htmlFor="companyName">Company Name</label>
                             <input type="text" className="form-control" id="companyName" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
                         </div>
-                        <div className="form-group">
+                        <div className="form-group"a>
                             <label htmlFor="vat">Vat</label>
                             <input type="number" className="form-control" id="vat" value={vat} onChange={(e) => setVat(e.target.value)} />
                         </div>
@@ -164,12 +164,13 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                         </div>
 
                     </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={handleCloseModalProducer}>
-                            Annuler
+                    <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
+                        
+                        <button type="button" className="btn btn-primary" style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleCreateProducer}>
+                            Create
                         </button>
-                        <button type="button" className="btn btn-primary" onClick={handleCreateProducer}>
-                            Créer
+                        <button type="button" className="btn btn-secondary" onClick={handleCloseModalProducer}>
+                            Cancel
                         </button>
                     </div>
                 </div>
