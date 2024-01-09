@@ -90,6 +90,7 @@ module.exports = (env, argv) => {
                 new CopyPlugin({
                     patterns: [
                         { from: "assets", to: path.resolve(__dirname, 'build/assets') },
+                        { from: "email-templates", to: path.resolve(__dirname, 'build/email-templates') },
                     ],
                 }),
                 new MiniCssExtractPlugin(),
