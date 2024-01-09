@@ -103,16 +103,16 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
       
 
     return (
-        <div className={`modal ${handleShowModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModal ? "block" : "none" }}>
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Create User</h5>
-                        <button type="button" className="close" onClick={handleCloseModal}>
-                            <span aria-hidden="true">&times;</span>
+        <div className={`modal fade ${handleShowModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModal ? "block" : "none", backgroundColor: "rgba(0,0,0,0.5)" }}>
+            <div className="modal-dialog modal-dialog-centered" role="document">
+                <div className="modal-content border-0 shadow">
+                    <div className="modal-header" style={{ backgroundColor: "#4B2E83", color: "#FFF" }}>
+                        <h5 className="modal-title  mx-auto">Create User</h5>
+                        <button type="button" className="close btn btn-danger" onClick={handleCloseModal}>
+                            <span aria-hidden="true" style={{ color: "#FFF" }}>&times;</span>
                         </button>
                     </div>
-                    <div className="modal-body">
+                    <div className="modal-body" style={{ backgroundColor: "#F2F2F2" }}>
                         <div className="form-group">
                             <label htmlFor="firstName">Firstname</label>
                             <input type="text" className="form-control" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
@@ -171,12 +171,13 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
                         </div>
                     
                     </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
-                            Annuler
+                    <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
+                        
+                        <button type="button" className="btn " style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleCreateUser}>
+                            Create
                         </button>
-                        <button type="button" className="btn btn-primary" onClick={handleCreateUser}>
-                            Créer
+                        <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>
+                            Cancel
                         </button>
                     </div>
                 </div>

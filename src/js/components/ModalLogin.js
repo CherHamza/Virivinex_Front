@@ -31,37 +31,38 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
       }
     });
 
-
   };
  
   return (
     <div className={`modal fade ${handleShowLoginModal ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowLoginModal ? "block" : "none", backgroundColor: "rgba(0,0,0,0.5)" }}>
-    <div className="modal-dialog modal-dialog-centered" role="document">
-      <div className="modal-content border-0 shadow">
-        <div className="modal-header" style={{ backgroundColor: "#4B2E83", color: "#FFF" }}>
-          <h5 className="modal-title">Login</h5>
-          <button type="button" className="close" onClick={handleCloseLoginModal}>
-            <span aria-hidden="true" style={{ color: "#FFF" }}>&times;</span>
-          </button>
-        </div>
-        <div className="modal-body" style={{ backgroundColor: "#F2F2F2" }}>
-          <div className="form-group">
-            <label htmlFor="emailLogin">Email</label>
-            <input type="email" className="form-control" id="emailLogin" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content border-0 shadow">
+          <div className="modal-header" style={{ backgroundColor: "#4B2E83", color: "#FFF" }}>
+            <h5 className="modal-title mx-auto">Login</h5>
+            <button type="button" className="close btn btn-danger" onClick={handleCloseLoginModal}>
+              <span aria-hidden="true" style={{ color: "#FFF" }}>&times;</span>
+            </button>
           </div>
-          <div className="form-group">
-            <label htmlFor="passwordLogin">Mot de passe</label>
-            <input type="password" className="form-control" id="passwordLogin" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <div className="modal-body" style={{ backgroundColor: "#F2F2F2" }}>
+            <div className="form-group">
+              <label htmlFor="emailLogin">Email</label>
+              <input type="email" className="form-control" id="emailLogin" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="passwordLogin">Mot de passe</label>
+              <input type="password" className="form-control" id="passwordLogin" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
           </div>
-        </div>
-        <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
-          <button type="button" className="btn btn-secondary" onClick={handleCloseLoginModal}>
-            Annuler
-          </button>
-          <button type="button" className="btn" style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleLogin}>
-            Se connecter
-          </button>
-        </div>
+          <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
+            <button type="button" className="btn" style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleLogin}>
+              Log In
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={handleCloseLoginModal}>
+              Cancel
+            </button>
+
+         
       </div>
     </div>
   </div>
