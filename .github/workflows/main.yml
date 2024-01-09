@@ -11,7 +11,7 @@ jobs:
     container: 
       image: mastermindcms/build:latest
       volumes:
-        - ${{ github.WORKSPACE }}:/app
+        - ${{ github.WORKSPACE }}:/site
     steps:
       - name: Check out a repository
         uses: actions/checkout@v2
@@ -27,5 +27,5 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           source: "build/*"
-          target: "/var/cloud/verivinex.com/www/app"
+          target: "/var/cloud/verivinex.com/www/site"
           strip_components: 1
