@@ -14,8 +14,6 @@ const ExpertProfil = () => {
     } else {
       // Gérer la situation où les données ne sont pas disponibles
       console.log('Aucune donnée de profil transmise');
-      // Vous pouvez rediriger l'utilisateur ou afficher un message d'erreur
-      // navigate("")
     }
   }, [location.state]);
 

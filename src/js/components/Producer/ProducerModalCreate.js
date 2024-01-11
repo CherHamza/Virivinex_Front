@@ -46,17 +46,20 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                 street: street,
                 postalCode: postalcode,
                 country: {
-                    code: "FR",
-                    name: country,
-                    language: "Français"
+
+                    name: countryName,
+                    language: ""
                 }
             },
-            companyName: companyName,
+           
             profiles: [
                 {
-                    firstName: companyName,
-                    lastName: "",
-                    phone: "+33000000",
+
+                    companyName: companyName,
+                    numberEmployes: numberEmployes,
+                    websiteCompany: websiteCompany,
+                    vat: vat,
+                    phone: phone,
                     mobilePhone: "",
                     emailAddress: email,
                     emailNotifications: false,
@@ -73,9 +76,12 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             ],
         };
 
-
-        dataService.createUser(newProducer).then(res => console.log(res));
+        console.log("newProducer to be sent:", newProducer);
+        dataService.createUser(newProducer).then(res => {
+            console.log("Response:", res);
+        
         // Réinitialiser les champs et fermer la modale
+        toast.success("Utilisateur créé avec succès !");
         setVat("");
         setNumberEmployes("");
         setEmail("");
@@ -90,7 +96,13 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
         setWebsiteCompany("");
         handleCloseModalProducer();
 
-    };
+    })
+    .catch(err => {
+        console.error(err);
+        toast.error("Erreur lors de la création de l'utilisateur.");
+    });
+
+}
 
 
     return (
