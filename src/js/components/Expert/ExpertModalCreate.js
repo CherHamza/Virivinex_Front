@@ -52,17 +52,17 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
 
         const newUser = {
             address: {
-                houseNumber,
-                city,
-                street,
-                postalCode,
+                houseNumber: houseNumber,
+                city: city,
+                street: street,
+                postalCode: postalCode,
                 country: {
                     code: countryCode,
                     name: countryName,
                     language: "" 
                 }
             },
-            companyName,
+            companyName:"",
             profiles: [
                 {
                     firstName: firstName,
@@ -71,7 +71,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert, user
                     mobilePhone: "",
                     emailAddress: email,
                     emailNotifications: false,
-                    salutation: "",
+                    salutation: salutation,
                     user: {
                         username: email,
                         password: password

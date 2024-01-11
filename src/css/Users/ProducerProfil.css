@@ -9,6 +9,7 @@
     background-color: #f4f4f9;
     color: #333;
     line-height: 1.6;
+
   }
   
   .producer-dashboard {
@@ -18,6 +19,9 @@
     background: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px;
   }
   
   .profil-view header {

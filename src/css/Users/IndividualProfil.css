@@ -4,6 +4,9 @@
     flex-direction: column;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px;
   }
   
   .collection-section, .search-section {
@@ -55,9 +58,9 @@
     border: none;
   }
   
-  .featured-wines-section {
-    /* Add styles for your carousel component */
-  }
+  /* .featured-wines-section {
+    
+  } */
   
   @media (max-width: 768px) {
     .search-section {
