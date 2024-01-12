@@ -51,8 +51,8 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         }));
     };
 
-    const handleCreateEmission = () => {
-        const newEmission = {
+    const handleCreateEmission = async () => {
+        /*const newEmission = {
             wineTitleName: formData.nameBottle,
             winery: profile.id,
             grapeComposition: formData.grapeComposition,
@@ -65,12 +65,22 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             wineMacroRegion: formData.wineMacroRegion,
             typeOfWine: formData.typeOfWine,
             dryToSweetType: formData.dryToSweetType,
+        };*/
+        const loggedProfile = await dataService.getAuthenticatedProfile();
+
+        const newEmission = {
+            name: "000123",
+            embeddedSeller: loggedProfile.embeddedParent,
+            embeddedSku : {
+                _id: "00000000001",
+                name: "Emission Red Standard 0.75",
+                repositoryName: "SKURepository"
+            }
+
         };
-       
         console.log('emission ' , newEmission);
 
-        // dataService.createUser(newProducer).then(res => console.log(res));
-
+        dataService.saveEmissionAsDraft(newEmission).then(res => console.log(res));
 
         // Reset fields and close modal
         setFormData({
