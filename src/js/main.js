@@ -9,7 +9,7 @@ import IndiviudalProfil from "./components/Individual/IndividualProfil.js";
 import ExpertProfil from "./components/Expert/ExpertProfil.js";
 import ProducerProfil from "./components/Producer/ProducerProfil.js";
 import { Header } from './components/Header.js';
-import { Footer } from './components/footer.js';
+import { Footer } from './components/Footer.js';
 
 
 

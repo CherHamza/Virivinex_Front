@@ -6,9 +6,6 @@ import "../../css/footer.css";
 export const Footer = () => {
 
 
-
-
-
 return (
 
 <footer className="footer">
@@ -17,7 +14,7 @@ return (
       <div className="col-md-4 footer-column">
         <ul className="nav flex-column">
           <li className="nav-item">
-            <span className="footer-title">Winnery</span>
+            <span className="footer-title">Winery</span>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">Découvrir</a>
