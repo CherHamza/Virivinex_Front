@@ -123,7 +123,6 @@ class DataService {
      * @returns {Promise} A Promise that resolves after the user is created.
      */
     async createUser(user,eventType,endpoint){
-
         await this.fetchMSM(
             "sellerRegistrationServiceImpl",
             "PROTOTYPE",
@@ -214,6 +213,119 @@ class DataService {
             []).then( res => res.result );
     }
 
+    /**
+     * Retrieves special features based on the sellerSkuId, eventType, and endpoint.
+     * @async
+     * @param {string} sellerSkuId - The unique identifier of the seller SKU.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise<Array>} - A promise that resolves to an array of special features.
+     */
+    async getSpecialFeatures(sellerSkuId,eventType,endpoint) {
+        return await this.fetchMSM(
+            "ecomSearchEngineServiceImpl",
+            "PROTOTYPE",
+            "getAttributeValuesByAreaUsageType",
+            [sellerSkuId, 'SPECIAL_FEATURES'],
+            eventType,
+            endpoint).then( res => res.result );
+    }
+
+
+    /**
+     * Retrieves commercial information for a specific seller SKU, based on the provided event type and endpoint.
+     * @param {string} sellerSkuId - The unique identifier for the seller SKU.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise<Object>} - A Promise that resolves to an object containing the commercial information.
+     */
+    async getCommercialInfo(sellerSkuId,eventType,endpoint) {
+        return await this.fetchMSM(
+            "ecomSearchEngineServiceImpl",
+            "PROTOTYPE",
+            "getAttributeValuesByAreaUsageType",
+            [sellerSkuId, 'COMMERCIAL_INFO'],
+            eventType,
+            endpoint).then( res => res.result );
+    }
+
+    /**
+     * Retrieves related data for a product based on seller's SKU ID.
+     *
+     * @async
+     * @param {string} sellerSkuId - The unique identifier of the product's seller SKU.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise} A promise that resolves to the related data of the product.
+     */
+    async getProductRelatedData(sellerSkuId,eventType,endpoint) {
+        return await this.fetchMSM(
+            "ecomSearchEngineServiceImpl",
+            "PROTOTYPE",
+            "getAttributeValuesByAreaUsageType",
+            [sellerSkuId, 'PRODUCT_RELATED_DATA'],
+            eventType,
+            endpoint).then( res => res.result );
+    }
+
+    /**
+     * Saves the emission as a draft.
+     * @async
+     * @param {object} emission - The emission object.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise} A promise that resolves when the emission is saved as a draft.
+     */
+    async saveEmissionAsDraft(emission,eventType,endpoint) {
+        return await this.fetchMSM(
+            "salesCatalogServiceImpl",
+            "PROTOTYPE",
+            "saveSellerSkuAsDraft",
+            [emission],
+            eventType,
+            endpoint
+        ).then( res => res.result );
+    }
+
+    /**
+     * Retrieves the SKU based on the specified query, event type, and endpoint.
+     *
+     * @param request{{ query: {}, visiblePages: 10, sortName: "id", sortDirection: "ASC", limit: 10, offset: 0, page: 1 }} - this is request object
+     * @param {string} eventType - The type of event triggered for the SKU.
+     * @param {string} endpoint - The endpoint used to retrieve the SKU.
+     * @returns {Promise<string|null>} - A promise that resolves with the SKU if found, or null if not found.
+     *
+     */
+    async getSKU(request,eventType,endpoint) {
+        let queryRequest = request ? request : { query : {} };
+        return await this.fetchMSM(
+            "SKUServiceImpl",
+            "PROTOTYPE",
+            "searchSKUs",
+            [queryRequest],
+            eventType,
+            endpoint).then( res => res.result?.data?.content?.length > 0 ? res.result?.data?.content[0] : null );
+    }
+
+    /**
+     * Retrieves the SKU's based on the specified query, event type, and endpoint.
+     *
+     * @param request{{ query: {}, visiblePages: 10, sortName: "id", sortDirection: "ASC", limit: 10, offset: 0, page: 1 }} - this is request object
+     * @param {string} eventType - The type of event triggered for the SKU.
+     * @param {string} endpoint - The endpoint used to retrieve the SKU.
+     * @returns {Promise<string|null>} - A promise that resolves with the SKU if found, or null if not found.
+     *
+     */
+    async getSkus(request,eventType,endpoint) {
+        let queryRequest = request ? request : { query : {} };
+        return await this.fetchMSM(
+            "SKUServiceImpl",
+            "PROTOTYPE",
+            "searchSKUs",
+            [queryRequest],
+            eventType,
+            endpoint).then( res => res.result );
+    }
 
 }
 export const dataService = new DataService();
