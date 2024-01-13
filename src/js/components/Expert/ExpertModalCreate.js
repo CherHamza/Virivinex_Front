@@ -76,7 +76,9 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert }) =>
                     language: ""
                 }
             },
+
             companyName: formData.firstName+ " " + formData.lastName,
+
             profiles: [
                 {
                     firstName: formData.firstName,
@@ -86,6 +88,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert }) =>
                     salutation: formData.salutation,
                     emailAddress: formData.email,
                     emailNotifications: false,
+
                     user: {
                         username: formData.email,
                         password: formData.password

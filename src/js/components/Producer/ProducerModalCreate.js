@@ -99,6 +99,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
         };
 
         console.log("newProducer to be sent:", newProducer);
+
         // Appel à la fonction pour créer l'utilisateur
         dataService.createUser(newProducer)
             .then(res => {
@@ -132,6 +133,9 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
                 toast.error("Error during user creation.");
             });
     };
+
+}
+
 
     return (
         <div className={`modal fade ${handleShowModalProducer ? "show" : ""}`} tabIndex="-1" role="dialog" style={{ display: handleShowModalProducer ? "block" : "none", backgroundColor: "rgba(0,0,0,0.5)" }}>

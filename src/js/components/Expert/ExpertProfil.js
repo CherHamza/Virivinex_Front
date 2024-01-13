@@ -1,33 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../../../css/Users/ExpertProfil.css'
-
+import '../../../css/Users/ExpertProfil.css';
 
 const ExpertProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
   const navigate = useNavigate();
-  
-  
 
   useEffect(() => {
-    // Mettez à jour le profil avec les données transmises
-    if (location.state && location.state.userProfile) {
+    // Vérifiez si location.state et location.state.userProfile existent
+    if (location.state?.userProfile) {
       setProfile(location.state.userProfile);
-      console.log('user', location.state.userProfile);
+    } else {
+      // Gérer la situation où les données ne sont pas disponibles
+      console.log('Aucune donnée de profil transmise');
     }
-    
-    
   }, [location.state]);
-  
-  
-  const { metaInfo = {} } = location.state.userProfile;
 
-  console.log('meta ', metaInfo);
-
-  // if (metaInfo.userType !== "Wine Expert"){
-  //   alert('nononono');
-  // }
+  // Initialisez metaInfo en dehors de useEffect pour éviter une erreur si location.state est null
+  const metaInfo = profile.metaInfo || {};
 
 
     return (
