@@ -69,14 +69,13 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         const loggedProfile = await dataService.getAuthenticatedProfile();
 
         const newEmission = {
-            name: "000123",
+            name: "hello emission",
             embeddedSeller: loggedProfile.embeddedParent,
             embeddedSku : {
-                _id: "00000000001",
-                name: "Emission Red Standard 0.75",
+                id: "sku5",
+                name: "White Wine 0.75 L Limited Edition Emission X",
                 repositoryName: "SKURepository"
             }
-
         };
         console.log('emission ' , newEmission);
 
