@@ -134,7 +134,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             });
     };
 
-}
+
 
 
     return (
@@ -235,6 +235,6 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             </div>
         </div>
     );
-}
+    }
 
 export default ProducerModalCreate;
