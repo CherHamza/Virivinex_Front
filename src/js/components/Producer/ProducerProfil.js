@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../../../css/Users/ProducerProfil.css';
 import EmissionModalCreate from './EmissionModalCreate';
+import { dataService } from "../../services/dataService";
+
 
 const ProducerProfil = () => {
 
@@ -20,7 +22,11 @@ const ProducerProfil = () => {
     }
   }, [location.state]);
   
-  // console.log('user ',  profile);
+  // const loggedProfile = dataService.getAuthenticatedProfile();
+
+
+  // console.log('user ', profile.embeddedParent);
+  // console.log('userP ', loggedProfile.embeddedParent);
 
   const editions = [
     { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
@@ -36,8 +42,9 @@ const ProducerProfil = () => {
     <div className="producer-dashboard"> 
       <div className="profil-view">
         <header>
-       
-          <h1>Winery: Chateau Laurent </h1>
+
+          <h1>Winery: {profile.embeddedParent && profile.embeddedParent.name}</h1>
+
           <span>Admin:  {profile.firstName} - {profile.lastName}</span>
         </header>
         <div className="editions-list">
