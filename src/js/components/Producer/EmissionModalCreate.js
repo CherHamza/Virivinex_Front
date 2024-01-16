@@ -68,6 +68,9 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         };*/
         const loggedProfile = await dataService.getAuthenticatedProfile();
 
+        // class SellerSKU
+        // https://javadoc.mastermindcms.com/co/mastermindcms/modules/beans/SellerSKU.html
+        
         const newEmission = {
             name: "hello emission",
             embeddedSeller: loggedProfile.embeddedParent,
