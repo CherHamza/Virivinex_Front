@@ -20,7 +20,11 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         wineMacroRegion: "",
         typeOfWine: "",
         dryToSweetType: "",
+        searchCategory: "",
     });
+
+    const [filteredSkus, setFilteredSkus] = useState([]);
+
 
     const [profile, setProfile] = useState([]);
 
@@ -50,6 +54,33 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             [name]: value,
         }));
     };
+    const handleSearch = async () => {
+        // Mettez à jour la requête pour inclure le filtre SKU
+        let request = { 
+            query: { 
+                searchTerms: { 
+                    $regex: formData.searchCategory, 
+                    $options: "i" 
+                }
+            }, 
+            visiblePages: 10, 
+            sortName: "id", 
+            sortDirection: "ASC", 
+            limit: 10, 
+            offset: 0, 
+            page: 1 
+        };
+    
+        try {
+            // Obtenez les SKU filtrés
+            const skus = await dataService.getSkus(request);
+            setFilteredSkus(skus);
+            console.log(filteredSkus)
+        } catch (error) {
+            console.error("Error fetching filtered SKUs:", error);
+        }
+    };
+    
 
     const handleCreateEmission = async () => {
         /*const newEmission = {
@@ -72,7 +103,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         // https://javadoc.mastermindcms.com/co/mastermindcms/modules/beans/SellerSKU.html
         
         const newEmission = {
-            name: "hello emission",
+            name: formData.nameBottle,
             embeddedSeller: loggedProfile.embeddedParent,
             embeddedSku : {
                 id: "sku5",
@@ -80,7 +111,22 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                 repositoryName: "SKURepository"
             }
         };
+
         console.log('emission ' , newEmission);
+        // let request = { 
+        //      query: { searchTerms:  {$regex: "rouge", $options: "i"}}, 
+        //      visiblePages: 10, 
+        //      sortName: "id", 
+        //      sortDirection: "ASC", 
+        //      limit: 10, 
+        //      offset: 0, 
+        //      page: 1 
+        //     }
+
+        // let skus = await dataService.getSkus(request);
+        // console.log('====================================');
+        // console.log(skus);
+        // console.log('====================================');
 
         dataService.saveEmissionAsDraft(newEmission).then(res => console.log(res));
 
@@ -94,6 +140,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             bottlePriceMinimum: "",
             bottleSize: "",
             country: "",
+            searchCategory: "",
             wineMacroRegion: "",
             typeOfWine: "",
             dryToSweetType: "",
@@ -119,6 +166,17 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                             <input type="text" className="form-control" id="wineTitleName" name="wineTitleName" value={formData.nameBottle} onChange={handleInputChange} />
                         </div>
                         <div className="form-group">
+        <label htmlFor="searchCategory">Type Of Wine</label>
+        <input type="search" className="from-control" id="searchCategory" name="searchCategory" value={formData.searchCategory} onChange={handleInputChange} />
+        <button type="button" className="btn btn-primary" onClick={handleSearch}>
+            Search
+        </button>
+        {/* Affichez les SKU filtrés */}
+        {filteredSkus.map((sku) => (
+            <div key={sku.id}>{sku.name}</div>
+        ))}
+    </div>
+                        {/* <div className="form-group">
                             <label htmlFor="grapeComposition">Grape Composition</label>
                             <input type="text" className="form-control" id="grapeComposition" name="grapeComposition" value={formData.grapeComposition} onChange={handleInputChange} />
                         </div>
@@ -188,7 +246,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                                     </option>
                                 ))}
                             </select>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
                         <button type="button" className="btn" style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleCreateEmission}>
