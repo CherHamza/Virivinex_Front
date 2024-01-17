@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
+import Search from "../Search";
 
 
 
@@ -9,7 +10,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
 
 
     const [formData, setFormData] = useState({
-        wineTitleName: "",
+        nameEmission: "",
         grapeComposition: "",
         areaOfProduction: "",
         description: "",
@@ -20,9 +21,12 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         wineMacroRegion: "",
         typeOfWine: "",
         dryToSweetType: "",
+        searchCategory: "",
     });
 
     const [profile, setProfile] = useState([]);
+    const [embeddedSkuId, setEmbeddedSkuId] = useState([]);
+    const [embeddedSkuName, setEmbeddedName] = useState([]);
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -37,11 +41,11 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         checkAuthentication();
     }, []);
 
-    const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
-    const countries = ["", "France", "Italy", "Spain", "United States"];
-    const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
-    const types = ["", "Red", "White", "Rose", "Sparkling White","Sparkling rose"];
-    const genres = ["", "Dry", "Semi-dry"];
+    // const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
+    // const countries = ["", "France", "Italy", "Spain", "United States"];
+    // const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
+    // const types = ["", "Red", "White", "Rose", "Sparkling White","Sparkling rose"];
+    // const genres = ["", "Dry", "Semi-dry"];
    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -52,41 +56,29 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     };
 
     const handleCreateEmission = async () => {
-        /*const newEmission = {
-            wineTitleName: formData.nameBottle,
-            winery: profile.id,
-            grapeComposition: formData.grapeComposition,
-            areaOfProduction: formData.areaOfProduction,
-            description: formData.description,
-            bottleInitialPriceTarget: formData.bottleInitialPriceTarget,
-            bottlePriceMinimum: formData.bottlePriceMinimum,
-            bottleSize: formData.bottleSize,
-            country: formData.country,
-            wineMacroRegion: formData.wineMacroRegion,
-            typeOfWine: formData.typeOfWine,
-            dryToSweetType: formData.dryToSweetType,
-        };*/
+      
         const loggedProfile = await dataService.getAuthenticatedProfile();
 
         // class SellerSKU
         // https://javadoc.mastermindcms.com/co/mastermindcms/modules/beans/SellerSKU.html
         
         const newEmission = {
-            name: "hello emission",
+            name: formData.nameEmission,
             embeddedSeller: loggedProfile.embeddedParent,
             embeddedSku : {
-                id: "sku5",
-                name: "White Wine 0.75 L Limited Edition Emission X",
+                id: embeddedSkuId.join(),
+                name: embeddedSkuName,
                 repositoryName: "SKURepository"
             }
         };
-        console.log('emission ' , newEmission);
 
+        console.log('emission ' , newEmission);
+        
         dataService.saveEmissionAsDraft(newEmission).then(res => console.log(res));
 
         // Reset fields and close modal
         setFormData({
-            wineTitleName: "",
+            nameEmission: "",
             grapeComposition: "",
             areaOfProduction: "",
             description: "",
@@ -94,6 +86,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             bottlePriceMinimum: "",
             bottleSize: "",
             country: "",
+            searchCategory: "",
             wineMacroRegion: "",
             typeOfWine: "",
             dryToSweetType: "",
@@ -115,10 +108,36 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                     </div>
                     <div className="modal-body" style={{ backgroundColor: "#F2F2F2" }}>
                         <div className="form-group">
-                            <label htmlFor="wineTitleName">Wine Title Name</label>
-                            <input type="text" className="form-control" id="wineTitleName" name="wineTitleName" value={formData.nameBottle} onChange={handleInputChange} />
+                            <label htmlFor="nameEmission">Wine Title Name</label>
+                            <input type="text" className="form-control" id="nameEmission" name="nameEmission" value={formData.nameEmission} onChange={handleInputChange} />
                         </div>
-                        <div className="form-group">
+
+                        <Search 
+                            setSkuId={setEmbeddedSkuId}
+                            setSkuName={setEmbeddedName}
+                        />
+
+                        {/* <div className="form-group">
+                            <label htmlFor="searchCategory">Type Of Wine</label>
+                            <input type="search" className="form-control" id="searchCategory" name="searchCategory" value={formData.searchCategory} onChange={handleInputChange} />
+                            <button type="button" className="btn btn-primary" onClick={handleSearch}>
+                                Search
+                            </button>
+                            {/* Affichez les SKU filtrés 
+                            {Array.isArray(filteredSkus) && filteredSkus.map((sku) => (
+                                <div key={sku.id}>{sku.name}</div>
+                            ))} 
+                            <select name="searchCategory" className="form-control" value={formData.searchCategory} onChange={handleInputChange}>
+                                <option value="">Choose a search term...</option>
+                                {uniqueSearchTerms.map((term, index) => (
+                                    <option key={index} value={term}>
+                                        {term}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </div>  */}
+                        {/* <div className="form-group">
                             <label htmlFor="grapeComposition">Grape Composition</label>
                             <input type="text" className="form-control" id="grapeComposition" name="grapeComposition" value={formData.grapeComposition} onChange={handleInputChange} />
                         </div>
@@ -188,7 +207,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                                     </option>
                                 ))}
                             </select>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
                         <button type="button" className="btn" style={{ backgroundColor: "#4B2E83", color: "#FFF" }} onClick={handleCreateEmission}>
