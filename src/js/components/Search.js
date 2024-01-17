@@ -1,20 +1,25 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { dataService } from "../services/dataService";
 
-const Search = (props) => {
 
+const Search = (props) => {
     const [isResultsExists, setIsResultsExists] = useState(false);
     const [results, setResults] = useState([]);
     const searchInput = useRef(null);
 
+    useEffect(() => {
+        if (results.length > 0) {
+            setIsResultsExists(true);
+        } else {
+            setIsResultsExists(false);
+        }
+    }, [results]);
 
-    // TODO: Reste à faire -> remettre à "" inputSearch
     const handleSearch = async () => {
-        let inputValue = searchInput.current?.value;
+        let inputValue = searchInput.current.value.trim();
         console.log(inputValue);
-        if (inputValue !== "" && inputValue !== undefined) {
-            inputValue = inputValue.trim();
 
+        if (inputValue !== "") {
             let request = {
                 query: {
                     searchTerms: {
@@ -41,45 +46,40 @@ const Search = (props) => {
             } catch (error) {
                 console.error("Error fetching filtered SKUs:", error);
             }
-
-            if (results.length > 0) {
-                setResults(results);
-                setIsResultsExists(true);
-            }
+        } else {
+            // Réinitialisez les résultats si le champ de recherche est vide
+            setResults([]);
         }
+    };
 
-    }
-
-    // Get value of the select
     const handleSelectChange = (event) => {
         if (event.target.value !== "nothing") {
-            
             const embeddedSkuName = event.target.value;
             console.log('embeddedSkuName:', embeddedSkuName);
-            const embeddedSkuId = results.map((result)=> result.id)
+            const embeddedSkuId = results.map((result) => result.id);
             console.log('embeddedSkuId ', embeddedSkuId);
-            
-            props.setSkuId(embeddedSkuId);
-            props.setSkuName(embeddedSkuName)
-        }
 
-    }
-    
+            props.setSkuId(embeddedSkuId);
+            props.setSkuName(embeddedSkuName);
+        }
+    };
+
     return (
         <>
             <div className="form-group">
                 <label htmlFor="searchCategory">Search the Type Of Wine</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  id="searchCategory" 
-                  name="searchCategory" 
-                  ref={searchInput} />
+                <input
+                    type="text"
+                    className="form-control"
+                    id="searchCategory"
+                    name="searchCategory"
+                    ref={searchInput}
+                />
 
-                <button 
-                  type="button" 
-                  className="btn btn-primary" 
-                  onClick={handleSearch}>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleSearch}>
                     Search
                 </button>
 
@@ -95,9 +95,8 @@ const Search = (props) => {
                     : '')
                 }
             </div>
-
         </>
     );
-}
+};
 
 export default Search;
