@@ -77,6 +77,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             companyWebSite: formData.websiteCompany,
             vatNumber: formData.vat,
             companyPhone: formData.phone,
+            sellerType: "VENDOR",
             profiles: [
                 {
                     firstName: formData.firstName,

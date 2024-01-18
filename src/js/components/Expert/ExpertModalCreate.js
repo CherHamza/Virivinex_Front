@@ -78,7 +78,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert }) =>
             },
 
             companyName: formData.firstName+ " " + formData.lastName,
-
+            sellerType: "BUYER",
             profiles: [
                 {
                     firstName: formData.firstName,
