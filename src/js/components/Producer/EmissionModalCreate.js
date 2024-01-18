@@ -72,27 +72,43 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     };
   
     const handleCreateEmission = async () => {
-      const loggedProfile = await dataService.getAuthenticatedProfile();
-  
-      const newEmission = {
-        name: formData.nameEmission,
-        embeddedSeller: loggedProfile.embeddedParent,
-        embeddedSku: {
-          id: embeddedSkuId.join(),
-          name: embeddedSkuName,
-          repositoryName: "SKURepository",
-        },
+        const loggedProfile = await dataService.getAuthenticatedProfile();
+     
+        const newEmission = {
+          name: formData.nameEmission,
+          embeddedSeller: loggedProfile.embeddedParent,
+          embeddedSku: {
+            id: embeddedSkuId,
+            name: embeddedSkuName,
+            repositoryName: "SKURepository",
+          },
+        };
+     
+        console.log("emission ", newEmission);
+     
+        try {
+          const response = await dataService.saveEmissionAsDraft(newEmission);
+          console.log(response);
+     
+          // Afficher un toast de succès
+          toast.success("Emission created successfully!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+     
+          // Déclencher la réinitialisation des champs en changeant la valeur de resetFields
+          setResetFields(true);
+     
+          handleCloseModalProducerEmission();
+        } catch (error) {
+          console.error("Error creating emission:", error);
+     
+          // Afficher un toast d'erreur
+          toast.error("Failed to create emission. Please try again.", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
       };
-  
-      console.log("emission ", newEmission);
-  
-      dataService.saveEmissionAsDraft(newEmission).then((res) => console.log(res));
-  
-      // Déclencher la réinitialisation des champs en changeant la valeur de resetFields
-      setResetFields(true);
-  
-      handleCloseModalProducerEmission();
-    };
+     
   
     return (
       <div
@@ -149,9 +165,9 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             </div>
           </div>
         </div>
+        {/* <ToastContainer autoClose={3000} /> */}
       </div>
     );
   };
   
   export default EmissionModalCreate;
-  
