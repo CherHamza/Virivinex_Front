@@ -70,7 +70,7 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
                 }
             },
             companyName: formData.firstName + " " + formData.lastName,
-            
+            sellerType: "BUYER",
             profiles: [
                 {
                     firstName: formData.firstName,
