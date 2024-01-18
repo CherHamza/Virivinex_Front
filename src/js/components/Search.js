@@ -19,7 +19,7 @@ const Search = (props) => {
         let inputValue = searchInput.current.value.trim();
         console.log(inputValue);
 
-        if (inputValue !== "") {
+        if (inputValue !== "" && inputValue !== undefined ) {
             let request = {
                 query: {
                     searchTerms: {
@@ -56,13 +56,23 @@ const Search = (props) => {
         if (event.target.value !== "nothing") {
             const embeddedSkuName = event.target.value;
             console.log('embeddedSkuName:', embeddedSkuName);
-            const embeddedSkuId = results.map((result) => result.id);
-            console.log('embeddedSkuId ', embeddedSkuId);
 
-            props.setSkuId(embeddedSkuId);
-            props.setSkuName(embeddedSkuName);
+            const filteredResult = results.filter((result) => result.searchTerms.includes(embeddedSkuName));
+            // console.log('filteredResult ', filteredResult);
+
+            if (filteredResult.length > 0) {
+                const embeddedSkuId = filteredResult[0].id;
+                console.log('embeddedSkuId:', embeddedSkuId);
+
+                props.setSkuId(embeddedSkuId);
+                props.setSkuName(embeddedSkuName);
+                
+            } else {
+                console.log('Aucune correspondance.');
+            }
         }
     };
+
 
     return (
         <>
@@ -100,3 +110,4 @@ const Search = (props) => {
 };
 
 export default Search;
+
