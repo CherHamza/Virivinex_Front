@@ -78,7 +78,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           name: formData.nameEmission,
           embeddedSeller: loggedProfile.embeddedParent,
           embeddedSku: {
-            id: embeddedSkuId.join(),
+            id: embeddedSkuId,
             name: embeddedSkuName,
             repositoryName: "SKURepository",
           },
