@@ -10,6 +10,8 @@ import ExpertProfil from "./components/Expert/ExpertProfil.js";
 import ProducerProfil from "./components/Producer/ProducerProfil.js";
 import { Header } from './components/Header.js';
 import { Footer } from './components/Footer.js';
+import LandingPageVerif from "./components/LandingPageVerif.js";
+
 
 
 
@@ -22,6 +24,7 @@ root.render(
     <Router>
     <Header />
       <Routes>
+      <Route path="/app/account/app.html" element={<LandingPageVerif />}/>
         <Route path="/" element={<Home />} />
         <Route path="/app/index.html" element={<App />} />
         <Route path="/app/home.html" element={<Home />} />
