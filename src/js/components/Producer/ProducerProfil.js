@@ -3,12 +3,13 @@ import { useLocation } from 'react-router-dom';
 import '../../../css/Users/ProducerProfil.css';
 import EmissionModalCreate from './EmissionModalCreate';
 import { dataService } from "../../services/dataService";
-
+import Emissions from '../Emissions';
 
 const ProducerProfil = () => {
 
   const location = useLocation();
   const [profile, setProfile] = useState({});
+  const [emissions, setEmissions] = useState([]);
 
   const [showModalProducerEmission, setShowModalProducerEmission] = useState(false);
   const handleShowModalProducerEmission = () => setShowModalProducerEmission(true);
@@ -18,10 +19,10 @@ const ProducerProfil = () => {
   useEffect(() => {
     if (location.state && location.state.userProfile) {
       setProfile(location.state.userProfile);
-      console.log('user', location.state.userProfile); 
+      console.log('user', location.state.userProfile);
     }
   }, [location.state]);
-  
+
   // const loggedProfile = dataService.getAuthenticatedProfile();
 
 
@@ -39,41 +40,34 @@ const ProducerProfil = () => {
 
   return (
     <>
-    <div className="producer-dashboard"> 
-      <div className="profil-view">
-        <header>
+      <div className="producer-dashboard">
+        <div className="profil-view">
+          <header>
 
-          <h1>Winery: {profile.embeddedParent && profile.embeddedParent.name}</h1>
+            <h1>Winery: {profile.embeddedParent && profile.embeddedParent.name}</h1>
 
-          <span>Admin:  {profile.firstName} - {profile.lastName}</span>
-        </header>
-        <div className="editions-list">
-          {editions.map(edition => (
-            <div className="edition-item" key={edition.id}>
-              <div className="edition-image">
-                <img src={edition.pic} alt="Wine edition" />
-              </div>
-              <div className="edition-details">
-                <span>{edition.text}</span>
-                <span>{edition.owned} bottles</span>
-                <span>€{edition.marketPrice} market price</span>
-                <span>€{edition.value} value</span>
-              </div>
-            </div>
-          ))}
+            <span>Admin:  {profile.firstName} - {profile.lastName}</span>
+          </header>
+
+          <Emissions
+            results={setEmissions}
+            profile={location.state.userProfile.embeddedParent.id}
+
+          />
+
+
+          <div className="total-value">
+            <span>TOTAL VALUE (EUR): 141,984.00</span>
+          </div>
+          <button className="configure-button" onClick={handleCreateEmission} >Configure a NEW Emission !</button>
         </div>
-        <div className="total-value">
-          <span>TOTAL VALUE (EUR): 141,984.00</span>
-        </div>
-        <button className="configure-button" onClick={handleCreateEmission} >Configure a NEW Emission !</button>
+
       </div>
 
-    </div>
-
-        <EmissionModalCreate
+      <EmissionModalCreate
         handleShowModalProducerEmission={showModalProducerEmission}
         handleCloseModalProducerEmission={handleCloseProducerEmissionModal}
-       
+
       />
     </>
   );
@@ -81,4 +75,3 @@ const ProducerProfil = () => {
 };
 
 export default ProducerProfil;
-
