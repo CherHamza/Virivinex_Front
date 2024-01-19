@@ -1,12 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-
+import "../../css/LandingPageVerif.css";
 
 const LandingPageVerif = () => {
     return (
-        <><h1>Welcome !!!</h1>
-        <Link to="/app/home.html">Page d'accueil</Link></>
+        <div className="landing-page">
+            <div className="verification-container">
+                <h1>Welcome to Verivinex !</h1>
+                <p>Your email address has been successfully verified. You can now click the button below to be redirected to your profile page:</p>
+                <Link to="/app/home.html">
+                    <button className="redirect-button">Go to Profile</button>
+                </Link>
+            </div>
+        </div>
     );
 }
 
