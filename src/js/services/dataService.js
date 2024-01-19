@@ -288,14 +288,14 @@ class DataService {
     }
 
     /**
-* Retrieves listings based on request.
-*
-* @async
-* @param request{{ query: {}, visiblePages: 10, sortName: "id", sortDirection: "ASC", limit: 10, offset: 0, page: 1 }} - this is request object
-* @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
-* @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
-* @returns {Promise} A promise that resolves to the related data of the product.
-*/
+    * Retrieves listings based on request.
+    *
+    * @async
+    * @param request{{ query: {}, ignoreRegexWrap: [], visiblePages: 10, sortName: "id", sortDirection: "ASC", limit: 10, offset: 0, page: 1 }} - this is request object
+    * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+    * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+    * @returns {Promise} A promise that resolves to the related data of the product.
+    */
     async searchEmissions(request, eventType, endpoint) {
         let queryRequest = request ? request : { query: {} };
         queryRequest["type"] = "SellerSKU";
