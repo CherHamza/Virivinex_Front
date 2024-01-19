@@ -24,7 +24,7 @@ root.render(
     <Router>
     <Header />
       <Routes>
-        <Route path="/app/account/app.html" element={<LandingPageVerif />} />
+      <Route path="/app/account/app.html" element={<LandingPageVerif />}/>
         <Route path="/" element={<Home />} />
         <Route path="/app/index.html" element={<App />} />
         <Route path="/app/home.html" element={<Home />} />
