@@ -43,10 +43,10 @@ const ProducerProfil = () => {
       <div className="producer-dashboard">
         <div className="profil-view">
           <header>
-
             <h1>Winery: {profile.embeddedParent && profile.embeddedParent.name}</h1>
-
             <span>Admin:  {profile.firstName} - {profile.lastName}</span>
+            <button className="configure-button" onClick={handleCreateEmission} >Configure a NEW Emission !</button>
+
           </header>
 
           <Emissions
@@ -59,7 +59,6 @@ const ProducerProfil = () => {
           <div className="total-value">
             <span>TOTAL VALUE (EUR): 141,984.00</span>
           </div>
-          <button className="configure-button" onClick={handleCreateEmission} >Configure a NEW Emission !</button>
         </div>
 
       </div>
