@@ -106,6 +106,8 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           const productAttrs = await dataService.getProductRelatedData(response.id);
           console.log("product related attributes:",productAttrs);
 
+          const attrValues = response.attributeValues;
+          console.log("only defined attribute values:",attrValues);
 
           // Afficher un toast de succès
           toast.success("Emission created successfully!", {
