@@ -80,7 +80,10 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
   
     const handleCreateEmission = async () => {
         const loggedProfile = await dataService.getAuthenticatedProfile();
-     
+        const allAvailableAttrs = await dataService.getAttributesFromSKU(embeddedSkuId);
+
+        console.log("all available attributes:",allAvailableAttrs);
+
         const newEmission = {
           name: formData.nameEmission,
           embeddedSeller: loggedProfile.embeddedParent,
