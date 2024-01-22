@@ -84,6 +84,9 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         const newEmission = {
           name: formData.nameEmission,
           embeddedSeller: loggedProfile.embeddedParent,
+          attributeValues : [
+              { attribute: { id: "Type of Wine" }, value: "opt15", active: true },
+          ],
           embeddedSku: {
             id: embeddedSkuId,
             name: embeddedSkuName,
@@ -96,7 +99,11 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         try {
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log(response);
-     
+
+          const productAttrs = await dataService.getProductRelatedData(response.id);
+          console.log("product related attributes:",productAttrs);
+
+
           // Afficher un toast de succès
           toast.success("Emission created successfully!", {
             position: toast.POSITION.TOP_RIGHT,
