@@ -9,6 +9,7 @@ import Search from "../Search";
 const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModalProducerEmission }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resetFields, setResetFields] = useState(false);
+    
     const [formData, setFormData] = useState({
       nameEmission: "",
       grapeComposition: "",
@@ -83,12 +84,14 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
      
         const newEmission = {
           name: formData.nameEmission,
+          
           embeddedSeller: loggedProfile.embeddedParent,
           embeddedSku: {
             id: embeddedSkuId,
             name: embeddedSkuName,
             repositoryName: "SKURepository",
           },
+          publishedForSale: true,
         };
      
         console.log("emission ", newEmission);

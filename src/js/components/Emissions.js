@@ -5,6 +5,8 @@ import { dataService } from "../services/dataService";
 const Emissions = (props) => {
 
     const [results, setResults] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
 
     const editions = [
@@ -19,19 +21,21 @@ const Emissions = (props) => {
                     type: "SellerSku",
                     ignoreRegexWrap: [],
                     query: {
-                        "embeddedSeller._id": props.profile
+                        "embeddedSeller._id": props.profile,
+
                     },
                     visiblePages: 10,
                     sortName: "id",
                     sortDirection: "ASC",
                     limit: 10,
-                    offset: 0,
-                    page: 1
+                    offset: (currentPage - 1) * 10,
+                    page: currentPage
                 };
                 const skus = await dataService.searchEmissions(request);
                 console.log('skus ', skus);
                 // const array = Object.entries(skus).map(([key, value]) => value);
                 setResults(skus.data.content);
+                setTotalPages(skus.data.totalPages);
 
             } catch (error) {
                 console.error('Error fetching skus', error);
@@ -39,26 +43,39 @@ const Emissions = (props) => {
         };
 
         fetchSku();
-    }, [props.profile]);
+    }, [props.profile, currentPage]);
 
     console.log('results ', results);
 
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
     return (
-        <section className="editions-list">
-            {results.map(result => (
-                <div className="edition-item" key={result.id}>
-
-                    <div className="edition-details">
-                        <span>{result.name}</span>
-                        <span>{result.embeddedSku.name}</span>
-                        <span>Created by : {result.embeddedSeller.name}</span>
-
+        <div>
+            <section className="editions-list">
+                {results.map(result => (
+                    <div className="edition-item" key={result.id}>
+                        <div className="edition-details">
+                            <span>{result.name}</span>
+                            <span>{result.embeddedSku.name}</span>
+                            <span>Created by : {result.embeddedSeller.name}</span>
+                        </div>
                     </div>
-                </div>
-            ))}
-        </section>
+                ))}
+            </section>
+
+            <div>
+                <p>Page {currentPage} of {totalPages}</p>
+                <button disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>
+                    Previous Page
+                </button>
+                <button disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)}>
+                    Next Page
+                </button>
+            </div>
+        </div>
     );
 }
-
 
 export default Emissions;
