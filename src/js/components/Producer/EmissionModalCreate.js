@@ -86,6 +86,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
 
         const newEmission = {
           name: formData.nameEmission,
+          description: formData.description,
           embeddedSeller: loggedProfile.embeddedParent,
           attributeValues : [
               { attribute: { id: "Type of Wine" }, value: "opt15", active: true },
@@ -158,8 +159,14 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                 <label htmlFor="nameEmission">Wine Title Name</label>
                 <input type="text" className="form-control" id="nameEmission" name="nameEmission" value={formData.nameEmission} onChange={handleInputChange} />
               </div>
+
   
               <Search setSkuId={setEmbeddedSkuId} setSkuName={setEmbeddedName} />
+
+              <div className="form-group">
+                  <label htmlFor="description">Description</label>
+                  <textarea className="form-control" rows="5" calls="33" id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
+              </div>
 
 
              {/* <div className="form-group">
@@ -190,10 +197,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                             <label htmlFor="areaOfProduction">Area of Production</label>
                             <input type="text" className="form-control" id="areaOfProduction" name="areaOfProduction" value={formData.areaOfProduction} onChange={handleInputChange} />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="description">Description</label>
-                            <input type="text" className="form-control" id="description" name="description" value={formData.description} onChange={handleInputChange} />
-                        </div>
+                        
 
                         <div className="form-group">
                             <label htmlFor="bottleInitialPriceTarget">Bottle Initial Price Target</label>
