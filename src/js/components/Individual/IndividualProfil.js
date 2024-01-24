@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../../../css/Users/IndividualProfil.css'
+import DisplayEmissions from './DisplayEmissions';
 
 
 const IndiviudalProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
+  const [displayEmission, setDisplayEmission] = useState([]);
 
   useEffect(() => {
     // Mettez à jour le profil avec les données transmises
@@ -13,10 +15,11 @@ const IndiviudalProfil = () => {
       setProfile(location.state.userProfile);
       console.log('user', location.state.userProfile);
     }
-  }, [location.state]);
+  }, []);
 
 
   return (
+    <>
     <div className="profile-container">
       <div className="collection-section">
         <div className="balance-info">
@@ -31,7 +34,7 @@ const IndiviudalProfil = () => {
       <div className="search-section">
         <div className="search-by-criteria">
           <input type="text" placeholder="type key words" />
-          <button>Filter set</button>
+          {/* <button>Filter set</button> */}
           <button>Search</button>
         </div>
         <div className="browse-section">
@@ -41,7 +44,12 @@ const IndiviudalProfil = () => {
       <div className="featured-wines-section">
       
       </div>
+      <DisplayEmissions
+      emissions={setDisplayEmission}
+       />
     </div>
+
+</>
   );
 };
 

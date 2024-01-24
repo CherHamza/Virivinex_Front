@@ -44,7 +44,7 @@ const Home = () => {
     };
 
     checkAuthentication();
-  }, [navigate]);
+  }, []);
 
   
 

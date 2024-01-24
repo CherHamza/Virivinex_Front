@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
-import Search from "../Search";
+import SearchSkus from "../SearchSkus";
 
 
 
@@ -161,7 +161,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
               </div>
 
   
-              <Search setSkuId={setEmbeddedSkuId} setSkuName={setEmbeddedName} />
+              <SearchSkus setSkuId={setEmbeddedSkuId} setSkuName={setEmbeddedName} />
 
               <div className="form-group">
                   <label htmlFor="description">Description</label>
