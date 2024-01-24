@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { dataService } from "../services/dataService";
 
 
-const Search = (props) => {
+const SearchSkus = (props) => {
     const [isResultsExists, setIsResultsExists] = useState(false);
     const [results, setResults] = useState([]);
     const searchInput = useRef(null);
@@ -109,5 +109,5 @@ const Search = (props) => {
     );
 };
 
-export default Search;
+export default SearchSkus;
 
