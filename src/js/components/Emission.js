@@ -2,7 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { dataService } from "../services/dataService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
+import Image1 from "../../../assets/images/bottle1.jpg";
+
 
 
 
@@ -10,10 +14,13 @@ const Emission = () => {
 
     const [profile, setProfile] = useState([]);
     const { id } = useParams();
+    const imageSrc = Image1;
     const [emission, setEmission] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
     const navigate = useNavigate();
-
+    const handleGoBack = () => {
+      navigate(-1); // This will navigate back
+    };
     
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -66,19 +73,37 @@ const Emission = () => {
     }, [id]);
 
 
-
     return (
-        <section>
-            {emission && isPublished ? (
-                <>
-                    <h2>Détails de l'émission {id}</h2>
-                    <p>{emission.name}</p>
-                   
-                </>
-            ) : (
-                <p>Oups une erreur est survenue !!!</p>
-                
-            )}
+        <section className="container mt-5">
+          {emission && isPublished ? (
+            <div className="row">
+              <div className="col-md-6">
+                <img
+                  src={imageSrc}
+                  alt={emission.name}
+                  className="img-fluid rounded shadow-lg"
+                  style={{ maxWidth: "100%", maxHeight: "600px" }}
+                />
+              </div>
+              <div className="col-md-6">
+                <h2 className="mb-4">Winnery : {emission.embeddedSeller.name}</h2>
+                <h3 className="text-primary">{emission.name}</h3>
+                <p className="lead">{emission.description}</p>
+                <hr className="my-4" />
+                <button
+              className="btn btn-secondary"
+              onClick={handleGoBack}
+            >
+              Previous Page
+            </button>
+              </div>
+            </div>
+          ) : (
+            <div className="alert alert-danger mt-3" role="alert">
+          <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+          Oups ! Une erreur est survenue. Veuillez réessayer.
+        </div>
+          )}
         </section>
     );
 }
