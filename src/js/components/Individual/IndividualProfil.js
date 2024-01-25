@@ -17,7 +17,7 @@ const IndiviudalProfil = () => {
     }
   }, []);
 
-
+  
   return (
     <>
     <div className="profile-container">
@@ -44,9 +44,11 @@ const IndiviudalProfil = () => {
       <div className="featured-wines-section">
       
       </div>
-      <DisplayEmissions
-      emissions={setDisplayEmission}
-       />
+        <section className='d-flex justify-content-center flex-wrap'>
+          <DisplayEmissions
+          emissions={setDisplayEmission}
+          />
+        </section>
     </div>
 
 </>
