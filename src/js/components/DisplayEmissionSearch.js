@@ -1,41 +1,24 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Image1 from "../../../../assets/images/bottle1.jpg";
-import { dataService } from "../../services/dataService.js"
+import Image1 from "../../../assets/images/bottle1.jpg";
 import { Link } from "react-router-dom";
+import { emissionService } from "../services/emissionService";
 
-const DisplayEmissions = (props) => {
+const DisplayEmissionSearch = ({ emissions }) => {
 
     const imageSrc = Image1;
-    const [emissions, setEmissions] = useState([]);
+    const [emissionsSearch, setEmissionsSearch] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
 
     useEffect( ()=>{ 
-        const fetchEmissions = async ()=>{
-            try{
-                let request = {
-                    type: "SellerSku",
-                    ignoreRegexWrap: [],
-                    query: {},
-                    visiblePages: 10,
-                    sortName: "id",
-                    sortDirection: "ASC",
-                    limit: 10,
-                    offset: 0,
-                    page: 1
-                };
-                const storeEmission = await dataService.searchEmissions(request);
-                setEmissions(storeEmission.data.content);
-                console.log("storeEmission:", storeEmission)
-            } catch(e){
-                console.error("erreur fetching:", e)
-            }
-        };
-        fetchEmissions();
-    }, [])
+      setEmissionsSearch(emissions);
+
+    }, [emissions])
+
+    
   return (
     <>
-      {emissions.length > 0 && emissions.map((emission) => (
+      {emissionsSearch.length > 0 && emissionsSearch.map((emission) => (
         emission.publishedForSale ? (
           <div className="card m-4" style={{ width: "18rem" }} key={emission.id}>
             <img src={imageSrc} alt={emission.name} />
@@ -62,4 +45,4 @@ const DisplayEmissions = (props) => {
     </>
   );
 }
-export default DisplayEmissions;
+export default DisplayEmissionSearch;

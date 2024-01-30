@@ -6,11 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Image1 from "../../../assets/images/bottle1.jpg";
+import { emissionService } from "../services/emissionService";
 
 
 
 
-const Emission = () => {
+const Emission = (props) => {
 
     const [profile, setProfile] = useState([]);
     const { id } = useParams();
@@ -40,28 +41,13 @@ const Emission = () => {
     useEffect(() => {
         const fetchEmission = async () => {
             try {
-                let request = {
-                    type: "SellerSku",
-                    ignoreRegexWrap: [],
-                    query: {
-                        "id": id,
-                    },
-                    visiblePages: 10,
-                    sortName: "id",
-                    sortDirection: "ASC",
-                    limit: 10,
-                    offset: 0,
-                    page: 1
-                }
-                const result = await dataService.searchEmissions(request);
-                console.log('result : ', result);
+                const emissionId = await emissionService.getEmissionById(id);
+                console.log('emissionId : ', emissionId);
 
-                
-                if (result.data.content.length > 0) {
-                    console.log('emission: ', result.data.content[0]);
-                    setEmission(result.data.content[0]);
-                    setIsPublished(result.data.content[0].publishedForSale)
-                    
+                if (emissionId.length > 0) {
+                    console.log('emission: ', emissionId[0]);
+                    setEmission(emissionId[0]);
+                    setIsPublished(emissionId[0].publishedForSale)
                 } else {
                     console.error(`Aucune émission trouvée avec l'ID ${id}`);
                 }

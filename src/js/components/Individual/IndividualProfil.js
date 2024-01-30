@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../../../css/Users/IndividualProfil.css'
-import DisplayEmissions from './DisplayEmissions';
+import DisplayEmissionSearch from '../DisplayEmissionSearch';
+import EmissionsAll from '../EmissionsAll';
+import SearchEmission from '../SearchEmission';
 
 
 const IndiviudalProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
   const [displayEmission, setDisplayEmission] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     // Mettez à jour le profil avec les données transmises
     if (location.state && location.state.userProfile) {
       setProfile(location.state.userProfile);
-      console.log('user', location.state.userProfile);
+      // console.log('user', location.state.userProfile);
     }
   }, []);
 
-  
+  const handleSearch = (results) => {
+    setSearchResults(results);
+  };
+
+  // console.log('indi', searchResults)
   return (
     <>
     <div className="profile-container">
@@ -32,22 +39,20 @@ const IndiviudalProfil = () => {
         </div>
       </div>
       <div className="search-section">
+
         <div className="search-by-criteria">
-          <input type="text" placeholder="type key words" />
-          {/* <button>Filter set</button> */}
-          <button>Search</button>
+            <SearchEmission onSearch={handleSearch} />
         </div>
-        <div className="browse-section">
-          <button>Request a personalized recommendation</button>
-        </div>
+
       </div>
-      <div className="featured-wines-section">
-      
-      </div>
+
         <section className='d-flex justify-content-center flex-wrap'>
-          <DisplayEmissions
-          emissions={setDisplayEmission}
-          />
+          {searchResults.length > 0 ? (
+            <DisplayEmissionSearch emissions={searchResults} />
+          ) : (
+            <EmissionsAll emissions={setDisplayEmission} />
+          )}
+        
         </section>
     </div>
 
