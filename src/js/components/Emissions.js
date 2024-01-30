@@ -6,12 +6,6 @@ const Emissions = (props) => {
 
     const [results, setResults] = useState([]);
 
-
-    const editions = [
-        { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
-
-    ];
-
     useEffect(() => {
         const fetchSku = async () => {
             try {
