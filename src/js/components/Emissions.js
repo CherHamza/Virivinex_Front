@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { dataService } from "../services/dataService";
+import { EmissionService } from "../services/emissionService";
 
 
 const Emissions = (props) => {
 
     const [results, setResults] = useState([]);
+    const emissionService = EmissionService.getInstance(); 
 
     useEffect(() => {
         const fetchSku = async () => {
