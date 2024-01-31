@@ -44,13 +44,9 @@ const Home = () => {
     };
 
     checkAuthentication();
-  }, [navigate]);
-
-  
-
+  }, []);
 
   return (
-
   <>
     <div className="app">
 
@@ -66,15 +62,8 @@ const Home = () => {
       </div>
       <Carousel />
     </div>
-
-
-
-
   </>
-
   );
-
-
 };
 
 export default Home;

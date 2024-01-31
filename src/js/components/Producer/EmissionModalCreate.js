@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
-import Search from "../Search";
+import SearchSkus from "../SearchSkus";
 
 
 
@@ -80,10 +80,17 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
   
     const handleCreateEmission = async () => {
         const loggedProfile = await dataService.getAuthenticatedProfile();
-     
+        const allAvailableAttrs = await dataService.getAttributesFromSKU(embeddedSkuId);
+
+        console.log("all available attributes:",allAvailableAttrs);
+
         const newEmission = {
           name: formData.nameEmission,
+          description: formData.description,
           embeddedSeller: loggedProfile.embeddedParent,
+          attributeValues : [
+              { attribute: { id: "Type of Wine" }, value: "opt15", active: true },
+          ],
           embeddedSku: {
             id: embeddedSkuId,
             name: embeddedSkuName,
@@ -96,7 +103,13 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         try {
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log(response);
-     
+
+          const productAttrs = await dataService.getProductRelatedData(response.id);
+          console.log("product related attributes:",productAttrs);
+
+          const attrValues = response.attributeValues;
+          console.log("only defined attribute values:",attrValues);
+
           // Afficher un toast de succès
           toast.success("Emission created successfully!", {
             position: toast.POSITION.TOP_RIGHT,
@@ -146,8 +159,14 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                 <label htmlFor="nameEmission">Wine Title Name</label>
                 <input type="text" className="form-control" id="nameEmission" name="nameEmission" value={formData.nameEmission} onChange={handleInputChange} />
               </div>
+
   
-              <Search setSkuId={setEmbeddedSkuId} setSkuName={setEmbeddedName} />
+              <SearchSkus setSkuId={setEmbeddedSkuId} setSkuName={setEmbeddedName} />
+
+              <div className="form-group">
+                  <label htmlFor="description">Description</label>
+                  <textarea className="form-control" rows="5" calls="33" id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
+              </div>
 
 
              {/* <div className="form-group">
@@ -178,10 +197,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                             <label htmlFor="areaOfProduction">Area of Production</label>
                             <input type="text" className="form-control" id="areaOfProduction" name="areaOfProduction" value={formData.areaOfProduction} onChange={handleInputChange} />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="description">Description</label>
-                            <input type="text" className="form-control" id="description" name="description" value={formData.description} onChange={handleInputChange} />
-                        </div>
+                        
 
                         <div className="form-group">
                             <label htmlFor="bottleInitialPriceTarget">Bottle Initial Price Target</label>

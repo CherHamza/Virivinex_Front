@@ -107,7 +107,7 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert }) =>
         dataService.createUser(newUser)
             .then(res => {
                 console.log(res);
-                toast.success("User successfully created !");
+                toast.success("Successfully created - Please go to your e-mail to confirm !");
                 // Réinitialiser les champs et fermer la modale
                 setFormData({
                     email: "",

@@ -214,6 +214,43 @@ class DataService {
     }
 
     /**
+     * Retrieves related data for a product based on SKU ID.
+     *
+     * @async
+     * @param {string} skuId - The unique identifier of the SKU.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise} A promise that resolves to the related data of the product.
+     */
+    async getAttributesFromSKU(skuId,eventType,endpoint) {
+        return await this.fetchMSM(
+            "ecomSearchEngineServiceImpl",
+            "PROTOTYPE",
+            "getAttributesFromSKU",
+            [skuId],
+            eventType,
+            endpoint).then( res => res.result );
+    }
+
+    /**
+     * Retrieves attribute values based on the sellerSkuId, eventType, and endpoint.
+     * @async
+     * @param {string} sellerSkuId - The unique identifier of the seller SKU.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise<Array>} - A promise that resolves to an array of special features.
+     */
+    async getAttributeValuesFromSellerSKU(sellerSkuId,eventType,endpoint) {
+        return await this.fetchMSM(
+            "ecomSearchEngineServiceImpl",
+            "PROTOTYPE",
+            "getAttributeValuesFromSellerSKU",
+            [sellerSkuId],
+            eventType,
+            endpoint).then( res => res.result );
+    }
+
+    /**
      * Retrieves special features based on the sellerSkuId, eventType, and endpoint.
      * @async
      * @param {string} sellerSkuId - The unique identifier of the seller SKU.

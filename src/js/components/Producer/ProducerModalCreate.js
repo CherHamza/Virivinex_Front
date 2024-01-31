@@ -106,7 +106,7 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             .then(res => {
                 console.log("Response:", res);
                 // Réinitialiser les champs et fermer la modale
-                toast.success("User successfully created !");
+                toast.success("Successfully created - Please go to your e-mail to confirm !");
                 setFormData({
                     email: "",
                     pseudo: "",
