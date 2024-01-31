@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
 import SearchSkus from "../SearchSkus";
+import { fetchApi } from '../../services/apiService';
 
 
 
@@ -27,6 +28,11 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     const [profile, setProfile] = useState([]);
     const [embeddedSkuId, setEmbeddedSkuId] = useState([]);
     const [embeddedSkuName, setEmbeddedName] = useState([]);
+  // const [data, setData] = useState(null);
+  // const [newEmission, setNewEmission] = useState({
+  //   nameEmission: "",
+  //   description: "",
+  // })
   
     useEffect(() => {
       const checkAuthentication = async () => {
@@ -103,6 +109,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         try {
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log(response);
+          
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
           console.log("product related attributes:",productAttrs);
@@ -129,6 +136,10 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         }
       };
      
+
+  
+
+  // fetchApi();
   
     return (
       <div
