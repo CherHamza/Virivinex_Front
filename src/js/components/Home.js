@@ -53,7 +53,7 @@ const Home = () => {
       const test = await apiService.getSotEmissionAll();
       console.log('Test ', test)
 
-      console.log('Test id', test[0].uniqueBottle_id)
+      // console.log('Test id', test[0].uniqueBottle_id)
     }
   
   fetchData();

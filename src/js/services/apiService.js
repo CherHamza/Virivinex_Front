@@ -11,13 +11,14 @@ export class ApiService {
 
     /**
      * 
-     * @param {string} methodHttp http protocole (GET, POST, DELETE, PUT, PATCH)
+     * @param {string} methodHttp protocole http (GET, POST, DELETE, PUT, PATCH)
      */
     unit = (methodHttp) => ({
         method: methodHttp,
         headers: this.headers,
     })
 
+    static instance = null;  
 
     static getInstance() {
         if (!this.instance) {
@@ -27,7 +28,7 @@ export class ApiService {
     }
 
     /**
-     * Return allEmissions
+     * Retourne toutes les émissions
      * @returns 
      */
     async getSotEmissionAll() {
@@ -37,11 +38,36 @@ export class ApiService {
                 const data = await response.json();
                 return data;
             } else {
-                console.error(`Error fetching: ${response.statusText}`);
+                console.error(`Erreur de récupération: ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('An error occurred:', error);
+            console.error('Une erreur s\'est produite :', error);
+            return null;
+        }
+    }
+
+    async setSotEmission(apiEmission) {
+        try {
+            const response = await fetch(`${this.apiUrlSot}emissions`, {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Basic ${this.token}`
+                    // Vous pouvez ajouter d'autres en-têtes au besoin
+                },
+                body: JSON.stringify(apiEmission)
+            });
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                console.error(`Erreur de récupération: ${response.statusText}`);
+                return null;
+            }
+        } catch (error) {
+            console.error('Une erreur s\'est produite :', error);
             return null;
         }
     }

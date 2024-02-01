@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
 import SearchSkus from "../SearchSkus";
-import { fetchApi } from '../../services/apiService';
+import { ApiService } from '../../services/apiService';
 
 
 
@@ -17,10 +17,11 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
       description: "",
       bottleInitialPriceTarget: "",
       bottlePriceMinimum: "",
-      bottleSize: "",
+      bottleSizes: "",
       country: "",
       wineMacroRegion: "",
       typeOfWine: "",
+      nbOfUnits: "",
       dryToSweetType: "",
       searchCategory: "",
     });
@@ -28,6 +29,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     const [profile, setProfile] = useState([]);
     const [embeddedSkuId, setEmbeddedSkuId] = useState([]);
     const [embeddedSkuName, setEmbeddedName] = useState([]);
+    const apiService = ApiService.getInstance();
   // const [data, setData] = useState(null);
   // const [newEmission, setNewEmission] = useState({
   //   nameEmission: "",
@@ -46,16 +48,16 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
       checkAuthentication();
     }, []);
 
-    // const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
-    // const countries = ["", "France", "Italy", "Spain", "United States"];
-    // const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
+    const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
+    const countries = ["", "France", "Italy", "Spain", "United States"];
+    const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
     // const types = ["", "Red", "White", "Rose", "Sparkling White","Sparkling rose"];
     // const genres = ["", "Dry", "Semi-dry"];
 
     
     // Effet pour réinitialiser les champs lorsque resetFields change
     useEffect(() => {
-      if (resetFields) {
+      if (resetFields) { 
         setFormData({
           nameEmission: "",
           grapeComposition: "",
@@ -63,11 +65,12 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           description: "",
           bottleInitialPriceTarget: "",
           bottlePriceMinimum: "",
-          bottleSize: "",
+          bottleSizes: "",
           country: "",
           searchCategory: "",
           wineMacroRegion: "",
           typeOfWine: "",
+          nbOfUnits: "",
           dryToSweetType: "",
         });
   
@@ -105,11 +108,38 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         };
      
         console.log("emission ", newEmission);
+
+        const NewEmissionApi = {
+
+        emissionUnique_id: "FR-2024-00002354-TBA",
+        wineTitleName: formData.nameEmission,
+        emissionCardLink: "www.bit.ly/tr320fd",
+        winery: loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
+        areaOfProduction: "Pessac-Leognan",
+        wineMacroRegion: formData.wineMacroRegion,
+        country: formData.country,
+        yearOfBottling: "2023",
+        typeOfWine: "red",
+        initialQuantityoOfUniqueBottlesInEmission: formData.nbOfUnits,
+        bottleSize_TradingUnitType: formData.bottleSizes,
+        emissionRecordReference: "8u3gta54mn3hg23ggaas6",
+        ledgerOfEmissionVideoRecording: "www.verivinex.com/emission-video/fr00010",
+        uniquenessFactorType: "Celebrity signature Lana Del Rey",
+        uniquenessFactorDescription: formData.description,
+        emissionStatus: "Bottled-Ready-for-Evaluation",
+        ledgersOfEmissionVideoRecording: "youtube; verivinex; dailymotion",
+        wineDescriptiveCombination: "red; bordeaux"
+
+        };
      
         try {
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log(response);
-          
+
+          const apiEmission = await apiService.setSotEmission(NewEmissionApi);
+
+          console.log("apiEmission", apiEmission);
+
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
           console.log("product related attributes:",productAttrs);
@@ -177,6 +207,42 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
               <div className="form-group">
                   <label htmlFor="description">Description</label>
                   <textarea className="form-control" rows="5" calls="33" id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
+              </div>
+
+              <div className="form-group">
+                            <label htmlFor="wineMacroRegion">Wine Macro Region</label>
+                            <select name="wineMacroRegion" className="form-control" defaultValue="" onChange={handleInputChange}>
+                                {regions.map((region) => (
+                                    <option key={region} value={region}>
+                                        {region || "Please choose a region"}
+                                    </option>
+                                ))}
+                            </select>
+              </div>
+              <div className="form-group">
+                            <label htmlFor="country">Country</label>
+                            <select name="country" className="form-control" defaultValue="" onChange={handleInputChange}>
+                                {countries.map((country) => (
+                                    <option key={country} value={country}>
+                                        {country || "Please choose a country"}
+                                    </option>
+                                ))}
+                            </select>
+              </div>
+              <div className="form-group">
+                  <label htmlFor="nbOfUnits"> Quantity Of Unique Bottles In Emission</label>
+                <input type="number" className="form-control" id="nbOfUnits" name="nbOfUnits" value={formData.nbOfUnits} onChange={handleInputChange} />
+              </div>
+
+              <div className="form-group">
+                            <label htmlFor="bottleSize">Bottle Size</label>
+                            <select name="bottleSize" className="form-control" defaultValue="" onChange={handleInputChange}>
+                                {bottleSizes.map((size) => (
+                                    <option key={size} value={size}>
+                                        {size || "Please choose a bottle size"}
+                                    </option>
+                                ))}
+                            </select>
               </div>
 
 
