@@ -55,7 +55,6 @@ export class ApiService {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     Authorization: `Basic ${this.token}`
-                    // Vous pouvez ajouter d'autres en-têtes au besoin
                 },
                 body: JSON.stringify(apiEmission)
             });

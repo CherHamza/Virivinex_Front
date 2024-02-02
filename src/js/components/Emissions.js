@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { dataService } from "../services/dataService";
 import { EmissionService } from "../services/emissionService";
-
+import { ApiService } from "../services/apiService";
 
 const Emissions = (props) => {
 
     const [results, setResults] = useState([]);
     const emissionService = EmissionService.getInstance(); 
+    const apiService = ApiService.getInstance();
 
     useEffect(() => {
         const fetchSku = async () => {
@@ -38,6 +39,59 @@ const Emissions = (props) => {
     }, [props.profile]);
 
     console.log('results ', results);
+
+    if(results.length > 0) {
+
+        results.map((res)=>{
+
+            if(res.publishedForSale){
+
+                console.log("RES", res);
+
+            const newEmissionApi = {
+
+                emissionUnique_id: "",
+                wineTitleName: res.name,
+                emissionCardLink: "",
+                winery: res.embeddedSeller.name,
+                // loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
+                areaOfProduction: "",
+                wineMacroRegion: "",
+                country: "",
+                yearOfBottling: "",
+                typeOfWine: "",
+                initialQuantityoOfUniqueBottlesInEmission: "",
+                bottleSize_TradingUnitType: "",
+                emissionRecordReference: "",
+                ledgerOfEmissionVideoRecording: "",
+                uniquenessFactorType: "",
+                uniquenessFactorDescription: res.description,
+                emissionStatus: "",
+                ledgersOfEmissionVideoRecording: "",
+                wineDescriptiveCombination: ""
+        
+                };
+                console.log("newEmissionAPi", newEmissionApi);
+
+                
+        };
+
+        })
+    
+    }
+
+    // useEffect (()=>{
+    //     const fetchDataApi = async ()=>{
+    //         const apiEmission = await apiService.setSotEmission(NewEmissionApi);
+    //         console.log("apiEmission", apiEmission)
+
+    //     }
+    //     fetchDataApi();
+    // }, [])
+
+
+    
+        
 
     return (
         <section className="editions-list">

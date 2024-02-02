@@ -33,6 +33,9 @@ const ProducerProfil = () => {
     handleShowModalProducerEmission();
   }
 
+
+  
+
   return (
     <>
       <div className="producer-dashboard">

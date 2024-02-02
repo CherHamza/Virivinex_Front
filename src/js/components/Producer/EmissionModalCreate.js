@@ -109,34 +109,13 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
      
         console.log("emission ", newEmission);
 
-        const NewEmissionApi = {
-
-        emissionUnique_id: "FR-2024-00002354-TBA",
-        wineTitleName: formData.nameEmission,
-        emissionCardLink: "www.bit.ly/tr320fd",
-        winery: loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
-        areaOfProduction: "Pessac-Leognan",
-        wineMacroRegion: formData.wineMacroRegion,
-        country: formData.country,
-        yearOfBottling: "2023",
-        typeOfWine: "red",
-        initialQuantityoOfUniqueBottlesInEmission: formData.nbOfUnits,
-        bottleSize_TradingUnitType: formData.bottleSizes,
-        emissionRecordReference: "8u3gta54mn3hg23ggaas6",
-        ledgerOfEmissionVideoRecording: "www.verivinex.com/emission-video/fr00010",
-        uniquenessFactorType: "Celebrity signature Lana Del Rey",
-        uniquenessFactorDescription: formData.description,
-        emissionStatus: "Bottled-Ready-for-Evaluation",
-        ledgersOfEmissionVideoRecording: "youtube; verivinex; dailymotion",
-        wineDescriptiveCombination: "red; bordeaux"
-
-        };
+        
      
         try {
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log(response);
 
-          const apiEmission = await apiService.setSotEmission(NewEmissionApi);
+         
 
           console.log("apiEmission", apiEmission);
 
