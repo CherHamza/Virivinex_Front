@@ -345,6 +345,42 @@ class DataService {
             endpoint).then(res => res.result);
     }
 
+    /**
+     * Publishes a product for sale.
+     *
+     * @param {string} sellerSkuId - The unique identifier of the seller SKU for the product.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise} A promise that resolves to the related data of the product.
+     */
+    async publishForSale(sellerSkuId, eventType, endpoint) {
+        return await this.fetchMSM(
+            "salesCatalogServiceImpl",
+            "PROTOTYPE",
+            "publishForSale",
+            [sellerSkuId],
+            eventType,
+            endpoint).then(res => res.result);
+    }
+
+    /**
+     * Withdraws a product from sale.
+     *
+     * @param {string} sellerSkuId - The unique identifier of the seller SKU for the product.
+     * @param {string} eventType - The type of event. Optional parameter, it used to manage with server responses, possible values GLOBAL,USER,SHARED.
+     * @param {string} endpoint - The API endpoint for retrieving the website settings. Optional parameter, it works if eventType is equals to SHARED.
+     * @returns {Promise} A promise that resolves to the related data of the product.
+     */
+    async withdrawFromSale(sellerSkuId, eventType, endpoint) {
+        return await this.fetchMSM(
+            "salesCatalogServiceImpl",
+            "PROTOTYPE",
+            "withdrawFromSale",
+            [sellerSkuId],
+            eventType,
+            endpoint).then(res => res.result);
+    }
+
 
     /**
      * Retrieves the SKU based on the specified query, event type, and endpoint.
