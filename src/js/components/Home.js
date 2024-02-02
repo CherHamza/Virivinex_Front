@@ -7,10 +7,11 @@ import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast } from 'react-toastify';
 import '../../css/home.css'
 import ProducerProfil from './Producer/ProducerProfil';
+import {ApiService} from '../services/apiService';
 
 const Home = () => {
   const navigate = useNavigate();
-
+  const apiService = ApiService.getInstance();
   const [profile, setProfile] = useState([]);
 
   useEffect(() => {
@@ -44,13 +45,23 @@ const Home = () => {
     };
 
     checkAuthentication();
-  }, [navigate]);
+  }, []);
 
+
+  useEffect(() => {
+    const fetchData = async ()=> {
+      const test = await apiService.getSotEmissionAll();
+      console.log('Test ', test)
+
+      // console.log('Test id', test[0].uniqueBottle_id)
+    }
   
+  fetchData();
+ 
+  }, []);
 
 
   return (
-
   <>
     <div className="app">
 
@@ -66,15 +77,8 @@ const Home = () => {
       </div>
       <Carousel />
     </div>
-
-
-
-
   </>
-
   );
-
-
 };
 
 export default Home;
