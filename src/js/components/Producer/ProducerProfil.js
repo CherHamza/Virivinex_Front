@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import '../../../css/Users/ProducerProfil.css';
 import EmissionModalCreate from './EmissionModalCreate';
 import { dataService } from "../../services/dataService";
+import { ApiService } from "../../services/apiService";
 import Emissions from '../Emissions';
 
 const ProducerProfil = () => {
@@ -10,6 +11,7 @@ const ProducerProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
   const [emissions, setEmissions] = useState([]);
+  const apiService= ApiService.getInstance();
 
   const [showModalProducerEmission, setShowModalProducerEmission] = useState(false);
   const handleShowModalProducerEmission = () => setShowModalProducerEmission(true);
@@ -22,6 +24,8 @@ const ProducerProfil = () => {
       console.log('user', location.state.userProfile);
     }
   }, [location.state]);
+
+  
 
   // const loggedProfile = dataService.getAuthenticatedProfile();
   // console.log('user ', profile.embeddedParent);
