@@ -91,7 +91,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
         const loggedProfile = await dataService.getAuthenticatedProfile();
         const allAvailableAttrs = await dataService.getAttributesFromSKU(embeddedSkuId);
 
-        console.log("all available attributes:",allAvailableAttrs);
+        // console.log("all available attributes:",allAvailableAttrs);
 
         const newEmission = {
           name: formData.nameEmission,
@@ -107,24 +107,63 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           },
         };
      
-        console.log("emission ", newEmission);
+        // console.log("emission ", newEmission);
+
+      const newEmissionApi = {
+        emissionUnique_id: "",
+        wineTitleName: formData.nameEmission,
+        emissionCardLink: "",
+        winery: loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
+        areaOfProduction: "",
+        wineMacroRegion: formData.regions,
+        country: formData.countries,
+        yearOfBottling: "",
+        typeOfWine: "",
+        initialQuantityoOfUniqueBottlesInEmission: formData.nbOfUnits,
+        bottleSize_TradingUnitType: formData.bottleSizes,
+        emissionRecordReference: "",
+        ledgerOfEmissionVideoRecording: "",
+        uniquenessFactorType: "",
+        uniquenessFactorDescription: formData.description,
+        emissionStatus: "",
+        ledgersOfEmissionVideoRecording: "",
+        wineDescriptiveCombination: ""
+
+      };
+      // console.log("newEmissionAPi", newEmissionApi);
+
 
         
      
         try {
+          // Creation emission CMS
           const response = await dataService.saveEmissionAsDraft(newEmission);
-          console.log(response);
+          console.log('Creation CMS',response);
 
-         
+          // Creation emission SOT
+        const apiEmission = await apiService.setSotEmission(newEmissionApi);
+          console.log("Creation SOT", apiEmission);
 
-          console.log("apiEmission", apiEmission);
+          // Dernier enregistrement in SOT
+          const lastRecordEmission = await apiService.getLastRecord();
+          console.log('Last record ', lastRecordEmission._id);
+
+          const oidValue = lastRecordEmission._id["$oid"]; 
+
+          const idEmissionCMS = response.id;
+
+          
+          const concatenatedId = idEmissionCMS + '_'+ oidValue;
+          console.log('concatenation ', concatenatedId);
+
+          // Update field 
+          const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
 
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
-          console.log("product related attributes:",productAttrs);
-
+          // console.log("product related attributes:",productAttrs);
           const attrValues = response.attributeValues;
-          console.log("only defined attribute values:",attrValues);
+          // console.log("only defined attribute values:",attrValues);
 
           // Afficher un toast de succès
           toast.success("Emission created successfully!", {

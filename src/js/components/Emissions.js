@@ -38,7 +38,7 @@ const Emissions = (props) => {
         fetchSku();
     }, [props.profile]);
 
-    console.log('results ', results);
+    // console.log('results ', results);
 
     if(results.length > 0) {
 
@@ -46,32 +46,32 @@ const Emissions = (props) => {
 
             if(res.publishedForSale){
 
-                console.log("RES", res);
+                // console.log("RES", res);
 
-            const newEmissionApi = {
+            // const newEmissionApi = {
 
-                emissionUnique_id: "",
-                wineTitleName: res.name,
-                emissionCardLink: "",
-                winery: res.embeddedSeller.name,
-                // loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
-                areaOfProduction: "",
-                wineMacroRegion: "",
-                country: "",
-                yearOfBottling: "",
-                typeOfWine: "",
-                initialQuantityoOfUniqueBottlesInEmission: "",
-                bottleSize_TradingUnitType: "",
-                emissionRecordReference: "",
-                ledgerOfEmissionVideoRecording: "",
-                uniquenessFactorType: "",
-                uniquenessFactorDescription: res.description,
-                emissionStatus: "",
-                ledgersOfEmissionVideoRecording: "",
-                wineDescriptiveCombination: ""
+            //     emissionUnique_id: "",
+            //     wineTitleName: res.name,
+            //     emissionCardLink: "",
+            //     winery: res.embeddedSeller.name,
+            //     // loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
+            //     areaOfProduction: "",
+            //     wineMacroRegion: "",
+            //     country: "",
+            //     yearOfBottling: "",
+            //     typeOfWine: "",
+            //     initialQuantityoOfUniqueBottlesInEmission: "",
+            //     bottleSize_TradingUnitType: "",
+            //     emissionRecordReference: "",
+            //     ledgerOfEmissionVideoRecording: "",
+            //     uniquenessFactorType: "",
+            //     uniquenessFactorDescription: res.description,
+            //     emissionStatus: "",
+            //     ledgersOfEmissionVideoRecording: "",
+            //     wineDescriptiveCombination: ""
         
-                };
-                console.log("newEmissionAPi", newEmissionApi);
+            //     };
+            //     console.log("newEmissionAPi", newEmissionApi);
 
                 
         };

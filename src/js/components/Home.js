@@ -60,6 +60,14 @@ const Home = () => {
  
   }, []);
 
+  useEffect(() => {
+    const fetchDataE = async () => {
+
+      const responseID = await apiService.getLastRecord();
+      console.log(responseID);
+    }
+    fetchDataE();
+  }, []);
 
   return (
   <>
