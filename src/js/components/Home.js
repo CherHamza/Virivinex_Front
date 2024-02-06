@@ -34,6 +34,8 @@ const Home = () => {
             case "Individual":
               navigate("/app/account/individual.html", { state: { userProfile } });
               break;
+            case "Admin":
+              navigate("/app/account/admin.html", {state : {userProfile} });
             default:
               toast.error("Type d'utilisateur non reconnu.");
               navigate("/app/home.html");
