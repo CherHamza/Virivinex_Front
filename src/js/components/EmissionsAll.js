@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Image1 from "../../../assets/images/bottle1.jpg";
-import { dataService } from "../services/dataService.js"
+import { dataService } from "../services/dataService.js";
 import { Link } from "react-router-dom";
 import { EmissionService } from "../services/emissionService";
 

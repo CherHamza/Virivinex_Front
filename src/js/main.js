@@ -13,6 +13,7 @@ import { Footer } from './components/Footer.js';
 import LandingPageVerif from "./components/LandingPageVerif.js";
 import Emission from './components/Emission';
 import AdministrationProfile from './components/Admin/AdministrationProfile.js'
+import DetailEmission from './components/Admin/DetailEmission.js';
 import 'whatwg-fetch';
 
 
@@ -32,6 +33,7 @@ root.render(
         <Route path="/app/account/expert.html" element={<ExpertProfil/>}/>
         <Route path="/app/account/producer.html" element={<ProducerProfil />}/>
         <Route path="/app/account/admin.html" element={<AdministrationProfile />}/>
+        <Route path='/app/account/admin/:id/detail.html' element={<DetailEmission />}/>
         <Route path="/app/:id/detail.html" element={<Emission />}/>
       </Routes>
       <Footer />

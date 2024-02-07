@@ -47,7 +47,7 @@ const AdministrationProfile = () => {
                                     </li>
                                 </ul>
                                 <div className="mt-3">
-                                    <Link to={`/app/${emission.id}/detail.html`} className="card-link">
+                                    <Link to={`/app/account/admin/${emission.id}/detail.html`} className="card-link">
                                         Detail
                                     </Link>
                                 </div>

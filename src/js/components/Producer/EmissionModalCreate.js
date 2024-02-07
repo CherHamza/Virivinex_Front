@@ -48,9 +48,9 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
       checkAuthentication();
     }, []);
 
-    const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
-    const countries = ["", "France", "Italy", "Spain", "United States"];
-    const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
+    // const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
+    // const countries = ["", "France", "Italy", "Spain", "United States"];
+    // const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
     // const types = ["", "Red", "White", "Rose", "Sparkling White","Sparkling rose"];
     // const genres = ["", "Dry", "Semi-dry"];
 
@@ -109,29 +109,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
      
         // console.log("emission ", newEmission);
 
-      const newEmissionApi = {
-        emissionUnique_id: "",
-        wineTitleName: formData.nameEmission,
-        emissionCardLink: "",
-        winery: loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
-        areaOfProduction: "",
-        wineMacroRegion: formData.regions,
-        country: formData.countries,
-        yearOfBottling: "",
-        typeOfWine: "",
-        initialQuantityoOfUniqueBottlesInEmission: formData.nbOfUnits,
-        bottleSize_TradingUnitType: formData.bottleSizes,
-        emissionRecordReference: "",
-        ledgerOfEmissionVideoRecording: "",
-        uniquenessFactorType: "",
-        uniquenessFactorDescription: formData.description,
-        emissionStatus: "",
-        ledgersOfEmissionVideoRecording: "",
-        wineDescriptiveCombination: ""
-
-      };
-      // console.log("newEmissionAPi", newEmissionApi);
-
+     
 
         
      
@@ -140,24 +118,21 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log('Creation CMS',response);
 
-          // Creation emission SOT
-          const apiEmission = await apiService.setSotEmission(newEmissionApi);
-          console.log("Creation SOT", apiEmission);
 
-          // Dernier enregistrement in SOT
-          const lastRecordEmission = await apiService.getLastRecord();
-          console.log('Last record ', lastRecordEmission._id);
+          // // Dernier enregistrement in SOT
+          // const lastRecordEmission = await apiService.getLastRecord();
+          // console.log('Last record ', lastRecordEmission._id);
 
-          const oidValue = lastRecordEmission._id["$oid"]; 
+          // const oidValue = lastRecordEmission._id["$oid"]; 
 
-          const idEmissionCMS = response.id;
+          // const idEmissionCMS = response.id;
 
           
-          const concatenatedId = idEmissionCMS + '_'+ oidValue;
-          console.log('concatenation ', concatenatedId);
+          // const concatenatedId = idEmissionCMS + '_'+ oidValue;
+          // console.log('concatenation ', concatenatedId);
 
-          // Update field 
-          const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
+          // // Update field 
+          // const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
 
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
