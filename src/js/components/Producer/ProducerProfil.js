@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import '../../../css/Users/ProducerProfil.css';
 import EmissionModalCreate from './EmissionModalCreate';
 import { dataService } from "../../services/dataService";
+import { ApiService } from "../../services/apiService";
 import Emissions from '../Emissions';
 
 const ProducerProfil = () => {
@@ -10,6 +11,7 @@ const ProducerProfil = () => {
   const location = useLocation();
   const [profile, setProfile] = useState({});
   const [emissions, setEmissions] = useState([]);
+  const apiService= ApiService.getInstance();
 
   const [showModalProducerEmission, setShowModalProducerEmission] = useState(false);
   const handleShowModalProducerEmission = () => setShowModalProducerEmission(true);
@@ -23,20 +25,20 @@ const ProducerProfil = () => {
     }
   }, [location.state]);
 
+  
+
   // const loggedProfile = dataService.getAuthenticatedProfile();
-
-
   // console.log('user ', profile.embeddedParent);
   // console.log('userP ', loggedProfile.embeddedParent);
 
-  const editions = [
-    { id: 1, pic: 'image-source', text: 'Texte', owned: 3000, marketPrice: 30.00, value: 90000.00 },
-  ];
 
   const handleCreateEmission = () => {
-    console.log('j ai cliquer');
+
     handleShowModalProducerEmission();
   }
+
+
+  
 
   return (
     <>

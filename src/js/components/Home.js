@@ -7,10 +7,11 @@ import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast } from 'react-toastify';
 import '../../css/home.css'
 import ProducerProfil from './Producer/ProducerProfil';
+import {ApiService} from '../services/apiService';
 
 const Home = () => {
   const navigate = useNavigate();
-
+  const apiService = ApiService.getInstance();
   const [profile, setProfile] = useState([]);
 
   useEffect(() => {
@@ -33,6 +34,8 @@ const Home = () => {
             case "Individual":
               navigate("/app/account/individual.html", { state: { userProfile } });
               break;
+            case "Admin":
+              navigate("/app/account/admin.html", {state : {userProfile} });
             default:
               toast.error("Type d'utilisateur non reconnu.");
               navigate("/app/home.html");
@@ -44,6 +47,28 @@ const Home = () => {
     };
 
     checkAuthentication();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData = async ()=> {
+      const test = await apiService.getSotEmissionAll();
+      console.log('Test ', test)
+
+      // console.log('Test id', test[0].uniqueBottle_id)
+    }
+  
+  fetchData();
+ 
+  }, []);
+
+  useEffect(() => {
+    const fetchDataE = async () => {
+
+      const responseID = await apiService.getLastRecord();
+      console.log(responseID);
+    }
+    fetchDataE();
   }, []);
 
   return (

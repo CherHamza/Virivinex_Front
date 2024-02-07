@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Image1 from "../../../assets/images/bottle1.jpg";
-import { emissionService } from "../services/emissionService";
+import { EmissionService } from "../services/emissionService";
 
 
 
@@ -22,6 +22,7 @@ const Emission = (props) => {
     const handleGoBack = () => {
       navigate(-1); // This will navigate back
     };
+  const emissionService = EmissionService.getInstance(); 
     
     useEffect(() => {
         const checkAuthentication = async () => {

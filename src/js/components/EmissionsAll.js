@@ -1,15 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Image1 from "../../../assets/images/bottle1.jpg";
-import { dataService } from "../services/dataService.js"
+import { dataService } from "../services/dataService.js";
 import { Link } from "react-router-dom";
-import { emissionService } from "../services/emissionService";
+import { EmissionService } from "../services/emissionService";
 
 const EmissionsAll = (props) => {
 
     const imageSrc = Image1;
     const [emissions, setEmissions] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
+    const emissionService = EmissionService.getInstance(); 
 
     useEffect(() => {
         const fetchAllEmissions = async () => {
