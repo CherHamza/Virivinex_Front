@@ -141,7 +141,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           console.log('Creation CMS',response);
 
           // Creation emission SOT
-        const apiEmission = await apiService.setSotEmission(newEmissionApi);
+          const apiEmission = await apiService.setSotEmission(newEmissionApi);
           console.log("Creation SOT", apiEmission);
 
           // Dernier enregistrement in SOT
