@@ -104,7 +104,13 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             id: embeddedSkuId,
             name: embeddedSkuName,
             repositoryName: "SKURepository",
+
           },
+          metaInfo: {
+            
+            isPublishedSot: false,
+            repositoryName: "SellerSKURepository"
+          }
         };
      
         // console.log("emission ", newEmission);
@@ -202,7 +208,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                   <textarea className="form-control" rows="5" calls="33" id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
               </div>
 
-              <div className="form-group">
+              {/* <div className="form-group">
                             <label htmlFor="wineMacroRegion">Wine Macro Region</label>
                             <select name="wineMacroRegion" className="form-control" defaultValue="" onChange={handleInputChange}>
                                 {regions.map((region) => (
@@ -236,7 +242,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                                     </option>
                                 ))}
                             </select>
-              </div>
+              </div> */}
 
 
              {/* <div className="form-group">

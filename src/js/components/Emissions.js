@@ -21,7 +21,7 @@ const Emissions = (props) => {
                     visiblePages: 10,
                     sortName: "id",
                     sortDirection: "ASC",
-                    limit: 10,
+                    limit: 30,
                     offset: 0,
                     page: 1
                 };
@@ -38,7 +38,7 @@ const Emissions = (props) => {
         fetchSku();
     }, [props.profile]);
 
-    // console.log('results ', results);
+    console.log('results ', results);
 
     if(results.length > 0) {
 

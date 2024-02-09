@@ -422,5 +422,20 @@ class DataService {
             endpoint).then( res => res.result );
     }
 
+    async updateEmission(emission, eventType, endpoint) {
+    return await this.fetchMSM(
+        "ecomSearchEngineServiceImpl",
+        "PROTOTYPE",
+        "putMetaInfo",
+        [emission],
+        eventType,
+        endpoint
+    ).then(res => res.result);
 }
+}
+
 export const dataService = new DataService();
+
+
+
+

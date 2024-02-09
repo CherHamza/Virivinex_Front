@@ -60,6 +60,22 @@ const DetailEmission = (props) => {
           const apiEmission = await apiService.setSotEmission(newEmissionApi);
           console.log("Creation SOT", apiEmission);
 
+
+
+          
+          const  updateEmission = {
+            id : id,
+            metaInfo : {
+              isPublishedSot: true,
+              repositoryName: "SellerSKURepository"
+            }
+          }
+
+
+          const updateCms = await dataService.saveEmissionAsDraft(updateEmission)
+          // setEmission(updateCms)
+          // console.log("request:", updateCms);
+
           // Dernier enregistrement in SOT
         //   const lastRecordEmission = await apiService.getLastRecord();
         //   console.log('Last record ', lastRecordEmission._id);
@@ -107,7 +123,7 @@ const DetailEmission = (props) => {
                 console.log('emissionId : ', emissionId);
 
                 if (emissionId.length > 0) {
-                    console.log('emission: ', emissionId[0]);
+                  console.log('emission: ', emissionId[0].metaInfo.isPublishedSot);
                     setEmission(emissionId[0]);
                     setIsPublished(emissionId[0].publishedForSale)
                 } else {
