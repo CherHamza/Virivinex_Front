@@ -26,29 +26,40 @@ const DetailEmission = () => {
         fetchEmission();
     }, [id]);
 
+    
+
+
     const handleSendToSOT = async () => {
         try {
             if (emission) {
+                const wineMacroRegionOptions = emission.attributeValues[3].attribute.options;
+
+    const wineMacroRegionOptionsWithSearchTerms = wineMacroRegionOptions.map(option => {
+        return {
+          id: option.id,
+          searchTerms: option.searchTerms
+        };
+      });
                 // Construction de l'objet pour l'envoi à SOT
                 const newEmissionApi = {
                     emissionUnique_id: "",
                     wineTitleName: emission.name,
+                    description: emission.description,
                     emissionCardLink: "",
                     winery: emission.embeddedSeller.name,
-                    areaOfProduction: "",
-                    wineMacroRegion: "",
-                    country: "",
-                    yearOfBottling: "",
-                    typeOfWine: "",
-                    initialQuantityoOfUniqueBottlesInEmission: "",
-                    bottleSize_TradingUnitType: "",
-                    emissionRecordReference: "",
-                    ledgerOfEmissionVideoRecording: "",
-                    uniquenessFactorType: "",
-                    uniquenessFactorDescription: emission.description,
-                    emissionStatus: "",
-                    ledgersOfEmissionVideoRecording: "",
-                    wineDescriptiveCombination: "",
+                    areaOfProduction: emission.attributeValues[4].value,
+                    wineMacroRegion: wineMacroRegionOptionsWithSearchTerms,
+                    country: emission.attributeValues[2].value,
+                    yearOfBottling: emission.attributeValues[10].value,
+                    typeOfWine: emission.attributeValues[5].name,                    
+                    initialQuantityoOfUniqueBottlesInEmission: emission.attributeValues[11].value,
+                    bottleSize_TradingUnitType: emission.attributeValues[7].value,
+                    emissionRecordReference: emission.attributeValues[12].value,
+                    ledgerOfEmissionVideoRecording: emission.attributeValues[13].value,
+                    uniquenessFactorType: emission.attributeValues[14].value,
+                    uniquenessFactorDescription: emission.attributeValues[15].value,
+                    emissionStatus: emission.publishedForSale,
+                    wineDescriptiveCombination: emission.attributeValues[5].name + "; " + emission.attributeValues[3].name,
                 };
 
                 // Envoie l'émission à SOT
