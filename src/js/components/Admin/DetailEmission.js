@@ -1,165 +1,185 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { dataService } from "../../services/dataService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
-import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
-// import Image1 from "../../../assets/images/bottle1.jpg";
+import { useNavigate } from 'react-router-dom';
 import { EmissionService } from "../../services/emissionService";
 import { ApiService } from "../../services/apiService";
+import { dataService } from "../../services/dataService";
 
-
-
-
-const DetailEmission = (props) => {
-
-    const [profile, setProfile] = useState([]);
+const DetailEmission = () => {
+    const [emission, setEmission] = useState(null);
     const { id } = useParams();
-  
-    const [emission, setEmission] = useState([]);
-    const [isPublished, setIsPublished] = useState(false);
-    const navigate = useNavigate();
-    const handleGoBack = () => {
-      navigate(-1); // This will navigate back
-    };
-    const emissionService = EmissionService.getInstance(); 
+    const emissionService = EmissionService.getInstance();
     const apiService = ApiService.getInstance();
+    const navigate = useNavigate();
 
-
-
-    const  handleCreateSotEmission = async()=>{
-
-        const newEmissionApi = {
-            emissionUnique_id: "",
-            wineTitleName: emission.name,
-            emissionCardLink: "",
-            winery: emission.embeddedSeller.name,
-            areaOfProduction: "",
-            wineMacroRegion: "",
-            country: "",
-            yearOfBottling: "",
-            typeOfWine: "",
-            initialQuantityoOfUniqueBottlesInEmission: "",
-            bottleSize_TradingUnitType: "",
-            emissionRecordReference: "",
-            ledgerOfEmissionVideoRecording: "",
-            uniquenessFactorType: "",
-            uniquenessFactorDescription: emission.description,
-            emissionStatus: "",
-            ledgersOfEmissionVideoRecording: "",
-            wineDescriptiveCombination: ""
-    
-          };
-          console.log("newEmissionAPi", newEmissionApi);
-
-        
-        try {
-            
-              // Creation emission SOT
-          const apiEmission = await apiService.setSotEmission(newEmissionApi);
-          console.log("Creation SOT", apiEmission);
-
-          // Dernier enregistrement in SOT
-        //   const lastRecordEmission = await apiService.getLastRecord();
-        //   console.log('Last record ', lastRecordEmission._id);
-
-        //   const oidValue = lastRecordEmission._id["$oid"]; 
-
-        //   const idEmissionCMS = response.id;
-
-          
-        //   const concatenatedId = idEmissionCMS + '_'+ oidValue;
-        //   console.log('concatenation ', concatenatedId);
-
-          // Update field 
-        //   const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
-
-    
-        } catch (error) {
-            console.log('ERROR', error)
-          
-        }
-
-    }
-
-    
-    
-    // useEffect(() => {
-    //     const checkAuthentication = async () => {
-    //         const isAuthenticated = await dataService.isAuthenticated();
-
-    //         if (isAuthenticated) {
-    //             const userProfile = await dataService.getAuthenticatedProfile();
-    //             setProfile(userProfile);
-    //             // console.log('profile ', userProfile);
-    //         } else {
-    //             navigate("/app/home.html");
-    //         } 
-    //     };
-    //     checkAuthentication();
-    // }, []);
-    
     useEffect(() => {
         const fetchEmission = async () => {
             try {
-                const emissionId = await emissionService.getEmissionById(id);
-                console.log('emissionId : ', emissionId);
-
-                if (emissionId.length > 0) {
-                    console.log('emission: ', emissionId[0]);
-                    setEmission(emissionId[0]);
-                    setIsPublished(emissionId[0].publishedForSale)
-                } else {
-                    console.error(`Aucune émission trouvée avec l'ID ${id}`);
-                }
+                const fetchedEmission = await emissionService.getEmissionById(id);
+                setEmission(fetchedEmission[0]);
             } catch (error) {
-                console.error('Error ', error);
+                console.error("Erreur lors de la récupération de l'émission :", error);
             }
         };
         fetchEmission();
     }, [id]);
 
+    const handleSendToSOT = async () => {
+        try {
+            if (emission) {
+                // Construction de l'objet pour l'envoi à SOT
+                const newEmissionApi = {
+                    emissionUnique_id: "",
+                    wineTitleName: emission.name,
+                    emissionCardLink: "",
+                    winery: emission.embeddedSeller.name,
+                    areaOfProduction: "",
+                    wineMacroRegion: "",
+                    country: "",
+                    yearOfBottling: "",
+                    typeOfWine: "",
+                    initialQuantityoOfUniqueBottlesInEmission: "",
+                    bottleSize_TradingUnitType: "",
+                    emissionRecordReference: "",
+                    ledgerOfEmissionVideoRecording: "",
+                    uniquenessFactorType: "",
+                    uniquenessFactorDescription: emission.description,
+                    emissionStatus: "",
+                    ledgersOfEmissionVideoRecording: "",
+                    wineDescriptiveCombination: "",
+                };
+
+                // Envoie l'émission à SOT
+                const apiEmission = await apiService.setSotEmission(newEmissionApi);
+                console.log("Creation SOT", apiEmission);
+
+                const requestBody = {
+                    additionalTextInfo: emission.additionalTextInfo,
+                    attributeValues: emission.attributeValues,
+                    countryOfOrigin: emission.countryOfOrigin,
+                    countryOfSeller: {
+                      code: emission.countryOfSeller.code,
+                      language: emission.countryOfSeller.language,
+                      name: emission.countryOfSeller.name
+                    },
+                    createdBy: emission.createdBy,
+                    createdDate: emission.createdDate,
+                    currencyItem: emission.currencyItem,
+                    deliveryType: emission.deliveryType,
+                    description: emission.description,
+                    durabilityDate1: emission.durabilityDate1,
+                    durabilityDate2: emission.durabilityDate2,
+                    embeddedSeller: {
+                      id: emission.embeddedSeller.id,
+                      name: emission.embeddedSeller.name,
+                      repositoryName: emission.embeddedSeller.repositoryName
+                    },
+                    embeddedSku: {
+                      id: emission.embeddedSku.id,
+                      name: emission.embeddedSku.name,
+                      repositoryName: emission.embeddedSku.repositoryName
+                    },
+                    expireDate: emission.expireDate,
+                    geneticType: emission.geneticType,
+                    id: emission.id,
+                    imageURLs: emission.imageURLs,
+                    incoTerm: emission.incoTerm,
+                    inventory: {
+                      countPerUnit: emission.inventory.countPerUnit,
+                      embeddedSellerSKU: {
+                        id: emission.inventory.embeddedSellerSKU.id,
+                        name: emission.inventory.embeddedSellerSKU.name,
+                        repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
+                      },
+                      id: emission.inventory.id,
+                      lockedQuantity: emission.inventory.lockedQuantity,
+                      minOrder: emission.inventory.minOrder,
+                      quantity: emission.inventory.quantity
+                    },
+                    keywords: emission.keywords,
+                    lastModifiedBy: emission.lastModifiedBy,
+                    lastModifiedDate: emission.lastModifiedDate,
+                    listTypeFilters: emission.listTypeFilters,
+                    logicalTypeFilters: emission.logicalTypeFilters,
+                    metaInfo: {
+                        publishedSot: true,
+                    },
+                    name: emission.name,
+                    numericFilters: emission.numericFilters,
+                    orderedItems: emission.orderedItems,
+                    packagedItems: emission.packagedItems,
+                    price: emission.price,
+                    productsRef: emission.productsRef,
+                    publishedForSale: emission.publishedForSale,
+                    randomGenerated: emission.randomGenerated,
+                    rangeFilters: emission.rangeFilters,
+                    score: emission.score,
+                    searchTerms: emission.searchTerms,
+                    simpleTypeFilters: emission.simpleTypeFilters,
+                    type: emission.type,
+                    unit: emission.unit
+                  };
+                  
+                  // Utilisation de l'objet requestBody pour envoyer la requête
+                  // (mettez ici votre code pour envoyer la requête avec cet objet)
+                  
+                // Mettre à jour la propriété publishedSot de l'émission
+                await dataService.saveEmissionAsDraft(requestBody);
+                console.log("requestBody:", requestBody)
+
+                setEmission(requestBody)
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi de l'émission à SOT :", error);
+        }
+    };
+
+    const handleGoBack = () => {
+        navigate(-1);
+    };
+
+    const handleRemoveEmission = (id) => {
+        // Supprimer l'émission de l'interface d'administration
+        setEmission(null);
+        console.log("Suppression de l'émission avec l'ID :", id);
+    };
 
     return (
         <section className="container mt-5">
-          {emission && isPublished ? (
-            <div className="row">
-              <div className="col-md-6">
-                {/* <img
-                  src={imageSrc}
-                  alt={emission.name}
-                  className="img-fluid rounded shadow-lg"
-                  style={{ maxWidth: "100%", maxHeight: "600px" }}
-                /> */}
-              </div>
-              <div className="col-md-6">
-                <h2 className="mb-4">Winnery : {emission.embeddedSeller.name}</h2>
-                <h3 className="text-primary">{emission.name}</h3>
-                <p className="lead">{emission.description}</p>
-                <hr className="my-4" />
-                <button
-              className="btn btn-secondary"
-              onClick={handleGoBack}
-            >
-              Previous Page
-            </button>
-                <button
-              className="btn btn-warning"
-              onClick={handleCreateSotEmission}
-            >
-              Send to SOT
-            </button>
-              </div>
-            </div>
-          ) : (
-            <div className="alert alert-danger mt-3" role="alert">
-          <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-          Oups ! Une erreur est survenue. Veuillez réessayer.
-        </div>
-          )}
+            {emission ? (
+                <div className="row">
+                    <div className="col-md-6">
+                        {/* Image de l'émission */}
+                    </div>
+                    <div className="col-md-6">
+                        <h2 className="mb-4">Winnery : {emission.embeddedSeller.name}</h2>
+                        <h3 className="text-primary">{emission.name}</h3>
+                        <p className="lead">{emission.description}</p>
+                        <hr className="my-4" />
+                        <button
+                            className="btn btn-secondary"
+                            onClick={handleGoBack}
+                        >
+                            Page précédente
+                        </button>
+                        <button
+                            className="btn btn-warning ml-3"
+                            onClick={handleSendToSOT}
+                        >
+                            Envoyer à SOT
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <div className="alert alert-danger mt-3" role="alert">
+                    <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
+                    Oups ! Une erreur est survenue. Veuillez réessayer.
+                </div>
+            )}
         </section>
     );
-}
+};
 
 export default DetailEmission;

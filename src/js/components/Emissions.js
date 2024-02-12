@@ -21,7 +21,7 @@ const Emissions = (props) => {
                     visiblePages: 10,
                     sortName: "id",
                     sortDirection: "ASC",
-                    limit: 10,
+                    limit: 30,
                     offset: 0,
                     page: 1
                 };
@@ -90,7 +90,7 @@ const Emissions = (props) => {
     // }, [])
 
 
-    
+    console.log("all emissions:", results)
         
 
     return (
