@@ -9,6 +9,7 @@ import { dataService } from "../../services/dataService";
 
 const DetailEmission = () => {
     const [emission, setEmission] = useState(null);
+    const [attribute, setAttribute] = useState(null);
     const { id } = useParams();
     const emissionService = EmissionService.getInstance();
     const apiService = ApiService.getInstance();
@@ -19,23 +20,43 @@ const DetailEmission = () => {
             try {
                 const fetchedEmission = await emissionService.getEmissionById(id);
                 setEmission(fetchedEmission[0]);
+
+                const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
+                setAttribute(attributesEmissions)
+                console.log(' attributes ; ', attributesEmissions);
             } catch (error) {
                 console.error("Erreur lors de la récupération de l'émission :", error);
             }
         };
         fetchEmission();
     }, [id]);
+    console.log('attr ', attribute)
+    // useEffect(() => {
+    //     const fetchAttrEmissions = async () => {
+    //         try {
 
-    
+    //             const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(emission.id);
+    //             console.log(' attributes ; ', attributesEmissions);
 
+
+    //         } catch (error) {
+    //             console.error("Erreur lors de la récupération des émissions :", error);
+    //         }
+    //     };
+
+    //     fetchAttrEmissions();
+    // }, []);
+
+    // console.log(' attributes ; ', attributesEmissions);
 
     const handleSendToSOT = async () => {
         try {
             if (emission) {
-              const wineMacroRegionOptions = emission.attributeValues[3].attribute.options;
-              const typeOfWineOptions = emission.attributeValues[5].attribute.options;
-              const selectedValue = emission.attributeValues[3].value;
-              const selectedValueTypeWine = emission.attributeValues[5].value;
+              const wineMacroRegionOptions = attribute[10].attribute.options;
+              const typeOfWineOptions = attribute[12].attribute.options;
+
+                const selectedValue = attribute[10].value;
+                const selectedValueTypeWine = attribute[12].value;
         
               // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
               const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
@@ -54,17 +75,17 @@ const DetailEmission = () => {
                     description: emission.description,
                     emissionCardLink: "",
                     winery: emission.embeddedSeller.name,
-                    areaOfProduction: emission.attributeValues[4].value,
+                    areaOfProduction: attribute[11].value,
                     wineMacroRegion: selectedSearchTerms,
-                    country: emission.attributeValues[2].value,
-                    yearOfBottling: emission.attributeValues[10].value,
+                    country: attribute[9].value,
+                    yearOfBottling: attribute[1].value,
                     typeOfWine: selectedSearchTermsTypeWine,                    
-                    initialQuantityoOfUniqueBottlesInEmission: emission.attributeValues[11].value,
-                    bottleSize_TradingUnitType: emission.attributeValues[7].value,
-                    emissionRecordReference: emission.attributeValues[12].value,
-                    ledgerOfEmissionVideoRecording: emission.attributeValues[13].value,
-                    uniquenessFactorType: emission.attributeValues[14].value,
-                    uniquenessFactorDescription: emission.attributeValues[15].value,
+                    initialQuantityoOfUniqueBottlesInEmission: attribute[2].value,
+                    bottleSize_TradingUnitType: attribute[20].value,
+                    emissionRecordReference: attribute[3].value,
+                    ledgerOfEmissionVideoRecording: attribute[4].value,
+                    uniquenessFactorType: attribute[5].value,
+                    uniquenessFactorDescription: attribute[15].value,
                     emissionStatus: emission.publishedForSale,
                     wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
                 };
