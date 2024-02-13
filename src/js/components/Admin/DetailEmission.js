@@ -32,14 +32,21 @@ const DetailEmission = () => {
     const handleSendToSOT = async () => {
         try {
             if (emission) {
-                const wineMacroRegionOptions = emission.attributeValues[3].attribute.options;
+              const wineMacroRegionOptions = emission.attributeValues[3].attribute.options;
+              const typeOfWineOptions = emission.attributeValues[5].attribute.options;
+              const selectedValue = emission.attributeValues[3].value;
+              const selectedValueTypeWine = emission.attributeValues[5].value;
+        
+              // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
+              const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
+              const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine)
+        
+              // Récupérer le searchTerms de l'option sélectionnée
+              const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
+              const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms: '';
 
-    const wineMacroRegionOptionsWithSearchTerms = wineMacroRegionOptions.map(option => {
-        return {
-          id: option.id,
-          searchTerms: option.searchTerms
-        };
-      });
+              
+              
                 // Construction de l'objet pour l'envoi à SOT
                 const newEmissionApi = {
                     emissionUnique_id: "",
@@ -48,10 +55,10 @@ const DetailEmission = () => {
                     emissionCardLink: "",
                     winery: emission.embeddedSeller.name,
                     areaOfProduction: emission.attributeValues[4].value,
-                    wineMacroRegion: wineMacroRegionOptionsWithSearchTerms,
+                    wineMacroRegion: selectedSearchTerms,
                     country: emission.attributeValues[2].value,
                     yearOfBottling: emission.attributeValues[10].value,
-                    typeOfWine: emission.attributeValues[5].name,                    
+                    typeOfWine: selectedSearchTermsTypeWine,                    
                     initialQuantityoOfUniqueBottlesInEmission: emission.attributeValues[11].value,
                     bottleSize_TradingUnitType: emission.attributeValues[7].value,
                     emissionRecordReference: emission.attributeValues[12].value,
@@ -59,12 +66,27 @@ const DetailEmission = () => {
                     uniquenessFactorType: emission.attributeValues[14].value,
                     uniquenessFactorDescription: emission.attributeValues[15].value,
                     emissionStatus: emission.publishedForSale,
-                    wineDescriptiveCombination: emission.attributeValues[5].name + "; " + emission.attributeValues[3].name,
+                    wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
                 };
 
                 // Envoie l'émission à SOT
                 const apiEmission = await apiService.setSotEmission(newEmissionApi);
                 console.log("Creation SOT", apiEmission);
+                
+              // Dernier enregistrement in SOT
+         const lastRecordEmission = await apiService.getLastRecord();
+         console.log('Last record ', lastRecordEmission._id);
+
+         const oidValue = lastRecordEmission._id["$oid"]; 
+
+         const idEmissionCMS = emission.id;
+
+         //concatenation ID emissionUniqueId
+         const concatenatedId = idEmissionCMS + '_'+ oidValue;
+         console.log('concatenation ', concatenatedId);
+
+         // Update field 
+         const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
 
                 const requestBody = {
                     additionalTextInfo: emission.additionalTextInfo,

@@ -125,21 +125,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           console.log('Creation CMS',response);
 
 
-          // // Dernier enregistrement in SOT
-          // const lastRecordEmission = await apiService.getLastRecord();
-          // console.log('Last record ', lastRecordEmission._id);
-
-          // const oidValue = lastRecordEmission._id["$oid"]; 
-
-          // const idEmissionCMS = response.id;
-
-          
-          // const concatenatedId = idEmissionCMS + '_'+ oidValue;
-          // console.log('concatenation ', concatenatedId);
-
-          // // Update field 
-          // const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
-
+         
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
           // console.log("product related attributes:",productAttrs);
