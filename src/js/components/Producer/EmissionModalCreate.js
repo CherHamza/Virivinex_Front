@@ -24,6 +24,9 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
       nbOfUnits: "",
       dryToSweetType: "",
       searchCategory: "",
+      
+     
+
     });
   
     const [profile, setProfile] = useState([]);
@@ -105,6 +108,9 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             name: embeddedSkuName,
             repositoryName: "SKURepository",
           },
+          metaInfo:{
+            publishedSot: false,
+         }
         };
      
         // console.log("emission ", newEmission);
@@ -119,21 +125,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           console.log('Creation CMS',response);
 
 
-          // // Dernier enregistrement in SOT
-          // const lastRecordEmission = await apiService.getLastRecord();
-          // console.log('Last record ', lastRecordEmission._id);
-
-          // const oidValue = lastRecordEmission._id["$oid"]; 
-
-          // const idEmissionCMS = response.id;
-
-          
-          // const concatenatedId = idEmissionCMS + '_'+ oidValue;
-          // console.log('concatenation ', concatenatedId);
-
-          // // Update field 
-          // const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
-
+         
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
           // console.log("product related attributes:",productAttrs);
@@ -202,7 +194,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                   <textarea className="form-control" rows="5" calls="33" id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
               </div>
 
-              <div className="form-group">
+              {/* <div className="form-group">
                             <label htmlFor="wineMacroRegion">Wine Macro Region</label>
                             <select name="wineMacroRegion" className="form-control" defaultValue="" onChange={handleInputChange}>
                                 {regions.map((region) => (
@@ -211,8 +203,8 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                                     </option>
                                 ))}
                             </select>
-              </div>
-              <div className="form-group">
+              </div> */}
+              {/* <div className="form-group">
                             <label htmlFor="country">Country</label>
                             <select name="country" className="form-control" defaultValue="" onChange={handleInputChange}>
                                 {countries.map((country) => (
@@ -221,12 +213,12 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                                     </option>
                                 ))}
                             </select>
-              </div>
-              <div className="form-group">
+              </div> */}
+              {/* <div className="form-group">
                   <label htmlFor="nbOfUnits"> Quantity Of Unique Bottles In Emission</label>
                 <input type="number" className="form-control" id="nbOfUnits" name="nbOfUnits" value={formData.nbOfUnits} onChange={handleInputChange} />
-              </div>
-
+              </div> */}
+{/* 
               <div className="form-group">
                             <label htmlFor="bottleSize">Bottle Size</label>
                             <select name="bottleSize" className="form-control" defaultValue="" onChange={handleInputChange}>
@@ -236,7 +228,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                                     </option>
                                 ))}
                             </select>
-              </div>
+              </div> */}
 
 
              {/* <div className="form-group">
