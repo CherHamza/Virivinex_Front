@@ -52,22 +52,33 @@ const DetailEmission = () => {
     const handleSendToSOT = async () => {
         try {
             if (emission) {
-              const wineMacroRegionOptions = attribute[10].attribute.options;
-              const typeOfWineOptions = attribute[12].attribute.options;
+              const wineMacroRegionOptions = attribute[20].attribute.options;
+              const typeOfWineOptions = attribute[21].attribute.options;
+              const statusEmissionOptions = attribute[2].attribute.options;
+                const countryOptions = attribute[19].attribute.options;
+                const sizeOptions = attribute[17].attribute.options;
 
-                const selectedValue = attribute[10].value;
-                const selectedValueTypeWine = attribute[12].value;
+                const selectedValue = attribute[20].value;
+                const selectedValueTypeWine = attribute[21].value;
+                const selectedValueStatus = attribute[2].value;
+                const selectedCountry = attribute[19].value;
+                const selectedSize = attribute[17].value;
         
               // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
               const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
-              const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine)
+              const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine);
+              const selectedOptionStatus = statusEmissionOptions.find(option => option.id === selectedValueStatus);
+                const selectedOptionCountry = countryOptions.find(option => option.id === selectedCountry);
+                const selectedOptionSize = sizeOptions.find(option => option.id === selectedSize);
         
               // Récupérer le searchTerms de l'option sélectionnée
               const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
               const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms: '';
+                const selectedSearchTermsStatus = selectedOptionStatus ? selectedOptionStatus.searchTerms : '';
+                const selectedSearchTermsCountry = selectedOptionCountry ? selectedOptionCountry.searchTerms : '';
+                const selectedSearchTermsSize = selectedOptionSize ? selectedOptionSize.searchTerms : '';
 
-              
-              
+            
                 // Construction de l'objet pour l'envoi à SOT
                 const newEmissionApi = {
                     emissionUnique_id: "",
@@ -75,18 +86,18 @@ const DetailEmission = () => {
                     description: emission.description,
                     emissionCardLink: "",
                     winery: emission.embeddedSeller.name,
-                    areaOfProduction: attribute[11].value,
+                    areaOfProduction: attribute[18].value,
                     wineMacroRegion: selectedSearchTerms,
-                    country: attribute[9].value,
-                    yearOfBottling: attribute[1].value,
-                    typeOfWine: selectedSearchTermsTypeWine,                    
-                    initialQuantityoOfUniqueBottlesInEmission: attribute[2].value,
-                    bottleSize_TradingUnitType: attribute[20].value,
+                    country: selectedSearchTermsCountry,
+                    yearOfBottling: attribute[15].value,
+                    typeOfWine: selectedSearchTermsTypeWine,               
+                    initialQuantityoOfUniqueBottlesInEmission: attribute[10].value,
+                    bottleSize_TradingUnitType: selectedSearchTermsSize,
                     emissionRecordReference: attribute[3].value,
                     ledgerOfEmissionVideoRecording: attribute[4].value,
                     uniquenessFactorType: attribute[5].value,
-                    uniquenessFactorDescription: attribute[15].value,
-                    emissionStatus: emission.publishedForSale,
+                    uniquenessFactorDescription: attribute[6].value,
+                    emissionStatus: selectedSearchTermsStatus,
                     wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
                 };
 
@@ -194,23 +205,21 @@ const DetailEmission = () => {
         navigate(-1);
     };
 
-    const handleRemoveEmission = (id) => {
-        // Supprimer l'émission de l'interface d'administration
-        setEmission(null);
-        console.log("Suppression de l'émission avec l'ID :", id);
-    };
 
     return (
         <section className="container mt-5">
-            {emission ? (
+            {emission && attribute ? (
                 <div className="row">
                     <div className="col-md-6">
                         {/* Image de l'émission */}
                     </div>
                     <div className="col-md-6">
-                        <h2 className="mb-4">Winnery : {emission.embeddedSeller.name}</h2>
-                        <h3 className="text-primary">{emission.name}</h3>
-                        <p className="lead">{emission.description}</p>
+                        <h2 className="mb-4">Winery : {emission.embeddedSeller.name}</h2>
+                        <h3 className="text-primary">Wine title : {emission.name}</h3>
+                        <p className="lead">Description : {emission.description}</p>
+                        <p className="lead">Area Of production : {attribute[18].value}</p>
+
+                        
                         <hr className="my-4" />
                         <button
                             className="btn btn-secondary"

@@ -163,7 +163,7 @@ export class ApiService {
 
     async getSotEmissionById(idEmissionSot) {
         try {
-            const response = await fetch(`${this.apiUrlSot}emissions`, this.unit('GET'));
+            const response = await fetch(`${this.apiUrlSot}emissions/${idEmissionSot}`, this.init('GET') );
             if (response.ok) {
                 const data = await response.json();
                 return data;
