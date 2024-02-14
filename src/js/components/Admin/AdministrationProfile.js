@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { EmissionService } from "../../services/emissionService";
+import { dataService } from "../../services/dataService";
 import { Link } from "react-router-dom";
 
 const AdministrationProfile = () => {
     const emissionService = EmissionService.getInstance();
     const [emissions, setEmissions] = useState([]);
+
+    
 
     useEffect(() => {
         const fetchAllEmissions = async () => {
@@ -12,6 +15,8 @@ const AdministrationProfile = () => {
                 const allEmissions = await emissionService.getAllEmissions();
                 console.log("All emissions:", allEmissions);
                 setEmissions(allEmissions);
+
+                
             } catch (error) {
                 console.error("Erreur lors de la récupération des émissions :", error);
             }
@@ -20,6 +25,7 @@ const AdministrationProfile = () => {
         fetchAllEmissions();
     }, []);
 
+    
     return (
         <>
             <h1>Admin Profile</h1>
