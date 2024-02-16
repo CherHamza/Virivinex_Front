@@ -7,6 +7,7 @@ import { EmissionService } from "../../services/emissionService";
 import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
 import { UserTypeButton } from './../UserType';
+import { v4 as uuidv4 } from 'react-uuid';
 
 const DetailEmission = () => {
     const [emission, setEmission] = useState(null);
@@ -143,6 +144,56 @@ const DetailEmission = () => {
          //concatenation ID emissionUniqueId
          const concatenatedId = idEmissionCMS + '_'+ oidValue;
         //  console.log('concatenation ', concatenatedId);
+
+
+                // const { v4: uuidv4 } = require('uuid'); // Import de la fonction uuidv4 pour la génération d'IDs uniques
+
+                const createBottlesForEmission = async (concatenatedId, numberOfBottles) => {
+                    try {
+                        const bottles = [];
+                        for (let i = 0; i < numberOfBottles; i++) {
+                            // Fonction pour générer un identifiant unique
+                            const bottleId = () => {
+                                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+                            };
+                            const bottle = {
+
+                                uniqueBottle_id: bottleId(),
+                                emissionUnique_id: concatenatedId,
+                                wineTitleName: emission.name,
+                                emissionCardLink: "",
+                                currentBottleStatus: "",
+                                currentOwner_Proxy_id: "",
+                                precedentStatu: "",
+                                lastTransaction_Transaction_id: "",
+                                lastTranscationDate: "",
+                                lastEvent_Event_id: "",
+                                lastEventDate: "",
+                                lastEventType: "",
+                                aggregateQuantityOfTransactionsSinceEmission: "",
+                                aggregateQuantityOfTransactionsInCurrentYear: "",
+                                lastKnownTransactionPrice: "",
+                            };
+                            bottles.push(bottle);
+                        }
+
+                        // Insérez les bouteilles dans la base de données
+                        // Supposons que vous avez une fonction pour insérer des bouteilles dans la base de données
+
+                        const insertBottlesSot = await apiService.createBottlesEmissionSot(concatenatedId, bottles)
+
+                        console.log("bottlesSot", insertBottlesSot)
+
+
+                        console.log(`${numberOfBottles} bouteilles ont été créées pour l'émission avec l'ID ${concatenatedId}`);
+                    } catch (error) {
+                        console.error('Erreur lors de la création des bouteilles :', error);
+                    }
+                };
+
+                // Utilisation de la fonction pour créer cinq bouteilles pour une émission donnée
+                createBottlesForEmission(concatenatedId, 5);
+
 
          // Update field 
          const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
