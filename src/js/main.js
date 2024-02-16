@@ -32,7 +32,7 @@ root.render(
         <Route path="/app/account/individual.html" element={<IndiviudalProfil/>}/>
         <Route path="/app/account/expert.html" element={<ExpertProfil/>}/>
         <Route path="/app/account/producer.html" element={<ProducerProfil />}/>
-        <Route path="/app/admin.html" element={<AdministrationProfile />}/>
+        <Route path="/app/account/admin.html" element={<AdministrationProfile />}/>
         <Route path='/app/admin/:id/detail.html' element={<DetailEmission />}/>
         <Route path="/app/:id/detail.html" element={<Emission />}/>
       </Routes>

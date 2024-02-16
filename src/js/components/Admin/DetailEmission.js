@@ -7,7 +7,7 @@ import { EmissionService } from "../../services/emissionService";
 import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
 import { UserTypeButton } from './../UserType';
-import { v4 as uuidv4 } from 'react-uuid';
+
 
 const DetailEmission = () => {
     const [emission, setEmission] = useState(null);
