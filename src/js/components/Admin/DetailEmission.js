@@ -6,11 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { EmissionService } from "../../services/emissionService";
 import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
+import { UserTypeButton } from './../UserType';
+import { v4 as uuidv4 } from 'react-uuid';
 
 const DetailEmission = () => {
     const [emission, setEmission] = useState(null);
     const [attribute, setAttribute] = useState(null);
     const { id } = useParams();
+    const [selected, setSelected ] = useState(null);
     const emissionService = EmissionService.getInstance();
     const apiService = ApiService.getInstance();
     const navigate = useNavigate();
@@ -22,52 +25,88 @@ const DetailEmission = () => {
                 setEmission(fetchedEmission[0]);
 
                 const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
-                setAttribute(attributesEmissions)
-                console.log(' attributes ; ', attributesEmissions);
+                setAttribute(attributesEmissions);
+
+                const wineMacroRegionOptions = attributesEmissions[20].attribute.options;
+                const typeOfWineOptions = attributesEmissions[21].attribute.options;
+                const statusEmissionOptions = attributesEmissions[2].attribute.options;
+                const countryOptions = attributesEmissions[19].attribute.options;
+                const sizeOptions = attributesEmissions[17].attribute.options;
+
+                const selectedValue = attributesEmissions[20].value;
+                const selectedValueTypeWine = attributesEmissions[21].value;
+                const selectedValueStatus = attributesEmissions[2].value;
+                const selectedCountry = attributesEmissions[19].value;
+                const selectedSize = attributesEmissions[17].value;
+
+                // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
+                const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
+                const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine);
+                const selectedOptionStatus = statusEmissionOptions.find(option => option.id === selectedValueStatus);
+                const selectedOptionCountry = countryOptions.find(option => option.id === selectedCountry);
+                const selectedOptionSize = sizeOptions.find(option => option.id === selectedSize);
+
+                // Récupérer le searchTerms de l'option sélectionnée
+                const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
+                const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms : '';
+                const selectedSearchTermsStatus = selectedOptionStatus ? selectedOptionStatus.searchTerms : '';
+                const selectedSearchTermsCountry = selectedOptionCountry ? selectedOptionCountry.searchTerms : '';
+                const selectedSearchTermsSize = selectedOptionSize ? selectedOptionSize.searchTerms : '';
+
+
+                setSelected([
+                    selectedSearchTerms,
+                    selectedSearchTermsTypeWine,
+                    selectedSearchTermsStatus,
+                    selectedSearchTermsCountry,
+                    selectedSearchTermsSize,
+                ])
+
+                // console.log(' attributes ; ', attributesEmissions);
+
+           
             } catch (error) {
                 console.error("Erreur lors de la récupération de l'émission :", error);
             }
         };
         fetchEmission();
     }, [id]);
-    console.log('attr ', attribute)
-    // useEffect(() => {
-    //     const fetchAttrEmissions = async () => {
-    //         try {
 
-    //             const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(emission.id);
-    //             console.log(' attributes ; ', attributesEmissions);
+   
+    // console.log(' selected ; ', selected);
 
 
-    //         } catch (error) {
-    //             console.error("Erreur lors de la récupération des émissions :", error);
-    //         }
-    //     };
-
-    //     fetchAttrEmissions();
-    // }, []);
-
-    // console.log(' attributes ; ', attributesEmissions);
-
+    
     const handleSendToSOT = async () => {
         try {
             if (emission) {
-              const wineMacroRegionOptions = attribute[10].attribute.options;
-              const typeOfWineOptions = attribute[12].attribute.options;
+              const wineMacroRegionOptions = attribute[20].attribute.options;
+              const typeOfWineOptions = attribute[21].attribute.options;
+              const statusEmissionOptions = attribute[2].attribute.options;
+                const countryOptions = attribute[19].attribute.options;
+                const sizeOptions = attribute[17].attribute.options;
 
-                const selectedValue = attribute[10].value;
-                const selectedValueTypeWine = attribute[12].value;
+                const selectedValue = attribute[20].value;
+                const selectedValueTypeWine = attribute[21].value;
+                const selectedValueStatus = attribute[2].value;
+                const selectedCountry = attribute[19].value;
+                const selectedSize = attribute[17].value;
         
               // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
               const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
-              const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine)
+              const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine);
+              const selectedOptionStatus = statusEmissionOptions.find(option => option.id === selectedValueStatus);
+                const selectedOptionCountry = countryOptions.find(option => option.id === selectedCountry);
+                const selectedOptionSize = sizeOptions.find(option => option.id === selectedSize);
         
               // Récupérer le searchTerms de l'option sélectionnée
               const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
               const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms: '';
+                const selectedSearchTermsStatus = selectedOptionStatus ? selectedOptionStatus.searchTerms : '';
+                const selectedSearchTermsCountry = selectedOptionCountry ? selectedOptionCountry.searchTerms : '';
+                const selectedSearchTermsSize = selectedOptionSize ? selectedOptionSize.searchTerms : '';
 
-              
-              
+            
                 // Construction de l'objet pour l'envoi à SOT
                 const newEmissionApi = {
                     emissionUnique_id: "",
@@ -75,28 +114,28 @@ const DetailEmission = () => {
                     description: emission.description,
                     emissionCardLink: "",
                     winery: emission.embeddedSeller.name,
-                    areaOfProduction: attribute[11].value,
+                    areaOfProduction: attribute[18].value,
                     wineMacroRegion: selectedSearchTerms,
-                    country: attribute[9].value,
-                    yearOfBottling: attribute[1].value,
-                    typeOfWine: selectedSearchTermsTypeWine,                    
-                    initialQuantityoOfUniqueBottlesInEmission: attribute[2].value,
-                    bottleSize_TradingUnitType: attribute[20].value,
+                    country: selectedSearchTermsCountry,
+                    yearOfBottling: attribute[15].value,
+                    typeOfWine: selectedSearchTermsTypeWine,               
+                    initialQuantityoOfUniqueBottlesInEmission: attribute[10].value,
+                    bottleSize_TradingUnitType: selectedSearchTermsSize,
                     emissionRecordReference: attribute[3].value,
                     ledgerOfEmissionVideoRecording: attribute[4].value,
                     uniquenessFactorType: attribute[5].value,
-                    uniquenessFactorDescription: attribute[15].value,
-                    emissionStatus: emission.publishedForSale,
+                    uniquenessFactorDescription: attribute[6].value,
+                    emissionStatus: selectedSearchTermsStatus,
                     wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
                 };
 
                 // Envoie l'émission à SOT
                 const apiEmission = await apiService.setSotEmission(newEmissionApi);
-                console.log("Creation SOT", apiEmission);
+                // console.log("Creation SOT", apiEmission);
                 
               // Dernier enregistrement in SOT
          const lastRecordEmission = await apiService.getLastRecord();
-         console.log('Last record ', lastRecordEmission._id);
+        //  console.log('Last record ', lastRecordEmission._id);
 
          const oidValue = lastRecordEmission._id["$oid"]; 
 
@@ -104,7 +143,57 @@ const DetailEmission = () => {
 
          //concatenation ID emissionUniqueId
          const concatenatedId = idEmissionCMS + '_'+ oidValue;
-         console.log('concatenation ', concatenatedId);
+        //  console.log('concatenation ', concatenatedId);
+
+
+                // const { v4: uuidv4 } = require('uuid'); // Import de la fonction uuidv4 pour la génération d'IDs uniques
+
+                const createBottlesForEmission = async (concatenatedId, numberOfBottles) => {
+                    try {
+                        const bottles = [];
+                        for (let i = 0; i < numberOfBottles; i++) {
+                            // Fonction pour générer un identifiant unique
+                            const bottleId = () => {
+                                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+                            };
+                            const bottle = {
+
+                                uniqueBottle_id: bottleId(),
+                                emissionUnique_id: concatenatedId,
+                                wineTitleName: emission.name,
+                                emissionCardLink: "",
+                                currentBottleStatus: "",
+                                currentOwner_Proxy_id: "",
+                                precedentStatu: "",
+                                lastTransaction_Transaction_id: "",
+                                lastTranscationDate: "",
+                                lastEvent_Event_id: "",
+                                lastEventDate: "",
+                                lastEventType: "",
+                                aggregateQuantityOfTransactionsSinceEmission: "",
+                                aggregateQuantityOfTransactionsInCurrentYear: "",
+                                lastKnownTransactionPrice: "",
+                            };
+                            bottles.push(bottle);
+                        }
+
+                        // Insérez les bouteilles dans la base de données
+                        // Supposons que vous avez une fonction pour insérer des bouteilles dans la base de données
+
+                        const insertBottlesSot = await apiService.createBottlesEmissionSot(concatenatedId, bottles)
+
+                        console.log("bottlesSot", insertBottlesSot)
+
+
+                        console.log(`${numberOfBottles} bouteilles ont été créées pour l'émission avec l'ID ${concatenatedId}`);
+                    } catch (error) {
+                        console.error('Erreur lors de la création des bouteilles :', error);
+                    }
+                };
+
+                // Utilisation de la fonction pour créer cinq bouteilles pour une émission donnée
+                createBottlesForEmission(concatenatedId, 5);
+
 
          // Update field 
          const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
@@ -181,7 +270,7 @@ const DetailEmission = () => {
                   
                 // Mettre à jour la propriété publishedSot de l'émission
                 await dataService.saveEmissionAsDraft(requestBody);
-                console.log("requestBody:", requestBody)
+                // console.log("requestBody:", requestBody)
 
                 setEmission(requestBody)
             }
@@ -194,23 +283,32 @@ const DetailEmission = () => {
         navigate(-1);
     };
 
-    const handleRemoveEmission = (id) => {
-        // Supprimer l'émission de l'interface d'administration
-        setEmission(null);
-        console.log("Suppression de l'émission avec l'ID :", id);
-    };
 
     return (
         <section className="container mt-5">
-            {emission ? (
+            {emission && attribute ? (
                 <div className="row">
                     <div className="col-md-6">
                         {/* Image de l'émission */}
                     </div>
                     <div className="col-md-6">
-                        <h2 className="mb-4">Winnery : {emission.embeddedSeller.name}</h2>
-                        <h3 className="text-primary">{emission.name}</h3>
-                        <p className="lead">{emission.description}</p>
+                        <h2 className="mb-4">Winery : {emission.embeddedSeller.name}</h2>
+                        <h3 className="text-primary">Wine title : {emission.name}</h3>
+                        <p className="lead">Description : {emission.description}</p>
+                        <p className="lead">Area Of production : {attribute[18].value}</p>
+                        <p className="lead">Wine Macro Region : {selected[0]}</p>
+                        <p className="lead">Country : {selected[3]}</p>
+                        <p className="lead">Year Of Bottling : {attribute[15].value}</p>
+                        <p className="lead">Type of Wine : {selected[1]}</p>
+                        <p className="lead">Initial Quantity Of Unique Bottles In Emission : {attribute[10].value}</p>
+                        <p className="lead">Bottle Size : {selected[4]}</p>
+                        <p className="lead">Emission Record Reference : {attribute[3].value}</p>
+                        <p className="lead">ledger Of Emission Video Recording : {attribute[4].value}</p>
+                        <p className="lead">Uniqueness Factor Type : {attribute[5].value}</p>
+                        <p className="lead">Uniqueness Factor Description : {attribute[6].value}</p>
+                        <p className="lead">Emission Status : {selected[2]}</p>
+
+                        
                         <hr className="my-4" />
                         <button
                             className="btn btn-secondary"
