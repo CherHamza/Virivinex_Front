@@ -7,11 +7,14 @@ import { EmissionService } from "../../services/emissionService";
 import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
 import { UserTypeButton } from './../UserType';
+import { toast } from 'react-toastify'; 
+
 
 
 const DetailEmission = () => {
     const [emission, setEmission] = useState(null);
     const [attribute, setAttribute] = useState(null);
+    const [ disable, setDisable ] = useState(false);
     const { id } = useParams();
     const [selected, setSelected ] = useState(null);
     const emissionService = EmissionService.getInstance();
@@ -62,7 +65,7 @@ const DetailEmission = () => {
                     selectedSearchTermsSize,
                 ])
 
-                // console.log(' attributes ; ', attributesEmissions);
+                console.log(' attributes ; ', attributesEmissions);
 
            
             } catch (error) {
@@ -119,7 +122,7 @@ const DetailEmission = () => {
                     country: selectedSearchTermsCountry,
                     yearOfBottling: attribute[15].value,
                     typeOfWine: selectedSearchTermsTypeWine,               
-                    initialQuantityoOfUniqueBottlesInEmission: attribute[10].value,
+                    initialQuantityoOfUniqueBottlesInEmission: attribute[1].value,
                     bottleSize_TradingUnitType: selectedSearchTermsSize,
                     emissionRecordReference: attribute[3].value,
                     ledgerOfEmissionVideoRecording: attribute[4].value,
@@ -271,11 +274,17 @@ const DetailEmission = () => {
                 // Mettre à jour la propriété publishedSot de l'émission
                 await dataService.saveEmissionAsDraft(requestBody);
                 // console.log("requestBody:", requestBody)
+                toast.success("L'émission a été envoyée à SOT avec succès!", {
+                    position: toast.POSITION.TOP_RIGHT,
+                });
 
                 setEmission(requestBody)
             }
         } catch (error) {
             console.error("Erreur lors de l'envoi de l'émission à SOT :", error);
+            toast.error("Échec de l'envoi de l'émission à SOT. Veuillez réessayer.", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
         }
     };
 
@@ -313,6 +322,7 @@ const DetailEmission = () => {
                         <button
                             className="btn btn-secondary"
                             onClick={handleGoBack}
+                            disabled={disable}
                         >
                             Page précédente
                         </button>
@@ -320,7 +330,7 @@ const DetailEmission = () => {
                             className="btn btn-warning ml-3"
                             onClick={handleSendToSOT}
                         >
-                            Envoyer à SOT
+                            Approve Emission - Send to Source-of-Truth
                         </button>
                     </div>
                 </div>
