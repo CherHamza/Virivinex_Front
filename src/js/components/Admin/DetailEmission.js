@@ -189,6 +189,7 @@ const DetailEmission = () => {
 
 
                         console.log(`${numberOfBottles} bouteilles ont été créées pour l'émission avec l'ID ${concatenatedId}`);
+                        setDisable(true);
                     } catch (error) {
                         console.error('Erreur lors de la création des bouteilles :', error);
                     }
@@ -322,13 +323,14 @@ const DetailEmission = () => {
                         <button
                             className="btn btn-secondary"
                             onClick={handleGoBack}
-                            disabled={disable}
+                           
                         >
                             Page précédente
                         </button>
                         <button
                             className="btn btn-warning ml-3"
                             onClick={handleSendToSOT}
+                            disabled={disable}
                         >
                             Approve Emission - Send to Source-of-Truth
                         </button>
