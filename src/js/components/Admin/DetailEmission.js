@@ -130,6 +130,8 @@ const DetailEmission = () => {
                     uniquenessFactorDescription: attribute[6].value,
                     emissionStatus: selectedSearchTermsStatus,
                     wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
+                    emissionPriceTarget: attribute[10].value,
+                    bottlesQuantity: emission.inventory.quantity,
                 };
 
                 // Envoie l'émission à SOT
@@ -176,6 +178,7 @@ const DetailEmission = () => {
                                 aggregateQuantityOfTransactionsSinceEmission: "",
                                 aggregateQuantityOfTransactionsInCurrentYear: "",
                                 lastKnownTransactionPrice: "",
+
                             };
                             bottles.push(bottle);
                         }
@@ -196,7 +199,7 @@ const DetailEmission = () => {
                 };
 
                 // Utilisation de la fonction pour créer cinq bouteilles pour une émission donnée
-                createBottlesForEmission(concatenatedId, 5);
+                createBottlesForEmission(concatenatedId, emission.inventory.quantity);
 
 
          // Update field 
@@ -310,7 +313,9 @@ const DetailEmission = () => {
                         <p className="lead">Country : {selected[3]}</p>
                         <p className="lead">Year Of Bottling : {attribute[15].value}</p>
                         <p className="lead">Type of Wine : {selected[1]}</p>
-                        <p className="lead">Initial Quantity Of Unique Bottles In Emission : {attribute[10].value}</p>
+                        <p className="lead">Quantity available : {emission.inventory.quantity}</p>
+                        <p className="lead">Initial Quantity Of Unique Bottles In Emission : {attribute[1].value}</p>
+                        <p className="lead">Emission Price Target per unit : {attribute[10].value}</p>
                         <p className="lead">Bottle Size : {selected[4]}</p>
                         <p className="lead">Emission Record Reference : {attribute[3].value}</p>
                         <p className="lead">ledger Of Emission Video Recording : {attribute[4].value}</p>
