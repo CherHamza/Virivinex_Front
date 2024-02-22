@@ -132,6 +132,7 @@ const DetailEmission = () => {
                     wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
                     emissionPriceTarget: attribute[10].value,
                     bottlesQuantity: emission.inventory.quantity,
+                    created_at: new Date(),
                 };
 
                 // Envoie l'émission à SOT
@@ -168,16 +169,17 @@ const DetailEmission = () => {
                                 wineTitleName: emission.name,
                                 emissionCardLink: "",
                                 currentBottleStatus: "",
-                                currentOwner_Proxy_id: "",
+                                currentOwner_Proxy_id: emission.embeddedSeller.name,
                                 precedentStatu: "",
-                                lastTransaction_Transaction_id: "",
+                                lastTransaction_Transaction_id: "0",
                                 lastTranscationDate: "",
-                                lastEvent_Event_id: "",
+                                lastEvent_Event_id: concatenatedId,
                                 lastEventDate: "",
                                 lastEventType: "",
-                                aggregateQuantityOfTransactionsSinceEmission: "",
-                                aggregateQuantityOfTransactionsInCurrentYear: "",
-                                lastKnownTransactionPrice: "",
+                                aggregateQuantityOfTransactionsSinceEmission: "1",
+                                aggregateQuantityOfTransactionsInCurrentYear: "1",
+                                lastKnownTransactionPrice: attribute[10].value,
+                                created_at: new Date(),
 
                             };
                             bottles.push(bottle);
