@@ -11,8 +11,6 @@ const Caroussel = () => {
     const fetchEmissions = async () => {
       try {
         const allEmissions = await emissionService.getAllEmissions();
-        console.log('emissions', allEmissions);
-
         const formattedEmissions = allEmissions
           .filter(emission => emission.publishedForSale === true)
           .map(emission => ({
@@ -21,7 +19,6 @@ const Caroussel = () => {
             img: emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc,          
           }));
 
-        console.log('Formatted emissions: ', formattedEmissions);
         setEmissions(formattedEmissions);
         setCurrentSlide(Math.floor(Math.random() * formattedEmissions.length));
 
