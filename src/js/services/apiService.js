@@ -59,10 +59,10 @@ export class ApiService {
                 if (sortedEmissions.length > 0) {
                     // Enregistrement le + récent
                     const latestRecord = sortedEmissions[0];
-                    console.log('Dernier enregistrement :', latestRecord);
+                    // console.log('Dernier enregistrement :', latestRecord);
 
                     // id de l'enregistrement le + récent
-                    console.log("Id du dernier enregistrement :", latestRecord._id);
+                    // console.log("Id du dernier enregistrement :", latestRecord._id);
                     return latestRecord;
                 } else {
                     console.log('Aucun enregistrement trouvé.');

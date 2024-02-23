@@ -23,12 +23,6 @@ export const UserTypeButton = ({ userType }) => {
   const handleCloseModal = () => setShowModal(false);
 
 
-  
-  // const [showModalLogin, setShowModalLogin] = useState(false);
-  // const handleShowLoginModal = () => setShowModalLogin(true);
-  // const handleCloseLoginModal = () => setShowModalLogin(false);
-
-
   const[showModalExpert, setShowModalExpert] = useState(false);
   const handleShowModalExpert = () => setShowModalExpert(true);
   const handleCloseExpertModal = () => setShowModalExpert(false);
@@ -54,24 +48,17 @@ export const UserTypeButton = ({ userType }) => {
     }
   };
 
-  // const handleLogin = () => {
-  //   console.log('Here handleClickLogin');
-  //   setSelectedUserType(userType);
-  //   handleShowLoginModal();
-
-  // };
-
   return (
       <>
         <div className="user-type">
-          <FontAwesomeIcon icon={icons[userType]} size="2x" /> 
-          <h2>as a {userType}</h2>
+        <FontAwesomeIcon icon={icons[userType]} size="2x"/> 
+        <h2 >as a {userType}</h2>
           <div className="user-type-actions">
-            {/* <button className="login" onClick={handleLogin}>Login</button> */}
             <button className="create-account" onClick={handleClickCreate}>Create account</button>
           </div>
         </div>
 
+        
     <IndividualModalCreate
       handleShowModal={showModal}
       handleCloseModal={handleCloseModal}

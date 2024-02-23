@@ -14,6 +14,7 @@ import LandingPageVerif from "./components/LandingPageVerif.js";
 import Emission from './components/Emission';
 import AdministrationProfile from './components/Admin/AdministrationProfile.js'
 import DetailEmission from './components/Admin/DetailEmission.js';
+import AllEmissionsPage from './components/AllEmissionPage.js';
 import 'whatwg-fetch';
 
 
@@ -29,10 +30,11 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="/app/index.html" element={<App />} />
         <Route path="/app/home.html" element={<Home />} />
+        <Route path="/app/AllEmissionsPage.html" element={<AllEmissionsPage />} />
         <Route path="/app/account/individual.html" element={<IndiviudalProfil/>}/>
         <Route path="/app/account/expert.html" element={<ExpertProfil/>}/>
         <Route path="/app/account/producer.html" element={<ProducerProfil />}/>
-        <Route path="/app/admin.html" element={<AdministrationProfile />}/>
+        <Route path="/app/account/admin.html" element={<AdministrationProfile />}/>
         <Route path='/app/admin/:id/detail.html' element={<DetailEmission />}/>
         <Route path="/app/:id/detail.html" element={<Emission />}/>
       </Routes>
