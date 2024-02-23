@@ -8,6 +8,7 @@ import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
 import { UserTypeButton } from './../UserType';
 import { toast } from 'react-toastify'; 
+import "../../../css/detailEmission.css";
 
 
 
@@ -103,8 +104,8 @@ const DetailEmission = () => {
                 const selectedOptionSize = sizeOptions.find(option => option.id === selectedSize);
         
               // Récupérer le searchTerms de l'option sélectionnée
-              const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
-              const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms: '';
+                const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
+                const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms: '';
                 const selectedSearchTermsStatus = selectedOptionStatus ? selectedOptionStatus.searchTerms : '';
                 const selectedSearchTermsCountry = selectedOptionCountry ? selectedOptionCountry.searchTerms : '';
                 const selectedSearchTermsSize = selectedOptionSize ? selectedOptionSize.searchTerms : '';
@@ -123,6 +124,8 @@ const DetailEmission = () => {
                     yearOfBottling: attribute[15].value,
                     typeOfWine: selectedSearchTermsTypeWine,               
                     initialQuantityoOfUniqueBottlesInEmission: attribute[1].value,
+                    emissionPriceTarget: attribute[10].value,
+                    bottlesQuantity: emission.inventory.quantity,
                     bottleSize_TradingUnitType: selectedSearchTermsSize,
                     emissionRecordReference: attribute[3].value,
                     ledgerOfEmissionVideoRecording: attribute[4].value,
@@ -130,6 +133,7 @@ const DetailEmission = () => {
                     uniquenessFactorDescription: attribute[6].value,
                     emissionStatus: selectedSearchTermsStatus,
                     wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
+                    created_at: new Date(),
                 };
 
                 // Envoie l'émission à SOT
@@ -143,7 +147,6 @@ const DetailEmission = () => {
          const oidValue = lastRecordEmission._id["$oid"]; 
 
          const idEmissionCMS = emission.id;
-
          //concatenation ID emissionUniqueId
          const concatenatedId = idEmissionCMS + '_'+ oidValue;
         //  console.log('concatenation ', concatenatedId);
@@ -151,10 +154,10 @@ const DetailEmission = () => {
 
                 // const { v4: uuidv4 } = require('uuid'); // Import de la fonction uuidv4 pour la génération d'IDs uniques
 
-                const createBottlesForEmission = async (concatenatedId, numberOfBottles) => {
+                const createBottlesForEmission = async (concatenatedId, bottlesQuantity) => {
                     try {
                         const bottles = [];
-                        for (let i = 0; i < numberOfBottles; i++) {
+                        for (let i = 0; i < bottlesQuantity; i++) {
                             // Fonction pour générer un identifiant unique
                             const bottleId = () => {
                                 return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -165,17 +168,18 @@ const DetailEmission = () => {
                                 emissionUnique_id: concatenatedId,
                                 wineTitleName: emission.name,
                                 emissionCardLink: "",
+                                emissionPriceTarget: emission.inventory.quantity,
                                 currentBottleStatus: "",
-                                currentOwner_Proxy_id: "",
-                                precedentStatu: "",
-                                lastTransaction_Transaction_id: "",
-                                lastTranscationDate: "",
-                                lastEvent_Event_id: "",
-                                lastEventDate: "",
+                                currentOwner_Proxy_id: emission.embeddedSeller.name,
+                                precedentStatus: "",
+                                lastTransaction_Transaction_id: 0,
+                                lastTransactionDate: new Date(),
+                                lastEvent_Event_id: concatenatedId,
+                                lastEventDate: new Date(),
                                 lastEventType: "",
-                                aggregateQuantityOfTransactionsSinceEmission: "",
-                                aggregateQuantityOfTransactionsInCurrentYear: "",
-                                lastKnownTransactionPrice: "",
+                                aggregateQuantityOfTransactionsSinceEmission: 1,
+                                aggregateQuantityOfTransactionsInCurrentYear: 1,
+                                lastKnownTransactionPrice: attribute[10].value,
                             };
                             bottles.push(bottle);
                         }
@@ -188,14 +192,15 @@ const DetailEmission = () => {
                         console.log("bottlesSot", insertBottlesSot)
 
 
-                        console.log(`${numberOfBottles} bouteilles ont été créées pour l'émission avec l'ID ${concatenatedId}`);
+                        console.log(`${bottlesQuantity} bouteilles ont été créées pour l'émission avec l'ID ${concatenatedId}`);
+                        setDisable(true);
                     } catch (error) {
                         console.error('Erreur lors de la création des bouteilles :', error);
                     }
                 };
 
                 // Utilisation de la fonction pour créer cinq bouteilles pour une émission donnée
-                createBottlesForEmission(concatenatedId, 5);
+                createBottlesForEmission(concatenatedId, emission.inventory.quantity);
 
 
          // Update field 
@@ -294,14 +299,26 @@ const DetailEmission = () => {
 
 
     return (
-        <section className="container mt-5">
+        <section className="container  mt-4">
+            <button
+                className="btn btn-secondary mb-4"
+                onClick={handleGoBack}
+                alt="Go to home Admin"
+                title="Go to home Admin"
+            >Page précédente</button>
+
             {emission && attribute ? (
                 <div className="row">
-                    <div className="col-md-6">
-                        {/* Image de l'émission */}
+                    <div className="boxImg col-md-6">
+                        <img
+                            src={emission.imageURLs[0]}
+                            alt={`Image ${emission.name}`}
+                            title={`Image ${emission.name}`}
+                            className="img-fluid img-thumbnail imgBottle"
+                        />
                     </div>
-                    <div className="col-md-6">
-                        <h2 className="mb-4">Winery : {emission.embeddedSeller.name}</h2>
+                    <div className="col-md-6 mt-5">
+                        <h2 className="m-4">Winery : {emission.embeddedSeller.name}</h2>
                         <h3 className="text-primary">Wine title : {emission.name}</h3>
                         <p className="lead">Description : {emission.description}</p>
                         <p className="lead">Area Of production : {attribute[18].value}</p>
@@ -309,24 +326,20 @@ const DetailEmission = () => {
                         <p className="lead">Country : {selected[3]}</p>
                         <p className="lead">Year Of Bottling : {attribute[15].value}</p>
                         <p className="lead">Type of Wine : {selected[1]}</p>
-                        <p className="lead">Initial Quantity Of Unique Bottles In Emission : {attribute[10].value}</p>
+                        <p className="lead">Initial Quantity Of Unique Bottles In Emission : {attribute[1].value}</p>
+                        <p className="lead">Quantity Bottles: {emission.inventory.quantity}</p>
+                        <p className="lead">Emission Price Target : {attribute[10].value}</p>
                         <p className="lead">Bottle Size : {selected[4]}</p>
                         <p className="lead">Emission Record Reference : {attribute[3].value}</p>
                         <p className="lead">ledger Of Emission Video Recording : {attribute[4].value}</p>
                         <p className="lead">Uniqueness Factor Type : {attribute[5].value}</p>
                         <p className="lead">Uniqueness Factor Description : {attribute[6].value}</p>
                         <p className="lead">Emission Status : {selected[2]}</p>
-
                         
                         <hr className="my-4" />
+                        
                         <button
-                            className="btn btn-secondary"
-                            onClick={handleGoBack}
                             disabled={disable}
-                        >
-                            Page précédente
-                        </button>
-                        <button
                             className="btn btn-warning ml-3"
                             onClick={handleSendToSOT}
                         >

@@ -48,6 +48,7 @@ const AdministrationProfile = () => {
                                             <li className="list-group-item">
                                                 <strong>Status :</strong> {emission.metaInfo.publishedSot ? 'true' : 'false'}
                                             </li>
+                                            
                                         </ul>
                                         <div className="mt-3">
                                             <Link to={`/app/admin/${emission.id}/detail.html`} className="card-link">
