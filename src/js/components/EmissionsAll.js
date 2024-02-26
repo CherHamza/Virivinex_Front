@@ -4,6 +4,8 @@ import Image1 from "../../../assets/images/bottle1.jpg";
 import { dataService } from "../services/dataService.js";
 import { Link } from "react-router-dom";
 import { EmissionService } from "../services/emissionService";
+import DefaultImageSrc from '../../../assets/images/bottle1.jpg';
+
 
 const EmissionsAll = (props) => {
 
@@ -32,7 +34,7 @@ const EmissionsAll = (props) => {
             {emissions.length > 0 && emissions.map((emission) => (
                 emission.publishedForSale ? (
                     <div className="card m-4" style={{ width: "18rem" }} key={emission.id}>
-                        <img src={imageSrc} alt={emission.name} />
+                        <img src={emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc} alt={emission.name} title={emission.name} />
                         <div className="card-body">
                             <h5 className="card-title">{emission.name}</h5>
                             <p className="card-text">

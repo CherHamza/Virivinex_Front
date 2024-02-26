@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DisplayEmissionSearch from './DisplayEmissionSearch'; 
 import SearchEmission from './SearchEmission'; 
 import { EmissionService } from '../services/emissionService';
+import EmissionsAll from './EmissionsAll';
 
 const AllEmissionsPage = () => {
   const [emissions, setEmissions] = useState([]); 
@@ -12,13 +13,10 @@ const AllEmissionsPage = () => {
       try {
         const emissionService = EmissionService.getInstance();
         const allEmissions = await emissionService.getAllEmissions();
-
-        setEmissions(allEmissions);
       } catch (error) {
         console.error('Erreur lors de la récupération des émissions :', error);
       }
     };
-
     fetchAllEmissions();
   }, []);
 
@@ -26,13 +24,6 @@ const AllEmissionsPage = () => {
     setSearchResults(results);
   };
 
-  const splitEmissionsIntoRows = (emissions) => {
-    const rows = [];
-    for (let i = 0; i < emissions.length; i += 4) {
-      rows.push(emissions.slice(i, i + 4));
-    }
-    return rows;
-  };
 
   return (
     <div className="container py-5">
@@ -43,19 +34,11 @@ const AllEmissionsPage = () => {
           <SearchEmission onSearch={handleSearch} />
         </div>
       </div>
-      <div className=" d-flex justify-content-center flex-wrap">
-          {/* Affichage des émissions en fonction des résultats de recherche */}
-          {splitEmissionsIntoRows(searchResults.length > 0 ? searchResults : emissions).map((row, index) => (
-            <div key={index} className=" mb-4">
-              {row.map((emission) => (
-                <div key={emission.id} className="">
-                  <DisplayEmissionSearch emissions={[emission]} />
-                </div>
-              ))}
-            </div>
-          ))}
-        
-      </div>
+
+      <section className='d-flex justify-content-center flex-wrap'>
+        <EmissionsAll />
+      </section>
+      
     </div>
   );
 };
