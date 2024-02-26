@@ -97,6 +97,36 @@ import { dataService } from "./dataService";
     }
 
 
+     /**
+      * Sending an E-Mail to Admin
+      * @example
+      * Form data object example:
+      * {
+      *     email: "test@example.com",
+      *     name: "John Snow",
+      *     phone: "+18736476837",
+      *     desc: "Hello World!",
+      *     topic: "The subject of E-Mail",
+      *     isPathAbsolute: false,
+      *     attachments: []
+      * }
+      * @param formData
+      * @returns {Promise<Response>}
+      */
+    async sendEmailToAdmin(formData) {
+        return await fetch("/saveContactFormWithAttachments", {
+            method: "POST",
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            redirect: 'follow',
+            body: JSON.stringify(formData),
+        });
+    }
+
 }
 
 // export const emissionService = new EmissionService();
