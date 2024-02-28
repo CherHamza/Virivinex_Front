@@ -126,6 +126,19 @@ import { dataService } from "./dataService";
             body: JSON.stringify(formData),
         });
     }
+    async sendSimpleEmail(formData) {
+        return await fetch("/saveContactForm", {
+            method: "POST",
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            redirect: 'follow',
+            body: JSON.stringify(formData),
+        });
+    }
 
 }
 

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { dataService } from "../../services/dataService";
 import SearchSkus from "../SearchSkus";
 import { ApiService } from '../../services/apiService';
-
+import { EmissionService } from "../../services/emissionService";
 
 
 const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModalProducerEmission }) => {
@@ -33,6 +33,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     const [embeddedSkuId, setEmbeddedSkuId] = useState([]);
     const [embeddedSkuName, setEmbeddedName] = useState([]);
     const apiService = ApiService.getInstance();
+    const emissionService = EmissionService.getInstance();
   // const [data, setData] = useState(null);
   // const [newEmission, setNewEmission] = useState({
   //   nameEmission: "",
@@ -124,6 +125,35 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           const response = await dataService.saveEmissionAsDraft(newEmission);
           console.log('Creation CMS',response);
 
+          // Envoi d'un e-mail à l'administrateur
+        const loggedProfile = await dataService.getAuthenticatedProfile();
+        const emailData = {
+            email: loggedProfile.emailAddress,
+            name: `${loggedProfile.firstName} ${loggedProfile.lastName}`,
+            phone: loggedProfile.mobilePhone,
+            desc: `A new emission "${formData.nameEmission}" has been created.`,
+            topic: `New Emission Created by ${loggedProfile.embeddedParent.name}`,
+            isPathAbsolute: false,
+            attachments: []
+        };
+
+        // Appel de la fonction pour envoyer l'e-mail
+        const emailResponse = await emissionService.sendEmailToAdmin(emailData);
+        console.log("Email sent to admin:", emailResponse);
+
+        // Envoi d'un e-mail de confirmation à la winery
+        const emailDataWinery = {
+          email: loggedProfile.emailAddress, // Adresse e-mail de la winery
+          name: `${loggedProfile.firstName} ${loggedProfile.lastName}`,
+          desc: `A new emission "${formData.nameEmission}" has been created.`,
+          topic: `New Emission Created by ${loggedProfile.embeddedParent.name}`,
+          isPathAbsolute: false,
+          attachments: []
+      };
+
+      // Appel de la fonction pour envoyer l'e-mail à la winery
+      const emailResponseWinery = await emissionService.sendSimpleEmail(emailDataWinery);
+      console.log("Email sent to winery:", emailResponseWinery);
 
          
 
