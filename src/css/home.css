@@ -98,11 +98,11 @@
     filter: brightness(1.1); 
   }
   
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .user-type {
       flex-basis: 100%; 
     }
-  }
+  } */
   
   
   /* Carousel style... */
@@ -154,8 +154,15 @@
     transform: scale(0.9); 
   }
   
+
+
+
+
   /* Ajout un style responsive  */
   @media (max-width: 768px) {
+    .user-type {
+      flex-basis: 100%;
+      }
     .carousel-slide {
       flex-direction: column;
     }
@@ -165,3 +172,5 @@
     }
   }
   
+
+   

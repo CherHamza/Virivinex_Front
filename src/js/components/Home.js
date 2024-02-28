@@ -49,28 +49,6 @@ const Home = () => {
     checkAuthentication();
   }, []);
 
-
-  useEffect(() => {
-    const fetchData = async ()=> {
-      const test = await apiService.getSotEmissionAll();
-      console.log('Test ', test)
-
-      // console.log('Test id', test[0].uniqueBottle_id)
-    }
-  
-  fetchData();
- 
-  }, []);
-
-  useEffect(() => {
-    const fetchDataE = async () => {
-
-      const responseID = await apiService.getLastRecord();
-      console.log(responseID);
-    }
-    fetchDataE();
-  }, []);
-
   return (
   <>
     <div className="app">

@@ -70,7 +70,7 @@ export const Header = () => {
   return (
     <>
       <nav className="navbar navbar-expand-md navbar-light bg-light mb-3 mx-3">
-        <a className="navbar-brand" href="#">Verivinex</a>
+        <a className="navbar-brand" href="/app/home.html">Verivinex</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
