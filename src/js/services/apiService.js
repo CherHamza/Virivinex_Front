@@ -201,4 +201,21 @@ export class ApiService {
         }
     }
 
+
+    async getBottlesEmissionSot() {
+        try {
+            const response = await fetch(`${this.apiUrlSot}bottles`, this.init('GET'));
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                console.error(`Erreur de récupération: ${response.statusText}`);
+                return null;
+            }
+        } catch (error) {
+            console.error('Une erreur s\'est produite :', error);
+            return null;
+        }
+    }
+
 }

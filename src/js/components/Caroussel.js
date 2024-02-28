@@ -11,6 +11,7 @@ const Caroussel = () => {
     const fetchEmissions = async () => {
       try {
         const allEmissions = await emissionService.getAllEmissions();
+        
         const formattedEmissions = allEmissions
           .filter(emission => emission.publishedForSale === true)
           .map(emission => ({

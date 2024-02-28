@@ -7,6 +7,7 @@ import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Image1 from "../../../assets/images/bottle1.jpg";
 import { EmissionService } from "../services/emissionService";
+import { ApiService } from "../services/apiService";
 
 
 
@@ -17,33 +18,35 @@ const Emission = (props) => {
     const { id } = useParams();
     const imageSrc = Image1;
     const [emission, setEmission] = useState([]);
+    const [bottlesSot, setBottlesSot] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
     const navigate = useNavigate();
     const handleGoBack = () => {
       navigate(-1); // This will navigate back
     };
-  const emissionService = EmissionService.getInstance(); 
+  const emissionService = EmissionService.getInstance();
+  const apiEmission = ApiService.getInstance(); 
     
-    useEffect(() => {
-        const checkAuthentication = async () => {
-            const isAuthenticated = await dataService.isAuthenticated();
+    // useEffect(() => {
+    //     const checkAuthentication = async () => {
+    //         const isAuthenticated = await dataService.isAuthenticated();
 
-            if (isAuthenticated) {
-                const userProfile = await dataService.getAuthenticatedProfile();
-                setProfile(userProfile);
-                // console.log('profile ', userProfile);
-            } else {
-                navigate("/app/home.html");
-            } 
-        };
-        checkAuthentication();
-    }, []);
+    //         if (isAuthenticated) {
+    //             const userProfile = await dataService.getAuthenticatedProfile();
+    //             setProfile(userProfile);
+    //             // console.log('profile ', userProfile);
+    //         } else {
+    //             navigate("/app/home.html");
+    //         } 
+    //     };
+    //     checkAuthentication();
+    // }, []);
     
     useEffect(() => {
         const fetchEmission = async () => {
             try {
                 const emissionId = await emissionService.getEmissionById(id);
-                console.log('emissionId : ', emissionId);
+                // console.log('emissionId : ', emissionId);
 
                 if (emissionId.length > 0) {
                     console.log('emission: ', emissionId[0]);
@@ -58,6 +61,24 @@ const Emission = (props) => {
         };
         fetchEmission();
     }, [id]);
+
+
+    useEffect(() => {
+        const fetchAllBottlesSot = async () => {
+            try {
+              const bottlesSotDb = await apiEmission.getBottlesEmissionSot();
+              console.log('bottlesSotDb : ', bottlesSotDb);
+
+              // const formattedBottlesSot = bottlesSotDb
+              //   .filter(bottle => bottle.emissionId ===  )
+
+
+            } catch (error) {
+                console.error('Error ', error);
+            }
+        };
+      fetchAllBottlesSot();
+    }, []);
 
 
     return (

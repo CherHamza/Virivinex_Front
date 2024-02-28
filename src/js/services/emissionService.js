@@ -126,7 +126,6 @@ import { dataService } from "./dataService";
             body: JSON.stringify(formData),
         });
     }
-
 }
 
 // export const emissionService = new EmissionService();
