@@ -1,16 +1,16 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import Image1 from "../../../assets/images/bottle1.jpg";
-import { dataService } from "../services/dataService.js";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { EmissionService } from "../services/emissionService";
+import { dataService } from "../services/dataService";
+import { Link } from "react-router-dom";
 import DefaultImageSrc from '../../../assets/images/bottle1.jpg';
 
-
 const EmissionsAll = (props) => {
-
-    const imageSrc = Image1;
     const [emissionsWithAttributes, setEmissionsWithAttributes] = useState([]);
+    const [filterYear, setFilterYear] = useState('');
+    const [filterSize, setFilterSize] = useState('');
+    const [filterCountry, setFilterCountry] = useState('');
+    const [filterRegion, setFilterRegion] = useState('');
+
     const emissionService = EmissionService.getInstance();
 
     useEffect(() => {
@@ -29,7 +29,6 @@ const EmissionsAll = (props) => {
                 setEmissionsWithAttributes(emissions);
             } catch (error) {
                 console.error("Erreur lors de la récupération des émissions :", error);
-
             }
         };
 
@@ -46,16 +45,75 @@ const EmissionsAll = (props) => {
         return selectedOptions;
     };
 
-    // console.log('emissionsWithAttributes + selected', emissionsWithAttributes);
+    const handleYearChange = (e) => {
+        setFilterYear(e.target.value);
+    };
+
+    const handleSizeChange = (e) => {
+        setFilterSize(e.target.value);
+    };
+
+    const handleCountryChange = (e) => {
+        setFilterCountry(e.target.value);
+    };
+
+    const handleRegionChange = (e) => {
+        setFilterRegion(e.target.value);
+    };
+
+    // Créer un tableau d'années de 1800 à 2024
+    const years = [];
+    for (let year = 1800; year <= 2024; year++) {
+        years.push(year);
+    }
 
     return (
         <>
+        <div className="filter-options">
+            <div className="filter-item">
+                <select value={filterYear} onChange={handleYearChange}>
+                    <option value="">Filter by year</option>
+                    {years.map((year, index) => (
+                        <option key={index} value={year}>{year}</option>
+                    ))}
+                </select>
+            </div>
+            <div className="filter-item">
+                <input
+                    type="text"
+                    placeholder="Filter by size"
+                    value={filterSize}
+                    onChange={handleSizeChange}
+                />
+            </div>
+            <div className="filter-item">
+                <input
+                    type="text"
+                    placeholder="Filter by country"
+                    value={filterCountry}
+                    onChange={handleCountryChange}
+                />
+            </div>
+            <div className="filter-item">
+                <select value={filterRegion} onChange={handleRegionChange}>
+                    <option value="">Select Region</option>
+                    {/* Add options dynamically based on available regions */}
+                    {/* Example: <option value="region1">Region 1</option> */}
+                </select>
+            </div>
+        </div>
         {
             emissionsWithAttributes
                 .filter(({ emission }) => emission.publishedForSale)
+                .filter(({ attributes }) => {
+                    if (filterYear !== '' && attributes[15].value !== filterYear) return false;
+                    if (filterSize !== '' && !attributes.some(attr => attr.value === filterSize)) return false;
+                    if (filterCountry !== '' && !attributes.some(attr => attr.value === filterCountry)) return false;
+                    if (filterRegion !== '' && !attributes.some(attr => attr.value === filterRegion)) return false;
+                    return true;
+                })
                 .map(({ emission, attributes, selectedOptions }) => (
                     <div className="card m-4" style={{ width: "18rem" }} key={emission.id}>
-                        {/* <img src={emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc} alt={emission.name} title={emission.name} /> */}
                         <img
                             style={{ width: '286px', height: '409px', objectFit: 'cover' }}
                             src={emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc}
@@ -87,4 +145,5 @@ const EmissionsAll = (props) => {
         </>
     );
 }
+
 export default EmissionsAll;
