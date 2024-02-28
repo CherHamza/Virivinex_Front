@@ -168,7 +168,7 @@ const DetailEmission = () => {
                                 emissionUnique_id: concatenatedId,
                                 wineTitleName: emission.name,
                                 emissionCardLink: "",
-                                emissionPriceTarget: emission.inventory.quantity,
+                                emissionPriceTarget: attribute[10].value,
                                 currentBottleStatus: "",
                                 currentOwner_Proxy_id: emission.embeddedSeller.name,
                                 precedentStatus: "",
