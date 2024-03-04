@@ -20,15 +20,15 @@ import { dataService } from "./dataService";
                 type: "SellerSku",
                 ignoreRegexWrap: [],
                 query: {},
-                visiblePages: 50,
+                visiblePages: 10,
                 sortName: "id",
                 sortDirection: "ASC",
-                limit: 50,
+                limit: 30,
                 offset: 0,
-                page: 30
+                page: 1
             };
             const storeEmission = await dataService.searchEmissions(request);
-            // console.log("storeEmission:", storeEmission);
+            console.log("storeEmission:", storeEmission);
             return storeEmission.data.content;
         } catch (e) {
             console.error("erreur fetching:", e);
