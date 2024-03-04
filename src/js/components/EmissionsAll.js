@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { EmissionService } from "../services/emissionService";
+import { ApiService } from "../services/apiService";
 import { dataService } from "../services/dataService";
 import { Link } from "react-router-dom";
 import DefaultImageSrc from '../../../assets/images/bottle1.jpg';
@@ -14,8 +15,8 @@ const EmissionsAll = (props) => {
     const [filterSize, setFilterSize] = useState('');
     const [filterCountry, setFilterCountry] = useState('');
     const [filterRegion, setFilterRegion] = useState('');
-
     const emissionService = EmissionService.getInstance();
+    const apiService = ApiService.getInstance();
 
     useEffect(() => {
         const fetchAllEmissions = async () => {
@@ -97,7 +98,21 @@ const EmissionsAll = (props) => {
     for (let year = currentYear; year >= startYear; year--) {
         years.push(year);
     }
+    console.log('emissionMSM', emissionsWithAttributes.filter(({ emission }) => emission.publishedForSale))
+    useEffect(() => {
+        const fetchEmission = async () => {
+            try {
+                const emissionsSOT = await apiService.getSotEmissionAll()
+                console.log('emissionsAll ', emissionsSOT)
+            } catch (error) {
+                console.error("Erreur lors de la récupération des émissions :", error);
+            }
+        };
 
+        fetchEmission();
+    }, [])
+
+    // https://verivinex.com/sot/emissions/Numero99/sellerSku29_65e0a49127500d016bfb690b
     return (
         <div className="container mt-5">
             <div className="row">
@@ -185,6 +200,7 @@ const EmissionsAll = (props) => {
                                         </ul>
                                         <div className="card-body">
                                             <Link to={`/app/sot/emissions/${emission.name}/${emission.id}/detail.html`} className="card-link">Detail</Link>
+                                            {/* https://verivinex.com/sot/emissions/Numero99/sellerSku29_65e0a49127500d016bfb690b */}
                                         </div>
                                     </div>
                                 </div>
