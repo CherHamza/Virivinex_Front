@@ -17,6 +17,9 @@ const DetailEmission = () => {
     const [attribute, setAttribute] = useState(null);
     const [ disable, setDisable ] = useState(false);
     const { id } = useParams();
+    const [selectedOptions, setSelectedOptions] = useState(Array(5).fill(null));
+
+    const [test, setTest ] =useState(emission);
     const [selected, setSelected ] = useState(null);
     const emissionService = EmissionService.getInstance();
     const apiService = ApiService.getInstance();
@@ -25,49 +28,18 @@ const DetailEmission = () => {
     useEffect(() => {
         const fetchEmission = async () => {
             try {
+                // Retrieve emission
                 const fetchedEmission = await emissionService.getEmissionById(id);
                 setEmission(fetchedEmission[0]);
+                // console.log('em ', fetchedEmission[0].attributeValues[10].attribute.name)
 
                 const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
                 setAttribute(attributesEmissions);
+                // console.log('attributesEmissions ', attributesEmissions)
 
-                const wineMacroRegionOptions = attributesEmissions[20].attribute.options;
-                const typeOfWineOptions = attributesEmissions[21].attribute.options;
-                const statusEmissionOptions = attributesEmissions[2].attribute.options;
-                const countryOptions = attributesEmissions[19].attribute.options;
-                const sizeOptions = attributesEmissions[17].attribute.options;
-
-                const selectedValue = attributesEmissions[20].value;
-                const selectedValueTypeWine = attributesEmissions[21].value;
-                const selectedValueStatus = attributesEmissions[2].value;
-                const selectedCountry = attributesEmissions[19].value;
-                const selectedSize = attributesEmissions[17].value;
-
-                // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
-                const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
-                const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine);
-                const selectedOptionStatus = statusEmissionOptions.find(option => option.id === selectedValueStatus);
-                const selectedOptionCountry = countryOptions.find(option => option.id === selectedCountry);
-                const selectedOptionSize = sizeOptions.find(option => option.id === selectedSize);
-
-                // Récupérer le searchTerms de l'option sélectionnée
-                const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
-                const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms : '';
-                const selectedSearchTermsStatus = selectedOptionStatus ? selectedOptionStatus.searchTerms : '';
-                const selectedSearchTermsCountry = selectedOptionCountry ? selectedOptionCountry.searchTerms : '';
-                const selectedSearchTermsSize = selectedOptionSize ? selectedOptionSize.searchTerms : '';
-
-
-                setSelected([
-                    selectedSearchTerms,
-                    selectedSearchTermsTypeWine,
-                    selectedSearchTermsStatus,
-                    selectedSearchTermsCountry,
-                    selectedSearchTermsSize,
-                ])
-
-                console.log(' attributes ; ', attributesEmissions);
-
+                const selectedOptions = getSelectedOptions(attributesEmissions);
+                setSelectedOptions(selectedOptions);
+                // console.log('selectedOptions ', selectedOptions)
            
             } catch (error) {
                 console.error("Erreur lors de la récupération de l'émission :", error);
@@ -76,144 +48,160 @@ const DetailEmission = () => {
         fetchEmission();
     }, [id]);
 
+    const getSelectedOptions = (attributes) => {
+        const selectedOptions = attributes.map(attribute => {
+            const options = attribute.attribute.options;
+            const selectedValue = attribute.value;
+            const selectedOption = options.find(option => option.id === selectedValue);
+            return selectedOption ? selectedOption.searchTerms.split(',')[0] : '';
+        });
+        return selectedOptions;
+    };
    
-    // console.log(' selected ; ', selected);
-
-
-    
     const handleSendToSOT = async () => {
         try {
-            if (emission) {
-              const wineMacroRegionOptions = attribute[20].attribute.options;
-              const typeOfWineOptions = attribute[21].attribute.options;
-              const statusEmissionOptions = attribute[2].attribute.options;
-                const countryOptions = attribute[19].attribute.options;
-                const sizeOptions = attribute[17].attribute.options;
+            if (emission && attribute) {
+            // Construction de l'objet pour l'envoi à SOT
+                const newEmissionSot = buildObjetEmissionSot(emission, attribute, selectedOptions);
+                // console.log('objetSot', newEmissionSot)
 
-                const selectedValue = attribute[20].value;
-                const selectedValueTypeWine = attribute[21].value;
-                const selectedValueStatus = attribute[2].value;
-                const selectedCountry = attribute[19].value;
-                const selectedSize = attribute[17].value;
-        
-              // Filtrer les options pour trouver celle correspondant à la valeur sélectionnée
-              const selectedOption = wineMacroRegionOptions.find(option => option.id === selectedValue);
-              const selectedOptionTypeWine = typeOfWineOptions.find(option => option.id === selectedValueTypeWine);
-              const selectedOptionStatus = statusEmissionOptions.find(option => option.id === selectedValueStatus);
-                const selectedOptionCountry = countryOptions.find(option => option.id === selectedCountry);
-                const selectedOptionSize = sizeOptions.find(option => option.id === selectedSize);
-        
-              // Récupérer le searchTerms de l'option sélectionnée
-                const selectedSearchTerms = selectedOption ? selectedOption.searchTerms : '';
-                const selectedSearchTermsTypeWine = selectedOptionTypeWine ? selectedOptionTypeWine.searchTerms: '';
-                const selectedSearchTermsStatus = selectedOptionStatus ? selectedOptionStatus.searchTerms : '';
-                const selectedSearchTermsCountry = selectedOptionCountry ? selectedOptionCountry.searchTerms : '';
-                const selectedSearchTermsSize = selectedOptionSize ? selectedOptionSize.searchTerms : '';
-
-            
-                // Construction de l'objet pour l'envoi à SOT
-                const newEmissionApi = {
-                    emissionUnique_id: "",
-                    wineTitleName: emission.name,
-                    description: emission.description,
-                    emissionCardLink: "",
-                    winery: emission.embeddedSeller.name,
-                    areaOfProduction: attribute[18].value,
-                    wineMacroRegion: selectedSearchTerms,
-                    country: selectedSearchTermsCountry,
-                    yearOfBottling: attribute[15].value,
-                    typeOfWine: selectedSearchTermsTypeWine,               
-                    initialQuantityoOfUniqueBottlesInEmission: attribute[1].value,
-                    emissionPriceTarget: attribute[10].value,
-                    bottlesQuantity: emission.inventory.quantity,
-                    bottleSize_TradingUnitType: selectedSearchTermsSize,
-                    emissionRecordReference: attribute[3].value,
-                    ledgerOfEmissionVideoRecording: attribute[4].value,
-                    uniquenessFactorType: attribute[5].value,
-                    uniquenessFactorDescription: attribute[6].value,
-                    emissionStatus: selectedSearchTermsStatus,
-                    wineDescriptiveCombination: selectedSearchTermsTypeWine + ";" + selectedSearchTerms,
-                    created_at: new Date(),
-                };
-
-                // Envoie l'émission à SOT
-                const apiEmission = await apiService.setSotEmission(newEmissionApi);
-                // console.log("Creation SOT", apiEmission);
+            // Envoie l'émission à SOT
+                const apiEmission = await apiService.setSotEmission(newEmissionSot);
+                
                 
               // Dernier enregistrement in SOT
-         const lastRecordEmission = await apiService.getLastRecord();
-        //  console.log('Last record ', lastRecordEmission._id);
+                const lastRecordEmission = await apiService.getLastRecord();
+                //  console.log('Last record ', lastRecordEmission._id);
 
-         const oidValue = lastRecordEmission._id["$oid"]; 
+            //Retrieve _id on the sot
+                const oidValue = lastRecordEmission._id["$oid"]; 
 
-         const idEmissionCMS = emission.id;
-         //concatenation ID emissionUniqueId
-         const concatenatedId = idEmissionCMS + '_'+ oidValue;
-        //  console.log('concatenation ', concatenatedId);
+            //Retrieve id cms
+                const idEmissionCMS = emission.id;
 
-
-                // const { v4: uuidv4 } = require('uuid'); // Import de la fonction uuidv4 pour la génération d'IDs uniques
-
-                const createBottlesForEmission = async (concatenatedId, bottlesQuantity) => {
-                    try {
-                        const bottles = [];
-                        for (let i = 0; i < bottlesQuantity; i++) {
-                            // Fonction pour générer un identifiant unique
-                            const bottleId = () => {
-                                return Date.now().toString(36) + Math.random().toString(36).substr(2);
-                            };
-                            const bottle = {
-
-                                uniqueBottle_id: bottleId(),
-                                emissionUnique_id: concatenatedId,
-                                wineTitleName: emission.name,
-                                emissionCardLink: "",
-                                emissionPriceTarget: attribute[10].value,
-                                currentBottleStatus: "",
-                                currentOwner_Proxy_id: emission.embeddedSeller.name,
-                                precedentStatus: "",
-                                lastTransaction_Transaction_id: 0,
-                                lastTransactionDate: new Date(),
-                                lastEvent_Event_id: concatenatedId,
-                                lastEventDate: new Date(),
-                                lastEventType: "",
-                                aggregateQuantityOfTransactionsSinceEmission: 1,
-                                aggregateQuantityOfTransactionsInCurrentYear: 1,
-                                lastKnownTransactionPrice: attribute[10].value,
-                            };
-                            bottles.push(bottle);
-                        }
-
-                        // Insérez les bouteilles dans la base de données
-                        // Supposons que vous avez une fonction pour insérer des bouteilles dans la base de données
-
-                        const insertBottlesSot = await apiService.createBottlesEmissionSot(concatenatedId, bottles)
-
-                        console.log("bottlesSot", insertBottlesSot)
+            //concatenation ID emissionUniqueId
+                const concatenatedId = idEmissionCMS + '_'+ oidValue;
+                // console.log('concatenation ', concatenatedId);
 
 
-                        console.log(`${bottlesQuantity} bouteilles ont été créées pour l'émission avec l'ID ${concatenatedId}`);
-                        setDisable(true);
-                    } catch (error) {
-                        console.error('Erreur lors de la création des bouteilles :', error);
-                    }
-                };
-
-                // Utilisation de la fonction pour créer cinq bouteilles pour une émission donnée
                 createBottlesForEmission(concatenatedId, emission.inventory.quantity);
 
+            
+                // Update field 
+                apiService.updateEmissionId(oidValue, concatenatedId)
 
-         // Update field 
-         const newEmissionId = await apiService.updateEmissionId(oidValue, concatenatedId)
+                // Appel de la fonction updateEmissionOnTheMastermind avec les paramètres emission et attribute
+                updateEmissionOnTheMastermind(emission, concatenatedId);
 
+                
+                toast.success("L'émission a été envoyée à SOT avec succès!", {
+                    position: toast.POSITION.TOP_RIGHT,
+
+                });
+return concatenatedId
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi de l'émission à SOT :", error);
+            toast.error("Échec de l'envoi de l'émission à SOT. Veuillez réessayer.", {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+    };
+
+    const handleGoBack = () => {
+        navigate(-1);
+    };
+
+    const buildObjetEmissionSot = (emission, attribute, selectedOptions) => {
+        if (emission && attribute && selectedOptions ) {
+            const newEmissionApi = {
+                emissionUnique_id: "",
+                wineTitleName: emission.name,
+                description: emission.description,
+                emissionCardLink: "",
+                winery: emission.embeddedSeller.name,
+                areaOfProduction: attribute[18].value,
+                wineMacroRegion: selectedOptions[20],
+                country: selectedOptions[19],
+                yearOfBottling: attribute[15].value,
+                typeOfWine: selectedOptions[21],
+                initialQuantityoOfUniqueBottlesInEmission: attribute[1].value,
+                emissionPriceTarget: attribute[10].value,
+                bottlesQuantity: emission.inventory.quantity,
+                bottleSize_TradingUnitType: selectedOptions[17],
+                emissionRecordReference: attribute[3].value,
+                ledgerOfEmissionVideoRecording: attribute[4].value,
+                uniquenessFactorType: attribute[5].value,
+                uniquenessFactorDescription: attribute[6].value,
+                emissionStatus: selectedOptions[2],
+                wineDescriptiveCombination: selectedOptions[21] + ";" + selectedOptions[20],
+                created_at: new Date(),
+            };
+            return newEmissionApi;
+        } else {
+            return null; 
+        }
+    }
+
+
+    const createBottlesForEmission = async (concatenatedId, bottlesQuantity) => {
+        try {
+            const bottles = [];
+            for (let i = 0; i < bottlesQuantity; i++) {
+                // Fonction pour générer un identifiant unique
+                const bottleId = () => {
+                    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+                };
+                const bottle = {
+
+                    uniqueBottle_id: bottleId(),
+                    emissionUnique_id: concatenatedId,
+                    wineTitleName: emission.name,
+                    emissionCardLink: "",
+                    emissionPriceTarget: attribute[10].value,
+                    currentBottleStatus: "",
+                    currentOwner_Proxy_id: emission.embeddedSeller.name,
+                    precedentStatus: "",
+                    lastTransaction_Transaction_id: 0,
+                    lastTransactionDate: new Date(),
+                    lastEvent_Event_id: concatenatedId,
+                    lastEventDate: new Date(),
+                    lastEventType: "",
+                    aggregateQuantityOfTransactionsSinceEmission: 1,
+                    aggregateQuantityOfTransactionsInCurrentYear: 1,
+                    lastKnownTransactionPrice: attribute[10].value,
+                };
+                bottles.push(bottle);
+            }
+            await apiService.createBottlesEmissionSot(concatenatedId, bottles)
+            setDisable(true);
+        } catch (error) {
+            console.error('Erreur lors de la création des bouteilles :', error);
+        }
+    }
+
+
+    // Update Emission on the cms 
+    const updateEmissionOnTheMastermind = async (emission, concatenatedId) => {
+        if (emission && attribute) {
+            // Trouver l'indice correct de l'objet dans le tableau attributeValues
+            const attributeIndex = emission.attributeValues.findIndex(attr => attr.attribute.name === "emissionUnique_id");
+
+            if (attributeIndex !== -1) {
+                // Créer une copie de l'objet attributeValues pour éviter de modifier l'original directement
+                const updatedAttributeValues = [...emission.attributeValues];
+                // Mettre à jour l'attribut avec l'indice correct
+                updatedAttributeValues[attributeIndex].value = concatenatedId;
+
+                // Créer l'objet requestBody avec les attributeValues mis à jour
                 const requestBody = {
                     additionalTextInfo: emission.additionalTextInfo,
-                    attributeValues: emission.attributeValues,
+                    attributeValues: updatedAttributeValues,
                     countryOfOrigin: emission.countryOfOrigin,
                     countryOfSeller: {
-                      code: emission.countryOfSeller.code,
-                      language: emission.countryOfSeller.language,
-                      name: emission.countryOfSeller.name
+                        code: emission.countryOfSeller.code,
+                        language: emission.countryOfSeller.language,
+                        name: emission.countryOfSeller.name
                     },
                     createdBy: emission.createdBy,
                     createdDate: emission.createdDate,
@@ -223,14 +211,14 @@ const DetailEmission = () => {
                     durabilityDate1: emission.durabilityDate1,
                     durabilityDate2: emission.durabilityDate2,
                     embeddedSeller: {
-                      id: emission.embeddedSeller.id,
-                      name: emission.embeddedSeller.name,
-                      repositoryName: emission.embeddedSeller.repositoryName
+                        id: emission.embeddedSeller.id,
+                        name: emission.embeddedSeller.name,
+                        repositoryName: emission.embeddedSeller.repositoryName
                     },
                     embeddedSku: {
-                      id: emission.embeddedSku.id,
-                      name: emission.embeddedSku.name,
-                      repositoryName: emission.embeddedSku.repositoryName
+                        id: emission.embeddedSku.id,
+                        name: emission.embeddedSku.name,
+                        repositoryName: emission.embeddedSku.repositoryName
                     },
                     expireDate: emission.expireDate,
                     geneticType: emission.geneticType,
@@ -238,16 +226,16 @@ const DetailEmission = () => {
                     imageURLs: emission.imageURLs,
                     incoTerm: emission.incoTerm,
                     inventory: {
-                      countPerUnit: emission.inventory.countPerUnit,
-                      embeddedSellerSKU: {
-                        id: emission.inventory.embeddedSellerSKU.id,
-                        name: emission.inventory.embeddedSellerSKU.name,
-                        repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
-                      },
-                      id: emission.inventory.id,
-                      lockedQuantity: emission.inventory.lockedQuantity,
-                      minOrder: emission.inventory.minOrder,
-                      quantity: emission.inventory.quantity
+                        countPerUnit: emission.inventory.countPerUnit,
+                        embeddedSellerSKU: {
+                            id: emission.inventory.embeddedSellerSKU.id,
+                            name: emission.inventory.embeddedSellerSKU.name,
+                            repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
+                        },
+                        id: emission.inventory.id,
+                        lockedQuantity: emission.inventory.lockedQuantity,
+                        minOrder: emission.inventory.minOrder,
+                        quantity: emission.inventory.quantity
                     },
                     keywords: emission.keywords,
                     lastModifiedBy: emission.lastModifiedBy,
@@ -271,31 +259,26 @@ const DetailEmission = () => {
                     simpleTypeFilters: emission.simpleTypeFilters,
                     type: emission.type,
                     unit: emission.unit
-                  };
-                  
-                  // Utilisation de l'objet requestBody pour envoyer la requête
-                  // (mettez ici votre code pour envoyer la requête avec cet objet)
-                  
-                // Mettre à jour la propriété publishedSot de l'émission
+                };
+                console.log("requestBody:", requestBody);
+
+                // Vous pouvez maintenant utiliser l'objet requestBody pour envoyer la requête
                 await dataService.saveEmissionAsDraft(requestBody);
-                // console.log("requestBody:", requestBody)
-                toast.success("L'émission a été envoyée à SOT avec succès!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
-
                 setEmission(requestBody)
+                // Renvoyer l'objet requestBody mis à jour
+                return requestBody;
+            } else {
+                console.error("Attribute not found in attributeValues array.");
+                return null;
             }
-        } catch (error) {
-            console.error("Erreur lors de l'envoi de l'émission à SOT :", error);
-            toast.error("Échec de l'envoi de l'émission à SOT. Veuillez réessayer.", {
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }
-    };
+            } else {
+                console.error("Attribute not found in attributeValues array.");
+                return null;
+            }
+        
+    }
 
-    const handleGoBack = () => {
-        navigate(-1);
-    };
+
 
 
     return (
@@ -322,19 +305,19 @@ const DetailEmission = () => {
                         <h3 className="text-primary">Wine title : {emission.name}</h3>
                         <p className="lead">Description : {emission.description}</p>
                         <p className="lead">Area Of production : {attribute[18].value}</p>
-                        <p className="lead">Wine Macro Region : {selected[0]}</p>
-                        <p className="lead">Country : {selected[3]}</p>
+                        <p className="lead">Wine Macro Region : {selectedOptions[20]}</p>
+                        <p className="lead">Country : {selectedOptions[19]}</p>
                         <p className="lead">Year Of Bottling : {attribute[15].value}</p>
-                        <p className="lead">Type of Wine : {selected[1]}</p>
+                        <p className="lead">Type of Wine : {selectedOptions[21]}</p>
                         <p className="lead">Initial Quantity Of Unique Bottles In Emission : {attribute[1].value}</p>
                         <p className="lead">Quantity Bottles: {emission.inventory.quantity}</p>
                         <p className="lead">Emission Price Target : {attribute[10].value}</p>
-                        <p className="lead">Bottle Size : {selected[4]}</p>
+                        <p className="lead">Bottle Size : {selectedOptions[17]}</p>
                         <p className="lead">Emission Record Reference : {attribute[3].value}</p>
                         <p className="lead">ledger Of Emission Video Recording : {attribute[4].value}</p>
                         <p className="lead">Uniqueness Factor Type : {attribute[5].value}</p>
                         <p className="lead">Uniqueness Factor Description : {attribute[6].value}</p>
-                        <p className="lead">Emission Status : {selected[2]}</p>
+                        <p className="lead">Emission Status : {selectedOptions[2]}</p>
                         
                         <hr className="my-4" />
                         
