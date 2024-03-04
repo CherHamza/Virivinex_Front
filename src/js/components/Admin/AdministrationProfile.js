@@ -13,8 +13,10 @@ const AdministrationProfile = () => {
         const fetchAllEmissions = async () => {
             try {
                 const allEmissions = await emissionService.getAllEmissions();
-                console.log("All emissions:", allEmissions);
-                setEmissions(allEmissions);
+                // console.log("All emissions:", allEmissions);
+
+                // console.log("All emissions published:", allEmissions.filter((emission) => emission.publishedForSale));
+                setEmissions(allEmissions.filter((emission) => emission.publishedForSale));
 
                 
             } catch (error) {
@@ -25,7 +27,7 @@ const AdministrationProfile = () => {
         fetchAllEmissions();
     }, []);
 
-    
+    // console.log('em ', emissions)
     return (
         <>
             <h1>Admin Profile</h1>
