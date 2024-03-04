@@ -20,12 +20,12 @@ import { dataService } from "./dataService";
                 type: "SellerSku",
                 ignoreRegexWrap: [],
                 query: {},
-                visiblePages: 10,
+                visiblePages: 50,
                 sortName: "id",
                 sortDirection: "ASC",
-                limit: 30,
+                limit: 50,
                 offset: 0,
-                page: 1
+                page: 30
             };
             const storeEmission = await dataService.searchEmissions(request);
             // console.log("storeEmission:", storeEmission);
