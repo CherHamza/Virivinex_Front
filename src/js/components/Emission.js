@@ -26,6 +26,7 @@ const Emission = (props) => {
     };
   const emissionService = EmissionService.getInstance();
   const apiEmission = ApiService.getInstance(); 
+  
     
     // useEffect(() => {
     //     const checkAuthentication = async () => {
