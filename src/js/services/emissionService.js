@@ -28,7 +28,7 @@ import { dataService } from "./dataService";
                 page: 1
             };
             const storeEmission = await dataService.searchEmissions(request);
-            console.log("storeEmission:", storeEmission);
+            // console.log("storeEmission:", storeEmission);
             return storeEmission.data.content;
         } catch (e) {
             console.error("erreur fetching:", e);
