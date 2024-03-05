@@ -34,7 +34,7 @@ const AdministrationProfile = () => {
             <div className="container">
                 <div className="row">
                     {emissions.length > 0 && emissions.map((emission) => (
-                        emission.publishedForSale && emission.metaInfo && !emission.metaInfo.publishedSot ? (
+                        emission.publishedForSale  ? (
                             <div className="col-md-8 mx-auto" key={emission.id}>
                                 <div className="card mb-3">
                                     <div className="card-body">
@@ -47,9 +47,9 @@ const AdministrationProfile = () => {
                                             <li className="list-group-item">
                                                 <strong>Status :</strong> {emission.publishedForSale ? 'true' : 'false'}
                                             </li>
-                                            <li className="list-group-item">
+                                            {/* <li className="list-group-item">
                                                 <strong>Status :</strong> {emission.metaInfo.publishedSot ? 'true' : 'false'}
-                                            </li>
+                                            </li> */}
                                             
                                         </ul>
                                         <div className="mt-3">

@@ -23,7 +23,7 @@ import { dataService } from "./dataService";
                 visiblePages: 10,
                 sortName: "id",
                 sortDirection: "ASC",
-                limit: 30,
+                limit: 50,
                 offset: 0,
                 page: 1
             };
