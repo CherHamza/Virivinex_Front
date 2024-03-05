@@ -4,6 +4,8 @@ import { ApiService } from "../services/apiService";
 import { dataService } from "../services/dataService";
 import { Link } from "react-router-dom";
 import DefaultImageSrc from '../../../assets/images/bottle1.jpg';
+import "../../css/detailEmission.css";
+
 
 const EmissionsAll = (props) => {
     const [emissionsWithAttributes, setEmissionsWithAttributes] = useState([]);

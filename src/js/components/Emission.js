@@ -5,7 +5,7 @@ import { dataService } from "../services/dataService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate
-import Image1 from "../../../assets/images/bottle1.jpg";
+import DefaultImageSrc from "../../../assets/images/bottle1.jpg";
 import { EmissionService } from "../services/emissionService";
 import { ApiService } from "../services/apiService";
 
@@ -16,7 +16,7 @@ const Emission = (props) => {
 
     const [profile, setProfile] = useState([]);
     const { id } = useParams();
-    const imageSrc = Image1;
+    // const imageSrc = Image1;
     const [emission, setEmission] = useState([]);
     const [bottlesSot, setBottlesSot] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
@@ -88,10 +88,13 @@ const Emission = (props) => {
             <div className="row">
               <div className="col-md-6">
                 <img
-                  src={imageSrc}
+                src={emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc}
                   alt={emission.name}
                   className="img-fluid rounded shadow-lg"
                   style={{ maxWidth: "100%", maxHeight: "600px" }}
+                onError={(e) => {
+                  e.target.src = DefaultImageSrc;
+                }}
                 />
               </div>
               <div className="col-md-6">
