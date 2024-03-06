@@ -143,42 +143,49 @@ return concatenatedId
         }
     }
 
-
+    const createBottleForEmission = async (concatenatedId) => {
+        try {
+            // Fonction pour générer un identifiant unique
+            const bottleId = () => {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            };
+            
+            const bottle = {
+                uniqueBottle_id: bottleId(),
+                emissionUnique_id: concatenatedId,
+                wineTitleName: emission.name,
+                emissionCardLink: "",
+                emissionPriceTarget: attribute[10].value,
+                currentBottleStatus: "",
+                currentOwner_Proxy_id: emission.embeddedSeller.name,
+                precedentStatus: "",
+                lastTransaction_Transaction_id: 0,
+                lastTransactionDate: new Date(),
+                lastEvent_Event_id: concatenatedId,
+                lastEventDate: new Date(),
+                lastEventType: "",
+                aggregateQuantityOfTransactionsSinceEmission: 1,
+                aggregateQuantityOfTransactionsInCurrentYear: 1,
+                lastKnownTransactionPrice: attribute[10].value,
+            };
+            
+            await apiService.createBottlesEmissionSot(concatenatedId, [bottle]);
+            setDisable(true);
+        } catch (error) {
+            console.error('Erreur lors de la création de la bouteille :', error);
+        }
+    }
+    
     const createBottlesForEmission = async (concatenatedId, bottlesQuantity) => {
         try {
-            const bottles = [];
             for (let i = 0; i < bottlesQuantity; i++) {
-                // Fonction pour générer un identifiant unique
-                const bottleId = () => {
-                    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-                };
-                const bottle = {
-
-                    uniqueBottle_id: bottleId(),
-                    emissionUnique_id: concatenatedId,
-                    wineTitleName: emission.name,
-                    emissionCardLink: "",
-                    emissionPriceTarget: attribute[10].value,
-                    currentBottleStatus: "",
-                    currentOwner_Proxy_id: emission.embeddedSeller.name,
-                    precedentStatus: "",
-                    lastTransaction_Transaction_id: 0,
-                    lastTransactionDate: new Date(),
-                    lastEvent_Event_id: concatenatedId,
-                    lastEventDate: new Date(),
-                    lastEventType: "",
-                    aggregateQuantityOfTransactionsSinceEmission: 1,
-                    aggregateQuantityOfTransactionsInCurrentYear: 1,
-                    lastKnownTransactionPrice: attribute[10].value,
-                };
-                bottles.push(bottle);
+                await createBottleForEmission(concatenatedId);
             }
-            await apiService.createBottlesEmissionSot(concatenatedId, bottles)
-            setDisable(true);
         } catch (error) {
             console.error('Erreur lors de la création des bouteilles :', error);
         }
     }
+    
 
 
     // Update Emission on the cms 
