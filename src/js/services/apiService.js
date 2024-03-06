@@ -177,7 +177,7 @@ export class ApiService {
         }
     }
 
-    async createBottlesEmissionSot(emissionId, bottle) {
+    async createBottlesEmissionSot(bottle) {
         try {
             const response = await fetch(`${this.apiUrlSot}bottles`, {
                 method: 'POST',
@@ -186,7 +186,7 @@ export class ApiService {
                     'Content-Type': 'application/json',
                     Authorization: `Basic ${this.token}`
                 },
-                body: JSON.stringify({ emissionId, bottle })
+                body: JSON.stringify(bottle)
             });
             if (response.ok) {
                 const data = await response.json();

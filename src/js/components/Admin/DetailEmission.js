@@ -169,7 +169,25 @@ return concatenatedId
                 lastKnownTransactionPrice: attribute[10].value,
             };
             
-            await apiService.createBottlesEmissionSot(concatenatedId, [bottle]);
+            // await apiService.createBottlesEmissionSot(concatenatedId, [bottle]);
+            await apiService.createBottlesEmissionSot({
+                uniqueBottle_id: bottleId(),
+                emissionUnique_id: concatenatedId,
+                wineTitleName: emission.name,
+                emissionCardLink: "",
+                emissionPriceTarget: attribute[10].value,
+                currentBottleStatus: "",
+                currentOwner_Proxy_id: emission.embeddedSeller.name,
+                precedentStatus: "",
+                lastTransaction_Transaction_id: 0,
+                lastTransactionDate: new Date(),
+                lastEvent_Event_id: concatenatedId,
+                lastEventDate: new Date(),
+                lastEventType: "",
+                aggregateQuantityOfTransactionsSinceEmission: 1,
+                aggregateQuantityOfTransactionsInCurrentYear: 1,
+                lastKnownTransactionPrice: attribute[10].value,
+});
             setDisable(true);
         } catch (error) {
             console.error('Erreur lors de la création de la bouteille :', error);
