@@ -31,11 +31,11 @@ const DetailEmission = () => {
                 // Retrieve emission
                 const fetchedEmission = await emissionService.getEmissionById(id);
                 setEmission(fetchedEmission[0]);
-                // console.log('em ', fetchedEmission[0].attributeValues[10].attribute.name)
+                // console.log('em ', fetchedEmission[0].embeddedSeller)
 
                 const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
                 setAttribute(attributesEmissions);
-                // console.log('attributesEmissions ', attributesEmissions)
+                console.log('attributesEmissions ', attributesEmissions)
 
                 const selectedOptions = getSelectedOptions(attributesEmissions);
                 setSelectedOptions(selectedOptions);
@@ -150,26 +150,6 @@ return concatenatedId
                 return Date.now().toString(36) + Math.random().toString(36).substr(2);
             };
             
-            const bottle = {
-                uniqueBottle_id: bottleId(),
-                emissionUnique_id: concatenatedId,
-                wineTitleName: emission.name,
-                emissionCardLink: "",
-                emissionPriceTarget: attribute[10].value,
-                currentBottleStatus: "",
-                currentOwner_Proxy_id: emission.embeddedSeller.name,
-                precedentStatus: "",
-                lastTransaction_Transaction_id: 0,
-                lastTransactionDate: new Date(),
-                lastEvent_Event_id: concatenatedId,
-                lastEventDate: new Date(),
-                lastEventType: "",
-                aggregateQuantityOfTransactionsSinceEmission: 1,
-                aggregateQuantityOfTransactionsInCurrentYear: 1,
-                lastKnownTransactionPrice: attribute[10].value,
-            };
-            
-            // await apiService.createBottlesEmissionSot(concatenatedId, [bottle]);
             await apiService.createBottlesEmissionSot({
                 uniqueBottle_id: bottleId(),
                 emissionUnique_id: concatenatedId,
@@ -187,7 +167,7 @@ return concatenatedId
                 aggregateQuantityOfTransactionsSinceEmission: 1,
                 aggregateQuantityOfTransactionsInCurrentYear: 1,
                 lastKnownTransactionPrice: attribute[10].value,
-});
+            });
             setDisable(true);
         } catch (error) {
             console.error('Erreur lors de la création de la bouteille :', error);
@@ -209,100 +189,112 @@ return concatenatedId
     // Update Emission on the cms 
     const updateEmissionOnTheMastermind = async (emission, concatenatedId) => {
         if (emission && attribute) {
-            // Trouver l'indice correct de l'objet dans le tableau attributeValues
-            const attributeIndex = emission.attributeValues.findIndex(attr => attr.attribute.name === "emissionUnique_id");
+            
+                // const requestBody = {
+                //     id: emission.id,
+                //     name: emission.name,
+                //     embeddedSeller: emission.embeddedSeller,
+                //     attributeValues: [
+                //         {
+                //             attribute:
+                //                 { id: "Emission Unique ID" },
+                //             active: true,
+                //             value: concatenatedId,
+                //         },
+                //     ],
+                //     embeddedSku: emission.embeddedSku,
+                //     metaInfo: {
+                //         publishedSot: true,
+                //     }
+                // }
 
-            if (attributeIndex !== -1) {
-                // Créer une copie de l'objet attributeValues pour éviter de modifier l'original directement
-                const updatedAttributeValues = [...emission.attributeValues];
-                // Mettre à jour l'attribut avec l'indice correct
-                updatedAttributeValues[attributeIndex].value = concatenatedId;
+            const requestBody = {
+                additionalTextInfo: emission.additionalTextInfo,
+                attributeValues: [
+                    ...emission.attributeValues,
+                    {
+                attribute: { id: "Emission Unique ID" },
+                active: true,
+                    value: concatenatedId,
+                    },
+                ], 
+                countryOfOrigin: emission.countryOfOrigin,
+                countryOfSeller: {
+                    code: emission.countryOfSeller.code,
+                    language: emission.countryOfSeller.language,
+                    name: emission.countryOfSeller.name
+                },
+                createdBy: emission.createdBy,
+                createdDate: emission.createdDate,
+                currencyItem: emission.currencyItem,
+                deliveryType: emission.deliveryType,
+                description: emission.description,
+                durabilityDate1: emission.durabilityDate1,
+                durabilityDate2: emission.durabilityDate2,
+                embeddedSeller: {
+                    id: emission.embeddedSeller.id,
+                    name: emission.embeddedSeller.name,
+                    repositoryName: emission.embeddedSeller.repositoryName
+                },
+                embeddedSku: {
+                    id: emission.embeddedSku.id,
+                    name: emission.embeddedSku.name,
+                    repositoryName: emission.embeddedSku.repositoryName
+                },
+                expireDate: emission.expireDate,
+                geneticType: emission.geneticType,
+                id: emission.id,
+                imageURLs: emission.imageURLs,
+                incoTerm: emission.incoTerm,
+                inventory: {
+                    countPerUnit: emission.inventory.countPerUnit,
+                    embeddedSellerSKU: {
+                        id: emission.inventory.embeddedSellerSKU.id,
+                        name: emission.inventory.embeddedSellerSKU.name,
+                        repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
+                    },
+                    id: emission.inventory.id,
+                    lockedQuantity: emission.inventory.lockedQuantity,
+                    minOrder: emission.inventory.minOrder,
+                    quantity: emission.inventory.quantity
+                },
+                keywords: emission.keywords,
+                lastModifiedBy: emission.lastModifiedBy,
+                lastModifiedDate: emission.lastModifiedDate,
+                listTypeFilters: emission.listTypeFilters,
+                logicalTypeFilters: emission.logicalTypeFilters,
+                metaInfo: {
+                    publishedSot: true,
+                },
+                name: emission.name,
+                numericFilters: emission.numericFilters,
+                orderedItems: emission.orderedItems,
+                packagedItems: emission.packagedItems,
+                price: emission.price,
+                productsRef: emission.productsRef,
+                publishedForSale: emission.publishedForSale,
+                randomGenerated: emission.randomGenerated,
+                rangeFilters: emission.rangeFilters,
+                score: emission.score,
+                searchTerms: emission.searchTerms,
+                simpleTypeFilters: emission.simpleTypeFilters,
+                type: emission.type,
+                unit: emission.unit
+            };
 
-                // Créer l'objet requestBody avec les attributeValues mis à jour
-                const requestBody = {
-                    additionalTextInfo: emission.additionalTextInfo,
-                    attributeValues: updatedAttributeValues,
-                    countryOfOrigin: emission.countryOfOrigin,
-                    countryOfSeller: {
-                        code: emission.countryOfSeller.code,
-                        language: emission.countryOfSeller.language,
-                        name: emission.countryOfSeller.name
-                    },
-                    createdBy: emission.createdBy,
-                    createdDate: emission.createdDate,
-                    currencyItem: emission.currencyItem,
-                    deliveryType: emission.deliveryType,
-                    description: emission.description,
-                    durabilityDate1: emission.durabilityDate1,
-                    durabilityDate2: emission.durabilityDate2,
-                    embeddedSeller: {
-                        id: emission.embeddedSeller.id,
-                        name: emission.embeddedSeller.name,
-                        repositoryName: emission.embeddedSeller.repositoryName
-                    },
-                    embeddedSku: {
-                        id: emission.embeddedSku.id,
-                        name: emission.embeddedSku.name,
-                        repositoryName: emission.embeddedSku.repositoryName
-                    },
-                    expireDate: emission.expireDate,
-                    geneticType: emission.geneticType,
-                    id: emission.id,
-                    imageURLs: emission.imageURLs,
-                    incoTerm: emission.incoTerm,
-                    inventory: {
-                        countPerUnit: emission.inventory.countPerUnit,
-                        embeddedSellerSKU: {
-                            id: emission.inventory.embeddedSellerSKU.id,
-                            name: emission.inventory.embeddedSellerSKU.name,
-                            repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
-                        },
-                        id: emission.inventory.id,
-                        lockedQuantity: emission.inventory.lockedQuantity,
-                        minOrder: emission.inventory.minOrder,
-                        quantity: emission.inventory.quantity
-                    },
-                    keywords: emission.keywords,
-                    lastModifiedBy: emission.lastModifiedBy,
-                    lastModifiedDate: emission.lastModifiedDate,
-                    listTypeFilters: emission.listTypeFilters,
-                    logicalTypeFilters: emission.logicalTypeFilters,
-                    metaInfo: {
-                        publishedSot: true,
-                    },
-                    name: emission.name,
-                    numericFilters: emission.numericFilters,
-                    orderedItems: emission.orderedItems,
-                    packagedItems: emission.packagedItems,
-                    price: emission.price,
-                    productsRef: emission.productsRef,
-                    publishedForSale: emission.publishedForSale,
-                    randomGenerated: emission.randomGenerated,
-                    rangeFilters: emission.rangeFilters,
-                    score: emission.score,
-                    searchTerms: emission.searchTerms,
-                    simpleTypeFilters: emission.simpleTypeFilters,
-                    type: emission.type,
-                    unit: emission.unit
-                };
                 console.log("requestBody:", requestBody);
-
-                // Vous pouvez maintenant utiliser l'objet requestBody pour envoyer la requête
+              
                 await dataService.saveEmissionAsDraft(requestBody);
-                setEmission(requestBody)
-                // Renvoyer l'objet requestBody mis à jour
                 return requestBody;
-            } else {
-                console.error("Attribute not found in attributeValues array.");
-                return null;
             }
-            } else {
-                console.error("Attribute not found in attributeValues array.");
-                return null;
-            }
-        
-    }
 
+            else {
+                console.error("Attribute not found in attributeValues array.");
+                return null;
+            }
+        }
+        
+        // updateEmissionOnTheMastermind(emission, 23)
 
 
 
@@ -366,3 +358,6 @@ return concatenatedId
 };
 
 export default DetailEmission;
+
+
+
