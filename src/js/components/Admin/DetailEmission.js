@@ -208,14 +208,21 @@ return concatenatedId
                 //     }
                 // }
 
+            //TODO: This is necessary to clean attribute value object before saving. We have to delete 'checked'
+            // property from each attribute value.
+            //if (emission.attributeValues?.length > 0) {
+            //    emission.attributeValues.map((attribute) => delete attribute.checked);
+            //}
+
+            console.log(emission.attributeValues);
             const requestBody = {
                 additionalTextInfo: emission.additionalTextInfo,
                 attributeValues: [
                     ...emission.attributeValues,
                     {
-                attribute: { id: "Emission Unique ID" },
-                active: true,
-                    value: concatenatedId,
+                        attribute: { id: "Emission Unique ID" },
+                        active: true,
+                        value: concatenatedId,
                     },
                 ], 
                 countryOfOrigin: emission.countryOfOrigin,
