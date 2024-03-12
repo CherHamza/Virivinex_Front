@@ -7,27 +7,21 @@ const AdministrationProfile = () => {
     const emissionService = EmissionService.getInstance();
     const [emissions, setEmissions] = useState([]);
 
-    
-
     useEffect(() => {
         const fetchAllEmissions = async () => {
             try {
                 const allEmissions = await emissionService.getAllEmissions();
-                // console.log("All emissions:", allEmissions);
+                const filteredEmissions = allEmissions.filter(emission =>
+                    emission.publishedForSale && emission.metaInfo && !emission.metaInfo.publishedSot);
+                setEmissions(filteredEmissions);
 
-                // console.log("All emissions published:", allEmissions.filter((emission) => emission.publishedForSale));
-                setEmissions(allEmissions.filter((emission) => emission.publishedForSale));
-
-                
             } catch (error) {
-                console.error("Erreur lors de la récupération des émissions :", error);
+                console.error("Error retrieving Emissions :", error);
             }
         };
-
         fetchAllEmissions();
     }, []);
 
-    // console.log('em ', emissions)
     return (
         <>
             <h1>Admin Profile</h1>

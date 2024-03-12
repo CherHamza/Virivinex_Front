@@ -8,6 +8,7 @@ import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
 import { UserTypeButton } from './../UserType';
 import { toast } from 'react-toastify'; 
+import DefaultImageSrc from "../../../../assets/images/bottle1.jpg";
 import "../../../css/detailEmission.css";
 
 
@@ -18,9 +19,6 @@ const DetailEmission = () => {
     const [ disable, setDisable ] = useState(false);
     const { id } = useParams();
     const [selectedOptions, setSelectedOptions] = useState(Array(5).fill(null));
-
-    const [test, setTest ] =useState(emission);
-    const [selected, setSelected ] = useState(null);
     const emissionService = EmissionService.getInstance();
     const apiService = ApiService.getInstance();
     const navigate = useNavigate();
@@ -35,14 +33,14 @@ const DetailEmission = () => {
 
                 const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
                 setAttribute(attributesEmissions);
-                console.log('attributesEmissions ', attributesEmissions)
+                // console.log('attributesEmissions ', attributesEmissions)
 
                 const selectedOptions = getSelectedOptions(attributesEmissions);
                 setSelectedOptions(selectedOptions);
                 // console.log('selectedOptions ', selectedOptions)
            
             } catch (error) {
-                console.error("Erreur lors de la récupération de l'émission :", error);
+                console.error("Error retrieving the emission :", error);
             }
         };
         fetchEmission();
@@ -61,53 +59,34 @@ const DetailEmission = () => {
     const handleSendToSOT = async () => {
         try {
             if (emission && attribute) {
-            // Construction de l'objet pour l'envoi à SOT
                 const newEmissionSot = buildObjetEmissionSot(emission, attribute, selectedOptions);
-                // console.log('objetSot', newEmissionSot)
 
-            // Envoie l'émission à SOT
                 const apiEmission = await apiService.setSotEmission(newEmissionSot);
                 
-                
-              // Dernier enregistrement in SOT
                 const lastRecordEmission = await apiService.getLastRecord();
-                //  console.log('Last record ', lastRecordEmission._id);
-
-            //Retrieve _id on the sot
                 const oidValue = lastRecordEmission._id["$oid"]; 
-
-            //Retrieve id cms
                 const idEmissionCMS = emission.id;
-
-            //concatenation ID emissionUniqueId
                 const concatenatedId = idEmissionCMS + '_'+ oidValue;
-                // console.log('concatenation ', concatenatedId);
-
 
                 createBottlesForEmission(concatenatedId, emission.inventory.quantity);
-
             
-                // Update field 
                 apiService.updateEmissionId(oidValue, concatenatedId)
 
-                // Appel de la fonction updateEmissionOnTheMastermind avec les paramètres emission et attribute
                 updateEmissionOnTheMastermind(emission, concatenatedId);
 
-                
-                toast.success("L'émission a été envoyée à SOT avec succès!", {
+                toast.success("The Emission was sent to SOT successfully!", {
                     position: toast.POSITION.TOP_RIGHT,
 
                 });
 return concatenatedId
             }
         } catch (error) {
-            console.error("Erreur lors de l'envoi de l'émission à SOT :", error);
-            toast.error("Échec de l'envoi de l'émission à SOT. Veuillez réessayer.", {
+            console.error("Error sending broadcasts to SOT :", error);
+            toast.error("Failed to send Emission to SOT. Try Again.", {
                 position: toast.POSITION.TOP_RIGHT,
             });
         }
     };
-
     const handleGoBack = () => {
         navigate(-1);
     };
@@ -145,11 +124,9 @@ return concatenatedId
 
     const createBottleForEmission = async (concatenatedId) => {
         try {
-            // Fonction pour générer un identifiant unique
             const bottleId = () => {
                 return Date.now().toString(36) + Math.random().toString(36).substr(2);
             };
-            
             await apiService.createBottlesEmissionSot({
                 uniqueBottle_id: bottleId(),
                 emissionUnique_id: concatenatedId,
@@ -170,7 +147,7 @@ return concatenatedId
             });
             setDisable(true);
         } catch (error) {
-            console.error('Erreur lors de la création de la bouteille :', error);
+            console.error('Error creating bottle:', error);
         }
     }
     
@@ -180,7 +157,7 @@ return concatenatedId
                 await createBottleForEmission(concatenatedId);
             }
         } catch (error) {
-            console.error('Erreur lors de la création des bouteilles :', error);
+            console.error('Error creating bottles :', error);
         }
     }
     
@@ -213,8 +190,8 @@ return concatenatedId
             if (emission.attributeValues?.length > 0) {
                 emission.attributeValues.map((attribute) => delete attribute.checked);
             }
-
-            console.log("attribute values:",emission.attributeValues);
+            //  ...emission,
+            // console.log("attribute values:",emission.attributeValues);
             const requestBody = {
                 additionalTextInfo: emission.additionalTextInfo,
                 attributeValues: [
@@ -287,23 +264,15 @@ return concatenatedId
                 simpleTypeFilters: emission.simpleTypeFilters,
                 type: emission.type,
                 unit: emission.unit
-            };
-
-                console.log("requestBody:", requestBody);
-              
+            };              
                 await dataService.saveEmissionAsDraft(requestBody);
                 return requestBody;
             }
-
             else {
                 console.error("Attribute not found in attributeValues array.");
                 return null;
             }
         }
-        
-        // updateEmissionOnTheMastermind(emission, 23)
-
-
 
     return (
         <section className="container  mt-4">
@@ -312,16 +281,19 @@ return concatenatedId
                 onClick={handleGoBack}
                 alt="Go to home Admin"
                 title="Go to home Admin"
-            >Page précédente</button>
+            >Previous page</button>
 
             {emission && attribute ? (
                 <div className="row">
                     <div className="boxImg col-md-6">
                         <img
-                            src={emission.imageURLs[0]}
+                            src={emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc}
                             alt={`Image ${emission.name}`}
                             title={`Image ${emission.name}`}
                             className="img-fluid img-thumbnail imgBottle"
+                            onError={(e) => {
+                                e.target.src = DefaultImageSrc;
+                            }}
                         />
                     </div>
                     <div className="col-md-6 mt-5">
@@ -357,7 +329,7 @@ return concatenatedId
             ) : (
                 <div className="alert alert-danger mt-3" role="alert">
                     <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-                    Oups ! Une erreur est survenue. Veuillez réessayer.
+                        Oups ! An error has occurred. Try Again.
                 </div>
             )}
         </section>
