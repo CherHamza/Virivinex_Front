@@ -8,6 +8,7 @@ import { ApiService } from "../../services/apiService";
 import { dataService } from "../../services/dataService";
 import { UserTypeButton } from './../UserType';
 import { toast } from 'react-toastify'; 
+import DefaultImageSrc from "../../../../assets/images/bottle1.jpg";
 import "../../../css/detailEmission.css";
 
 
@@ -18,9 +19,6 @@ const DetailEmission = () => {
     const [ disable, setDisable ] = useState(false);
     const { id } = useParams();
     const [selectedOptions, setSelectedOptions] = useState(Array(5).fill(null));
-
-    const [test, setTest ] =useState(emission);
-    const [selected, setSelected ] = useState(null);
     const emissionService = EmissionService.getInstance();
     const apiService = ApiService.getInstance();
     const navigate = useNavigate();
@@ -31,7 +29,7 @@ const DetailEmission = () => {
                 // Retrieve emission
                 const fetchedEmission = await emissionService.getEmissionById(id);
                 setEmission(fetchedEmission[0]);
-                // console.log('em ', fetchedEmission[0].attributeValues[10].attribute.name)
+                // console.log('em ', fetchedEmission[0].embeddedSeller)
 
                 const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
                 setAttribute(attributesEmissions);
@@ -42,7 +40,7 @@ const DetailEmission = () => {
                 // console.log('selectedOptions ', selectedOptions)
            
             } catch (error) {
-                console.error("Erreur lors de la récupération de l'émission :", error);
+                console.error("Error retrieving the emission :", error);
             }
         };
         fetchEmission();
@@ -61,53 +59,34 @@ const DetailEmission = () => {
     const handleSendToSOT = async () => {
         try {
             if (emission && attribute) {
-            // Construction de l'objet pour l'envoi à SOT
                 const newEmissionSot = buildObjetEmissionSot(emission, attribute, selectedOptions);
-                // console.log('objetSot', newEmissionSot)
 
-            // Envoie l'émission à SOT
                 const apiEmission = await apiService.setSotEmission(newEmissionSot);
                 
-                
-              // Dernier enregistrement in SOT
                 const lastRecordEmission = await apiService.getLastRecord();
-                //  console.log('Last record ', lastRecordEmission._id);
-
-            //Retrieve _id on the sot
                 const oidValue = lastRecordEmission._id["$oid"]; 
-
-            //Retrieve id cms
                 const idEmissionCMS = emission.id;
-
-            //concatenation ID emissionUniqueId
                 const concatenatedId = idEmissionCMS + '_'+ oidValue;
-                // console.log('concatenation ', concatenatedId);
-
 
                 createBottlesForEmission(concatenatedId, emission.inventory.quantity);
-
             
-                // Update field 
                 apiService.updateEmissionId(oidValue, concatenatedId)
 
-                // Appel de la fonction updateEmissionOnTheMastermind avec les paramètres emission et attribute
                 updateEmissionOnTheMastermind(emission, concatenatedId);
 
-                
-                toast.success("L'émission a été envoyée à SOT avec succès!", {
+                toast.success("The Emission was sent to SOT successfully!", {
                     position: toast.POSITION.TOP_RIGHT,
 
                 });
 return concatenatedId
             }
         } catch (error) {
-            console.error("Erreur lors de l'envoi de l'émission à SOT :", error);
-            toast.error("Échec de l'envoi de l'émission à SOT. Veuillez réessayer.", {
+            console.error("Error sending broadcasts to SOT :", error);
+            toast.error("Failed to send Emission to SOT. Try Again.", {
                 position: toast.POSITION.TOP_RIGHT,
             });
         }
     };
-
     const handleGoBack = () => {
         navigate(-1);
     };
@@ -145,31 +124,9 @@ return concatenatedId
 
     const createBottleForEmission = async (concatenatedId) => {
         try {
-            // Fonction pour générer un identifiant unique
             const bottleId = () => {
                 return Date.now().toString(36) + Math.random().toString(36).substr(2);
             };
-            
-            const bottle = {
-                uniqueBottle_id: bottleId(),
-                emissionUnique_id: concatenatedId,
-                wineTitleName: emission.name,
-                emissionCardLink: "",
-                emissionPriceTarget: attribute[10].value,
-                currentBottleStatus: "",
-                currentOwner_Proxy_id: emission.embeddedSeller.name,
-                precedentStatus: "",
-                lastTransaction_Transaction_id: 0,
-                lastTransactionDate: new Date(),
-                lastEvent_Event_id: concatenatedId,
-                lastEventDate: new Date(),
-                lastEventType: "",
-                aggregateQuantityOfTransactionsSinceEmission: 1,
-                aggregateQuantityOfTransactionsInCurrentYear: 1,
-                lastKnownTransactionPrice: attribute[10].value,
-            };
-            
-            // await apiService.createBottlesEmissionSot(concatenatedId, [bottle]);
             await apiService.createBottlesEmissionSot({
                 uniqueBottle_id: bottleId(),
                 emissionUnique_id: concatenatedId,
@@ -187,10 +144,10 @@ return concatenatedId
                 aggregateQuantityOfTransactionsSinceEmission: 1,
                 aggregateQuantityOfTransactionsInCurrentYear: 1,
                 lastKnownTransactionPrice: attribute[10].value,
-});
+            });
             setDisable(true);
         } catch (error) {
-            console.error('Erreur lors de la création de la bouteille :', error);
+            console.error('Error creating bottle:', error);
         }
     }
     
@@ -200,7 +157,7 @@ return concatenatedId
                 await createBottleForEmission(concatenatedId);
             }
         } catch (error) {
-            console.error('Erreur lors de la création des bouteilles :', error);
+            console.error('Error creating bottles :', error);
         }
     }
     
@@ -209,102 +166,113 @@ return concatenatedId
     // Update Emission on the cms 
     const updateEmissionOnTheMastermind = async (emission, concatenatedId) => {
         if (emission && attribute) {
-            // Trouver l'indice correct de l'objet dans le tableau attributeValues
-            const attributeIndex = emission.attributeValues.findIndex(attr => attr.attribute.name === "emissionUnique_id");
+            
+                // const requestBody = {
+                //     id: emission.id,
+                //     name: emission.name,
+                //     embeddedSeller: emission.embeddedSeller,
+                //     attributeValues: [
+                //         {
+                //             attribute:
+                //                 { id: "Emission Unique ID" },
+                //             active: true,
+                //             value: concatenatedId,
+                //         },
+                //     ],
+                //     embeddedSku: emission.embeddedSku,
+                //     metaInfo: {
+                //         publishedSot: true,
+                //     }
+                // }
 
-            if (attributeIndex !== -1) {
-                // Créer une copie de l'objet attributeValues pour éviter de modifier l'original directement
-                const updatedAttributeValues = [...emission.attributeValues];
-                // Mettre à jour l'attribut avec l'indice correct
-                updatedAttributeValues[attributeIndex].value = concatenatedId;
-
-                // Créer l'objet requestBody avec les attributeValues mis à jour
-                const requestBody = {
-                    additionalTextInfo: emission.additionalTextInfo,
-                    attributeValues: updatedAttributeValues,
-                    countryOfOrigin: emission.countryOfOrigin,
-                    countryOfSeller: {
-                        code: emission.countryOfSeller.code,
-                        language: emission.countryOfSeller.language,
-                        name: emission.countryOfSeller.name
+            //TODO: This is necessary to clean attribute value object before saving. We have to delete 'checked'
+            // property from each attribute value.
+            if (emission.attributeValues?.length > 0) {
+                emission.attributeValues.map((attribute) => delete attribute.checked);
+            }
+            //  ...emission,
+            // console.log("attribute values:",emission.attributeValues);
+            const requestBody = {
+                additionalTextInfo: emission.additionalTextInfo,
+                attributeValues: [
+                    ...emission.attributeValues,
+                    {
+                        attribute: { id: "Emission Unique ID" },
+                        active: true,
+                        value: concatenatedId,
                     },
-                    createdBy: emission.createdBy,
-                    createdDate: emission.createdDate,
-                    currencyItem: emission.currencyItem,
-                    deliveryType: emission.deliveryType,
-                    description: emission.description,
-                    durabilityDate1: emission.durabilityDate1,
-                    durabilityDate2: emission.durabilityDate2,
-                    embeddedSeller: {
-                        id: emission.embeddedSeller.id,
-                        name: emission.embeddedSeller.name,
-                        repositoryName: emission.embeddedSeller.repositoryName
+                ], 
+                countryOfOrigin: emission.countryOfOrigin,
+                countryOfSeller: {
+                    code: emission.countryOfSeller.code,
+                    language: emission.countryOfSeller.language,
+                    name: emission.countryOfSeller.name
+                },
+                createdBy: emission.createdBy,
+                createdDate: emission.createdDate,
+                currencyItem: emission.currencyItem,
+                deliveryType: emission.deliveryType,
+                description: emission.description,
+                durabilityDate1: emission.durabilityDate1,
+                durabilityDate2: emission.durabilityDate2,
+                embeddedSeller: {
+                    id: emission.embeddedSeller.id,
+                    name: emission.embeddedSeller.name,
+                    repositoryName: emission.embeddedSeller.repositoryName
+                },
+                embeddedSku: {
+                    id: emission.embeddedSku.id,
+                    name: emission.embeddedSku.name,
+                    repositoryName: emission.embeddedSku.repositoryName
+                },
+                expireDate: emission.expireDate,
+                geneticType: emission.geneticType,
+                id: emission.id,
+                imageURLs: emission.imageURLs,
+                incoTerm: emission.incoTerm,
+                inventory: {
+                    countPerUnit: emission.inventory.countPerUnit,
+                    embeddedSellerSKU: {
+                        id: emission.inventory.embeddedSellerSKU.id,
+                        name: emission.inventory.embeddedSellerSKU.name,
+                        repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
                     },
-                    embeddedSku: {
-                        id: emission.embeddedSku.id,
-                        name: emission.embeddedSku.name,
-                        repositoryName: emission.embeddedSku.repositoryName
-                    },
-                    expireDate: emission.expireDate,
-                    geneticType: emission.geneticType,
-                    id: emission.id,
-                    imageURLs: emission.imageURLs,
-                    incoTerm: emission.incoTerm,
-                    inventory: {
-                        countPerUnit: emission.inventory.countPerUnit,
-                        embeddedSellerSKU: {
-                            id: emission.inventory.embeddedSellerSKU.id,
-                            name: emission.inventory.embeddedSellerSKU.name,
-                            repositoryName: emission.inventory.embeddedSellerSKU.repositoryName
-                        },
-                        id: emission.inventory.id,
-                        lockedQuantity: emission.inventory.lockedQuantity,
-                        minOrder: emission.inventory.minOrder,
-                        quantity: emission.inventory.quantity
-                    },
-                    keywords: emission.keywords,
-                    lastModifiedBy: emission.lastModifiedBy,
-                    lastModifiedDate: emission.lastModifiedDate,
-                    listTypeFilters: emission.listTypeFilters,
-                    logicalTypeFilters: emission.logicalTypeFilters,
-                    metaInfo: {
-                        publishedSot: true,
-                    },
-                    name: emission.name,
-                    numericFilters: emission.numericFilters,
-                    orderedItems: emission.orderedItems,
-                    packagedItems: emission.packagedItems,
-                    price: emission.price,
-                    productsRef: emission.productsRef,
-                    publishedForSale: emission.publishedForSale,
-                    randomGenerated: emission.randomGenerated,
-                    rangeFilters: emission.rangeFilters,
-                    score: emission.score,
-                    searchTerms: emission.searchTerms,
-                    simpleTypeFilters: emission.simpleTypeFilters,
-                    type: emission.type,
-                    unit: emission.unit
-                };
-                console.log("requestBody:", requestBody);
-
-                // Vous pouvez maintenant utiliser l'objet requestBody pour envoyer la requête
+                    id: emission.inventory.id,
+                    lockedQuantity: emission.inventory.lockedQuantity,
+                    minOrder: emission.inventory.minOrder,
+                    quantity: emission.inventory.quantity
+                },
+                keywords: emission.keywords,
+                lastModifiedBy: emission.lastModifiedBy,
+                lastModifiedDate: emission.lastModifiedDate,
+                listTypeFilters: emission.listTypeFilters,
+                logicalTypeFilters: emission.logicalTypeFilters,
+                metaInfo: {
+                    publishedSot: true,
+                },
+                name: emission.name,
+                numericFilters: emission.numericFilters,
+                orderedItems: emission.orderedItems,
+                packagedItems: emission.packagedItems,
+                price: emission.price,
+                productsRef: emission.productsRef,
+                publishedForSale: emission.publishedForSale,
+                randomGenerated: emission.randomGenerated,
+                rangeFilters: emission.rangeFilters,
+                score: emission.score,
+                searchTerms: emission.searchTerms,
+                simpleTypeFilters: emission.simpleTypeFilters,
+                type: emission.type,
+                unit: emission.unit
+            };              
                 await dataService.saveEmissionAsDraft(requestBody);
-                setEmission(requestBody)
-                // Renvoyer l'objet requestBody mis à jour
                 return requestBody;
-            } else {
+            }
+            else {
                 console.error("Attribute not found in attributeValues array.");
                 return null;
             }
-            } else {
-                console.error("Attribute not found in attributeValues array.");
-                return null;
-            }
-        
-    }
-
-
-
+        }
 
     return (
         <section className="container  mt-4">
@@ -313,16 +281,19 @@ return concatenatedId
                 onClick={handleGoBack}
                 alt="Go to home Admin"
                 title="Go to home Admin"
-            >Page précédente</button>
+            >Previous page</button>
 
             {emission && attribute ? (
                 <div className="row">
                     <div className="boxImg col-md-6">
                         <img
-                            src={emission.imageURLs[0]}
+                            src={emission.imageURLs.length > 0 ? emission.imageURLs[0] : DefaultImageSrc}
                             alt={`Image ${emission.name}`}
                             title={`Image ${emission.name}`}
                             className="img-fluid img-thumbnail imgBottle"
+                            onError={(e) => {
+                                e.target.src = DefaultImageSrc;
+                            }}
                         />
                     </div>
                     <div className="col-md-6 mt-5">
@@ -358,7 +329,7 @@ return concatenatedId
             ) : (
                 <div className="alert alert-danger mt-3" role="alert">
                     <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2" />
-                    Oups ! Une erreur est survenue. Veuillez réessayer.
+                        Oups ! An error has occurred. Try Again.
                 </div>
             )}
         </section>
@@ -366,3 +337,6 @@ return concatenatedId
 };
 
 export default DetailEmission;
+
+
+
