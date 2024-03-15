@@ -12,7 +12,7 @@ export class ApiService {
 
     /**
      * 
-     * @param {string} methodHttp protocole http (GET, POST, DELETE, PUT, PATCH)
+     * @param {string} methodHttp 
      */
     init = (methodHttp) => ({
         method: methodHttp,
@@ -29,7 +29,7 @@ export class ApiService {
     }
 
     /**
-     * Retourne toutes les émissions
+     * Get All Emissions
      * @returns 
      */
     async getSotEmissionAll() {
@@ -39,40 +39,38 @@ export class ApiService {
                 const data = await response.json();
                 return data;
             } else {
-                console.error(`Erreur de récupération: ${response.statusText}`);
+                console.error(`Error Retrieving: ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('Une erreur s\'est produite :', error);
+            console.error('Error :', error);
             return null;
         }
     }
 
+/**
+ * Retrieve LastRecord on the sot
+ * @returns 
+ */
     async getLastRecord() {
         try {
             const allEmissions = await this.getSotEmissionAll();
 
             if (allEmissions) {
-                // Tri par ordre décroissant de l'id 
                 const sortedEmissions = allEmissions.sort((a, b) => b._id - a._id);
 
                 if (sortedEmissions.length > 0) {
-                    // Enregistrement le + récent
                     const latestRecord = sortedEmissions[0];
-                    // console.log('Dernier enregistrement :', latestRecord);
-
-                    // id de l'enregistrement le + récent
-                    // console.log("Id du dernier enregistrement :", latestRecord._id);
                     return latestRecord;
                 } else {
-                    console.log('Aucun enregistrement trouvé.');
+                    console.log('No records found.');
                 }
             } else {
-                console.log('Aucune émission trouvée.');
+                console.log('No emissions found.');
             }
             return null;
         } catch (error) {
-            console.error('Une erreur s\'est produite :', error);
+            console.error('Error :', error);
             return null;
         }
     }
@@ -93,18 +91,18 @@ export class ApiService {
                 const data = await response.json();
 
                 if (data.nModified > 0) {
-                    console.log(`Champ mis à jour ${id}`);
+                   
                 } else {
-                    console.log(`Aucun ID ${id} introuvable.`);
+                    console.log(`Error ID ${id} no found.`);
                 }
 
                 return data;
             } else {
-                console.error(`Erreur de récupération: ${response.statusText}`);
+                console.error(`Error: ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('erreur :', error);
+            console.error('error :', error);
             return null;
         }
     }
@@ -123,15 +121,13 @@ export class ApiService {
             });
             if (response.ok) {
                 const data = await response.json();
-                // Access and store emissionUnique_id here
-                // this.emissionUnique_id = data.emissionUnique_id;
                 return data;
             } else {
-                console.error( `Erreur de récupération: ${ response.statusText }`);
+                console.error( `Error retrieving: ${ response.statusText }`);
                 return null;
             }
         } catch (error) {
-            console.error('Une erreur s\'est produite :', error);
+            console.error('Error :', error);
             return null;
         }
     }
@@ -152,11 +148,11 @@ export class ApiService {
                 const data = await response.json();
                 return data;
             } else {
-                console.error(`Erreur de récupération: ${response.statusText}`);
+                console.error(`Error retrieving: ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('Une erreur s\'est produite :', error);
+            console.error('Error :', error);
             return null;
         }
     }
@@ -168,11 +164,11 @@ export class ApiService {
                 const data = await response.json();
                 return data;
             } else {
-                console.error(`Erreur de récupération: ${response.statusText}`);
+                console.error(`Error retrieving: ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('Une erreur s\'est produite :', error);
+            console.error('Error :', error);
             return null;
         }
     }
@@ -192,11 +188,11 @@ export class ApiService {
                 const data = await response.json();
                 return data;
             } else {
-                console.error(`Erreur de création des bouteilles : ${response.statusText}`);
+                console.error(`Error create bottles : ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('Une erreur s\'est produite lors de la création des bouteilles :', error);
+            console.error('Error :', error);
             return null;
         }
     }
@@ -209,11 +205,11 @@ export class ApiService {
                 const data = await response.json();
                 return data;
             } else {
-                console.error(`Erreur de récupération: ${response.statusText}`);
+                console.error(`Error retrieving: ${response.statusText}`);
                 return null;
             }
         } catch (error) {
-            console.error('Une erreur s\'est produite :', error);
+            console.error('Error :', error);
             return null;
         }
     }

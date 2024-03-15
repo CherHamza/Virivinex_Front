@@ -8,16 +8,13 @@ const ExpertProfil = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Vérifiez si location.state et location.state.userProfile existent
     if (location.state?.userProfile) {
       setProfile(location.state.userProfile);
     } else {
-      // Gérer la situation où les données ne sont pas disponibles
       console.log('Aucune donnée de profil transmise');
     }
   }, [location.state]);
 
-  // Initialisez metaInfo en dehors de useEffect pour éviter une erreur si location.state est null
   const metaInfo = profile.metaInfo || {};
 
 

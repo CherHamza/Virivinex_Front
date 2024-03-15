@@ -36,7 +36,6 @@ export const UserTypeButton = ({ userType }) => {
 
   const handleClickCreate = (userType) => {
     
-    console.log('userType ' + selectedUserType);
     if(selectedUserType === "Individual"){
       handleShowModal();
     }
@@ -77,11 +76,7 @@ export const UserTypeButton = ({ userType }) => {
         userType={userType}
       />
 
-    {/* <ModalLogin
-      handleShowLoginModal={showModalLogin}
-      handleCloseLoginModal={handleCloseLoginModal}
-      userType={userType}
-    /> */}
+    
       </>
 
 );

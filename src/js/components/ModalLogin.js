@@ -9,25 +9,23 @@ const ModalLogin = ({ handleShowLoginModal, handleCloseLoginModal, userType }) =
   const [password, setPassword] = useState("");
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [userTypeD, setUserType] = useState("");
-  const navigate = useNavigate(); // Initialisation de useNavigate
-
+  const navigate = useNavigate(); 
 
 
   const handleLogin = () => {
     userService.login(email, password, false).then(async (res) => {
       console.log(res);
       if (!res.ok) {
-        let response = res.status !== 401 ? await res.json() : "Identifiants incorrects.";
+        let response = res.status !== 401 ? await res.json() : "Incorrect identifiers.";
         console.error("Failure:", response);
-        toast.error("Identifiants incorrects.");
+        toast.error("Incorrect identifiers.");
       } else {
-        toast.success("Connexion réussie !");
+        toast.success("Successful connection !");
         handleCloseLoginModal();
         window.location.reload();
         
         setEmail("");
         setPassword("");
-        //window.location.href = userService.userAccountPage;
       }
     });
 

@@ -21,15 +21,8 @@ const ProducerProfil = () => {
   useEffect(() => {
     if (location.state && location.state.userProfile) {
       setProfile(location.state.userProfile);
-      console.log('user', location.state.userProfile);
     }
   }, [location.state]);
-
-  
-
-  // const loggedProfile = dataService.getAuthenticatedProfile();
-  // console.log('user ', profile.embeddedParent);
-  // console.log('userP ', loggedProfile.embeddedParent);
 
 
   const handleCreateEmission = () => {

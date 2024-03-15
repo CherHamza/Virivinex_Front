@@ -29,7 +29,6 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
     };
 
     const handleCreateUser = () => {
-        // Validation des champs
         let errorMessage = "";
 
         switch (true) {
@@ -91,7 +90,6 @@ const IndividualModalCreate = ({ handleShowModal, handleCloseModal, userType }) 
                 }
             ],
         };
-        console.log("newUser to be sent:", newUser);
         dataService.createUser(newUser)
             .then(res => {
                 console.log(res);

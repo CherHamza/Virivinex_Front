@@ -28,7 +28,6 @@ import { dataService } from "./dataService";
                 page: 1
             };
             const storeEmission = await dataService.searchEmissions(request);
-            // console.log("storeEmission:", storeEmission);
             return storeEmission.data.content;
         } catch (e) {
             console.error("erreur fetching:", e);
@@ -53,7 +52,6 @@ import { dataService } from "./dataService";
                 page: 1
             }
             const result = await dataService.searchEmissions(request);
-            // console.log('result : ', result);
 
             return result.data.content;
         } catch (e) {
@@ -85,10 +83,8 @@ import { dataService } from "./dataService";
                 offset: 0,
                 page: 1
             };
-            // console.log("Search request:", request);
 
             const result = await dataService.searchEmissions(request);
-            // console.log("Search results:", result);
 
             return result.data.content
         } catch (error) {
