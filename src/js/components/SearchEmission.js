@@ -10,18 +10,14 @@ const SearchEmission = ({ onSearch }) => {
 
     const handleSearch = async () => {
         try {
-            // console.log("Search keywords:", searchKeywords);
-
-            // Recherchez les émissions dans la base de données en fonction des mots-clés
             const searchResults = await emissionService.getSearchEmission(searchKeywords);
-            // console.log("Search results:", searchResults);
 
             setSearchEmission(searchResults);
             setIsSearchEmission(true);
             onSearch(searchResults);
 
         } catch (error) {
-            console.error("Erreur lors de la recherche d'émissions :", error);
+            console.error("Erreur search emissions :", error);
         }
     };
 

@@ -33,7 +33,6 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
     };
 
     const handleCreateProducer = () => {
-        // Validation the fields
         let errorMessage = "";
 
         switch (true) {
@@ -99,13 +98,8 @@ const ProducerModalCreate = ({ handleShowModalProducer, handleCloseModalProducer
             ],
         };
 
-        console.log("newProducer to be sent:", newProducer);
-
-        // Appel à la fonction pour créer l'utilisateur
         dataService.createUser(newProducer)
             .then(res => {
-                console.log("Response:", res);
-                // Réinitialiser les champs et fermer la modale
                 toast.success("Successfully created - Please go to your e-mail to confirm !");
                 setFormData({
                     email: "",

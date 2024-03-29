@@ -41,13 +41,11 @@ const SearchSkus = (props) => {
 
                 const results = skus.map((sku) => ({ id: sku.id, searchTerms: sku.searchTerms.split(',') }));
                 setResults(results);
-                // console.log('Results:', results);
 
             } catch (error) {
                 console.error("Error fetching filtered SKUs:", error);
             }
         } else {
-            // Réinitialisez les résultats si le champ de recherche est vide
             setResults([]);
         }
     };
@@ -55,14 +53,11 @@ const SearchSkus = (props) => {
     const handleSelectChange = (event) => {
         if (event.target.value !== "nothing") {
             const embeddedSkuName = event.target.value;
-            // console.log('embeddedSkuName:', embeddedSkuName);
 
             const filteredResult = results.filter((result) => result.searchTerms.includes(embeddedSkuName));
-            // console.log('filteredResult ', filteredResult);
 
             if (filteredResult.length > 0) {
                 const embeddedSkuId = filteredResult[0].id;
-                // console.log('embeddedSkuId:', embeddedSkuId);
 
                 props.setSkuId(embeddedSkuId);
                 props.setSkuName(embeddedSkuName);

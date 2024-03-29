@@ -13,10 +13,8 @@ const IndiviudalProfil = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    // Mettez à jour le profil avec les données transmises
     if (location.state && location.state.userProfile) {
       setProfile(location.state.userProfile);
-      // console.log('user', location.state.userProfile);
     }
   }, []);
 
@@ -24,7 +22,6 @@ const IndiviudalProfil = () => {
     setSearchResults(results);
   };
 
-  // console.log('indi', searchResults)
   return (
     <>
     <div className="profile-container">

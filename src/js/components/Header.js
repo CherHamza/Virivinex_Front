@@ -78,7 +78,7 @@ export const Header = () => {
           <ul className="navbar-nav mr-auto">
 
             <li className="nav-item">
-              <a className="nav-link" href="/app/AllEmissionsPage.html">Home</a>
+              <a className="nav-link" href="/app/AllEmissionsPage.html">All Emissions</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">Pricing</a>

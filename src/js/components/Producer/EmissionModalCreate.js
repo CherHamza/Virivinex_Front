@@ -34,11 +34,7 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     const [embeddedSkuName, setEmbeddedName] = useState([]);
     const apiService = ApiService.getInstance();
     const emissionService = EmissionService.getInstance();
-  // const [data, setData] = useState(null);
-  // const [newEmission, setNewEmission] = useState({
-  //   nameEmission: "",
-  //   description: "",
-  // })
+ 
   
     useEffect(() => {
       const checkAuthentication = async () => {
@@ -52,14 +48,6 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
       checkAuthentication();
     }, []);
 
-    // const bottleSizes = ["", "mini 0.5L", "Standard 0.75L", "Magnum 1.5L", "Maxi 6.0L"];
-    // const countries = ["", "France", "Italy", "Spain", "United States"];
-    // const regions = ["", "Bordeaux", "Alsace", "Loire", "Savoy","Rhone", "Languedoc-Roussillon", "Provence", "Corsica"];
-    // const types = ["", "Red", "White", "Rose", "Sparkling White","Sparkling rose"];
-    // const genres = ["", "Dry", "Semi-dry"];
-
-    
-    // Effet pour réinitialiser les champs lorsque resetFields change
     useEffect(() => {
       if (resetFields) { 
         setFormData({
@@ -78,7 +66,6 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           dryToSweetType: "",
         });
   
-        // Réinitialiser resetFields
         setResetFields(true);
       }
     }, [resetFields]);
@@ -94,8 +81,6 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
     const handleCreateEmission = async () => {
         const loggedProfile = await dataService.getAuthenticatedProfile();
         const allAvailableAttrs = await dataService.getAttributesFromSKU(embeddedSkuId);
-
-        // console.log("all available attributes:",allAvailableAttrs);
 
         const newEmission = {
           name: formData.nameEmission,
@@ -114,18 +99,10 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
          }
         };
      
-        // console.log("emission ", newEmission);
-
-     
-
-        
      
         try {
-          // Creation emission CMS
-          const response = await dataService.saveEmissionAsDraft(newEmission);
-          console.log('Creation CMS',response);
+        const response = await dataService.saveEmissionAsDraft(newEmission);
 
-          // Envoi d'un e-mail à l'administrateur
         const loggedProfile = await dataService.getAuthenticatedProfile();
         const emailData = {
             email: loggedProfile.emailAddress,
@@ -137,13 +114,10 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             attachments: []
         };
 
-        // Appel de la fonction pour envoyer l'e-mail
         const emailResponse = await emissionService.sendEmailToAdmin(emailData);
-        console.log("Email sent to admin:", emailResponse);
 
-        // Envoi d'un e-mail de confirmation à la winery
         const emailDataWinery = {
-          email: loggedProfile.emailAddress, // Adresse e-mail de la winery
+          email: loggedProfile.emailAddress, 
           name: `${loggedProfile.firstName} ${loggedProfile.lastName}`,
           desc: `A new emission "${formData.nameEmission}" has been created.`,
           topic: `New Emission Created by ${loggedProfile.embeddedParent.name}`,
@@ -151,40 +125,29 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
           attachments: []
       };
 
-      // Appel de la fonction pour envoyer l'e-mail à la winery
       const emailResponseWinery = await emissionService.sendSimpleEmail(emailDataWinery);
-      console.log("Email sent to winery:", emailResponseWinery);
 
          
 
           const productAttrs = await dataService.getProductRelatedData(response.id);
-          // console.log("product related attributes:",productAttrs);
           const attrValues = response.attributeValues;
-          // console.log("only defined attribute values:",attrValues);
 
-          // Afficher un toast de succès
           toast.success("Emission created successfully!", {
             position: toast.POSITION.TOP_RIGHT,
           });
      
-          // Déclencher la réinitialisation des champs en changeant la valeur de resetFields
           setResetFields(true);
      
           handleCloseModalProducerEmission();
         } catch (error) {
           console.error("Error creating emission:", error);
      
-          // Afficher un toast d'erreur
           toast.error("Failed to create emission. Please try again.", {
             position: toast.POSITION.TOP_RIGHT,
           });
         }
       };
      
-
-  
-
-  // fetchApi();
   
     return (
       <div
@@ -224,133 +187,6 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
                   <textarea className="form-control" rows="5" calls="33" id="description" name="description" value={formData.description} onChange={handleInputChange}></textarea>
               </div>
 
-              {/* <div className="form-group">
-                            <label htmlFor="wineMacroRegion">Wine Macro Region</label>
-                            <select name="wineMacroRegion" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {regions.map((region) => (
-                                    <option key={region} value={region}>
-                                        {region || "Please choose a region"}
-                                    </option>
-                                ))}
-                            </select>
-              </div> */}
-              {/* <div className="form-group">
-                            <label htmlFor="country">Country</label>
-                            <select name="country" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {countries.map((country) => (
-                                    <option key={country} value={country}>
-                                        {country || "Please choose a country"}
-                                    </option>
-                                ))}
-                            </select>
-              </div> */}
-              {/* <div className="form-group">
-                  <label htmlFor="nbOfUnits"> Quantity Of Unique Bottles In Emission</label>
-                <input type="number" className="form-control" id="nbOfUnits" name="nbOfUnits" value={formData.nbOfUnits} onChange={handleInputChange} />
-              </div> */}
-{/* 
-              <div className="form-group">
-                            <label htmlFor="bottleSize">Bottle Size</label>
-                            <select name="bottleSize" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {bottleSizes.map((size) => (
-                                    <option key={size} value={size}>
-                                        {size || "Please choose a bottle size"}
-                                    </option>
-                                ))}
-                            </select>
-              </div> */}
-
-
-             {/* <div className="form-group">
-                            <label htmlFor="searchCategory">Type Of Wine</label>
-                            <input type="search" className="form-control" id="searchCategory" name="searchCategory" value={formData.searchCategory} onChange={handleInputChange} />
-                            <button type="button" className="btn btn-primary" onClick={handleSearch}>
-                                Search
-                            </button>
-                            {/* Affichez les SKU filtrés 
-                            {Array.isArray(filteredSkus) && filteredSkus.map((sku) => (
-                                <div key={sku.id}>{sku.name}</div>
-                            ))} 
-                            <select name="searchCategory" className="form-control" value={formData.searchCategory} onChange={handleInputChange}>
-                                <option value="">Choose a search term...</option>
-                                {uniqueSearchTerms.map((term, index) => (
-                                    <option key={index} value={term}>
-                                        {term}
-                                    </option>
-                                ))}
-                            </select>
-
-                        </div>  */}
-                        {/* <div className="form-group">
-                            <label htmlFor="grapeComposition">Grape Composition</label>
-                            <input type="text" className="form-control" id="grapeComposition" name="grapeComposition" value={formData.grapeComposition} onChange={handleInputChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="areaOfProduction">Area of Production</label>
-                            <input type="text" className="form-control" id="areaOfProduction" name="areaOfProduction" value={formData.areaOfProduction} onChange={handleInputChange} />
-                        </div>
-                        
-
-                        <div className="form-group">
-                            <label htmlFor="bottleInitialPriceTarget">Bottle Initial Price Target</label>
-                            <input type="number" className="form-control" id="bottleInitialPriceTarget" name="bottleInitialPriceTarget" value={formData.bottleInitialPriceTarget} onChange={handleInputChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="bottlePriceMinimum">Bottle  Price Minimum</label>
-                            <input type="number" className="form-control" id="bottlePriceMinimum" name="bottlePriceMinimum" value={formData.bottlePriceMinimum} onChange={handleInputChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="bottleSize">Bottle Size</label>
-                            <select name="bottleSize" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {bottleSizes.map((size) => (
-                                    <option key={size} value={size}>
-                                        {size || "Please choose a bottle size"}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="country">Country</label>
-                            <select name="country" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {countries.map((country) => (
-                                    <option key={country} value={country}>
-                                        {country || "Please choose a country"}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="wineMacroRegion">Wine Macro Region</label>
-                            <select name="wineMacroRegion" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {regions.map((region) => (
-                                    <option key={region} value={region}>
-                                        {region || "Please choose a region"}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="typeOfWine">Type of Wine</label>
-                            <select name="typeOfWine" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {types.map((type) => (
-                                    <option key={type} value={type}>
-                                        {type || "Please choose a Type of Wine"}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="dryToSweetType">Dry to Sweet Type</label>
-                            <select name="dryToSweetType" className="form-control" defaultValue="" onChange={handleInputChange}>
-                                {genres.map((genre) => (
-                                    <option key={genre} value={genre}>
-                                        {genre || "Please choose a Dry to Sweet Type"}
-                                    </option>
-                                ))}
-                            </select>
-                        </div> */}       
-                    
-                    
             </div>
             <div className="modal-footer" style={{ backgroundColor: "#F2F2F2" }}>
               <button
@@ -374,7 +210,6 @@ const EmissionModalCreate = ({ handleShowModalProducerEmission, handleCloseModal
             </div>
           </div>
         </div>
-        {/* <ToastContainer autoClose={3000} /> */}
       </div>
     );
   };

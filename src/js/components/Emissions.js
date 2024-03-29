@@ -26,8 +26,7 @@ const Emissions = (props) => {
                     page: 1
                 };
                 const skus = await dataService.searchEmissions(request);
-                console.log('skus ', skus);
-                // const array = Object.entries(skus).map(([key, value]) => value);
+               
                 setResults(skus.data.content);
 
             } catch (error) {
@@ -38,59 +37,8 @@ const Emissions = (props) => {
         fetchSku();
     }, [props.profile]);
 
-    // console.log('results ', results);
 
-    if(results.length > 0) {
-
-        results.map((res)=>{
-
-            if(res.publishedForSale){
-
-                // console.log("RES", res);
-
-            // const newEmissionApi = {
-
-            //     emissionUnique_id: "",
-            //     wineTitleName: res.name,
-            //     emissionCardLink: "",
-            //     winery: res.embeddedSeller.name,
-            //     // loggedProfile && loggedProfile.embeddedParent ? loggedProfile.embeddedParent.name : null,
-            //     areaOfProduction: "",
-            //     wineMacroRegion: "",
-            //     country: "",
-            //     yearOfBottling: "",
-            //     typeOfWine: "",
-            //     initialQuantityoOfUniqueBottlesInEmission: "",
-            //     bottleSize_TradingUnitType: "",
-            //     emissionRecordReference: "",
-            //     ledgerOfEmissionVideoRecording: "",
-            //     uniquenessFactorType: "",
-            //     uniquenessFactorDescription: res.description,
-            //     emissionStatus: "",
-            //     ledgersOfEmissionVideoRecording: "",
-            //     wineDescriptiveCombination: ""
-        
-            //     };
-            //     console.log("newEmissionAPi", newEmissionApi);
-
-                
-        };
-
-        })
-    
-    }
-
-    // useEffect (()=>{
-    //     const fetchDataApi = async ()=>{
-    //         const apiEmission = await apiService.setSotEmission(NewEmissionApi);
-    //         console.log("apiEmission", apiEmission)
-
-    //     }
-    //     fetchDataApi();
-    // }, [])
-
-
-    console.log("all emissions:", results)
+   
         
 
     return (

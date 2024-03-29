@@ -9,20 +9,16 @@ import DefaultImageSrc from "../../../assets/images/bottle1.jpg";
 import { EmissionService } from "../services/emissionService";
 import { ApiService } from "../services/apiService";
 
-
-
-
 const Emission = (props) => {
 
     const [profile, setProfile] = useState([]);
     const { id } = useParams();
-    // const imageSrc = Image1;
     const [emission, setEmission] = useState([]);
     const [bottlesSot, setBottlesSot] = useState([]);
     const [isPublished, setIsPublished] = useState(false);
     const navigate = useNavigate();
     const handleGoBack = () => {
-      navigate(-1); // This will navigate back
+      navigate(-1);
     };
   const emissionService = EmissionService.getInstance();
   const apiEmission = ApiService.getInstance(); 
@@ -47,10 +43,7 @@ const Emission = (props) => {
         const fetchEmission = async () => {
             try {
                 const emissionId = await emissionService.getEmissionById(id);
-                // console.log('emissionId : ', emissionId);
-
                 if (emissionId.length > 0) {
-                    console.log('emission: ', emissionId[0]);
                     setEmission(emissionId[0]);
                     setIsPublished(emissionId[0].publishedForSale)
                 } else {
@@ -68,12 +61,7 @@ const Emission = (props) => {
         const fetchAllBottlesSot = async () => {
             try {
               const bottlesSotDb = await apiEmission.getBottlesEmissionSot();
-              console.log('bottlesSotDb : ', bottlesSotDb);
-
-              // const formattedBottlesSot = bottlesSotDb
-              //   .filter(bottle => bottle.emissionId ===  )
-
-
+             
             } catch (error) {
                 console.error('Error ', error);
             }
