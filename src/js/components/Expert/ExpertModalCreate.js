@@ -36,7 +36,6 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert }) =>
     };
 
     const handleCreateUser = () => {
-        // Validation des champs
         let errorMessage = "";
 
         switch (true) {
@@ -102,13 +101,12 @@ const ExpertModalCreate = ({ handleShowModalExpert, handleCloseModalExpert }) =>
             ],
         };
 
-        console.log('Expert ' , newUser)
-        // Appel à la fonction pour créer l'utilisateur
+       
         dataService.createUser(newUser)
             .then(res => {
                 console.log(res);
                 toast.success("Successfully created - Please go to your e-mail to confirm !");
-                // Réinitialiser les champs et fermer la modale
+               
                 setFormData({
                     email: "",
                     pseudo: "",

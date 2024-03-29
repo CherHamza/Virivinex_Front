@@ -33,7 +33,7 @@ const DetailEmission = () => {
 
                 const attributesEmissions = await dataService.getAttributeValuesFromSellerSKU(id);
                 setAttribute(attributesEmissions);
-                // console.log('attributesEmissions ', attributesEmissions)
+                console.log('attributesEmissions ', attributesEmissions)
 
                 const selectedOptions = getSelectedOptions(attributesEmissions);
                 setSelectedOptions(selectedOptions);
@@ -78,6 +78,8 @@ const DetailEmission = () => {
                     position: toast.POSITION.TOP_RIGHT,
 
                 });
+
+                navigate(-1);
 return concatenatedId
             }
         } catch (error) {
@@ -282,7 +284,16 @@ return concatenatedId
         loadByLangCodeForEntity("Type of Wine","fr","attributeRepository"),
     ]);
 
-    translations.then(([areaOfProduction,typeOfWine]) => console.log(areaOfProduction,typeOfWine));
+    
+    translations.then(([areaOfProduction,typeOfWine]) => 
+    console.log(areaOfProduction,typeOfWine)       
+    );
+    
+    const handleTranslate = () => {
+        console.log('Click btn')
+    };
+
+
 
     return (
         <section className="container  mt-4">
@@ -292,6 +303,12 @@ return concatenatedId
                 alt="Go to home Admin"
                 title="Go to home Admin"
             >Previous page</button>
+            <button
+                className="btn btn-secondary mb-4"
+                onClick={handleTranslate}
+                alt="Go to home Admin"
+                title="Go to home Admin"
+            >Translate</button>
 
             {emission && attribute ? (
                 <div className="row">
@@ -310,7 +327,7 @@ return concatenatedId
                         <h2 className="m-4">Winery : {emission.embeddedSeller.name}</h2>
                         <h3 className="text-primary">Wine title : {emission.name}</h3>
                         <p className="lead">Description : {emission.description}</p>
-                        <p className="lead">Area Of production : {attribute[18].value}</p>
+                        <p className="lead">{attribute[18].attribute.id} : {attribute[18].value}</p>
                         <p className="lead">Wine Macro Region : {selectedOptions[20]}</p>
                         <p className="lead">Country : {selectedOptions[19]}</p>
                         <p className="lead">Year Of Bottling : {attribute[15].value}</p>

@@ -107,7 +107,7 @@ const EmissionsAll = (props) => {
                 const emissionsSOT = await apiService.getSotEmissionAll()
                 console.log('emissionsAll ', emissionsSOT)
             } catch (error) {
-                console.error("Erreur lors de la récupération des émissions :", error);
+                console.error("Error retrieve Emissions :", error);
             }
         };
 

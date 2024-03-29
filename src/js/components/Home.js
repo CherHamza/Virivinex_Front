@@ -21,7 +21,6 @@ const Home = () => {
       if (isAuthenticated) {
         const userProfile = await dataService.getAuthenticatedProfile();
         setProfile(userProfile)
-        console.log(userProfile)
 
         if (userProfile && userProfile.metaInfo && userProfile.metaInfo.userType) {
           switch (userProfile.metaInfo.userType) {
