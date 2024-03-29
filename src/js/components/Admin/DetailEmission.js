@@ -10,7 +10,7 @@ import { UserTypeButton } from './../UserType';
 import { toast } from 'react-toastify'; 
 import DefaultImageSrc from "../../../../assets/images/bottle1.jpg";
 import "../../../css/detailEmission.css";
-
+import { loadByLangCodeForEntity } from "../../services/translationService.js";
 
 
 const DetailEmission = () => {
@@ -274,6 +274,16 @@ return concatenatedId
             }
         }
 
+    const translation = loadByLangCodeForEntity("Area of production","fr","attributeRepository");
+    translation.then(val => console.log("Area Of production : ",val));
+
+    const translations = Promise.all([
+        loadByLangCodeForEntity("Area of production","fr","attributeRepository"),
+        loadByLangCodeForEntity("Type of Wine","fr","attributeRepository"),
+    ]);
+
+    translations.then(([areaOfProduction,typeOfWine]) => console.log(areaOfProduction,typeOfWine));
+
     return (
         <section className="container  mt-4">
             <button
@@ -314,9 +324,9 @@ return concatenatedId
                         <p className="lead">Uniqueness Factor Type : {attribute[5].value}</p>
                         <p className="lead">Uniqueness Factor Description : {attribute[6].value}</p>
                         <p className="lead">Emission Status : {selectedOptions[2]}</p>
-                        
+
                         <hr className="my-4" />
-                        
+
                         <button
                             disabled={disable}
                             className="btn btn-warning ml-3"

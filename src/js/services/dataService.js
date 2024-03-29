@@ -12,6 +12,24 @@ class DataService {
         });
     }
 
+    fetchRepositoryMSM(repositoryId,query,eventType,endpoint) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        this.MSM2App.invokeFromRepositoryAndGetJson$(repositoryId,query,null,eventType,endpoint).subscribe(function(e) {
+                            resolve(e);
+                        });
+                    }, 0);
+                });
+            }, 0);
+        });
+    }
+
+    async getLangCode() {
+        return await this.fetchMSM('frameworkOperationServiceImpl', 'PROTOTYPE', 'getLangCode', []).then(e => e.result);
+    }
+
     /**
      * Retrieves the value of a cookie based on its name.
      *
